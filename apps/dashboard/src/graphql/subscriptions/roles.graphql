@@ -1,0 +1,19 @@
+subscription RoleEvent {
+  roleEvent {
+    requestId
+    guildId
+    roles {
+      id
+      name
+      color
+      isHoist
+      position
+      permissions
+      isManaged
+      isMentionable
+    }
+    timestamp
+    eventType
+    error
+  }
+}

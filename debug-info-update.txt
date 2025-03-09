@@ -1,0 +1,50 @@
+# Aktualisierte Lösungsansätze für das Benachrichtigungsproblem
+
+Nach weiterer Analyse habe ich mehrere kritische Fehler im Benachrichtigungsfluss entdeckt:
+
+## Hauptprobleme
+
+1. **Redis-Kanal-Abonnement-Problem in RedisPubSubService**:
+   - Der RedisPubSubService abonniert nur den Kanal "categoryCreated", aber nicht die wichtigen Kanäle "categoryEvent" und "zoneEvent".
+   - Der Event-Handler für empfangene Nachrichten ist leer, was dazu führt, dass keine Debugging-Informationen verfügbar sind.
+
+2. **Fehlende Weiterleitung der Benachrichtigungen im DashboardNotificationWrapper**:
+   - Der DashboardNotificationWrapper wurde nicht korrekt in die Anwendung integriert und war nicht im ClientSnackbarProvider eingebettet.
+
+3. **Rate-Limit-Events unzureichend formatiert**:
+   - Im QueueService werden Rate-Limit-Events generiert, aber das "error"-Feld wird nicht direkt gesetzt, was zu fehlenden Benachrichtigungen führt.
+
+## Implementierte Lösungen
+
+1. **Verbesserte Redis-Konfiguration**:
+   - RedisPubSubService abonniert jetzt beide kritischen Kanäle: "categoryEvent" und "zoneEvent"
+   - Hinzufügung von umfangreichem Debug-Logging für eingehende und ausgehende Redis-Nachrichten
+
+2. **Integration von DashboardNotificationWrapper**:
+   - ClientSnackbarProvider wurde aktualisiert, um den DashboardNotificationWrapper zu umschließen
+   - Verbesserte Snackbar-Konfiguration mit längerem Timeout und höherer maximaler Anzahl
+
+3. **Verbessertes Rate-Limit-Event-Format**:
+   - Rate-Limit-Events enthalten jetzt sowohl das "error"-Feld als auch detaillierte Informationen im "details"-Feld
+   - Verbesserte Formatierung der Rate-Limit-Meldungen für bessere Lesbarkeit
+
+4. **Zusätzliche Verbesserungen**:
+   - Vereinheitlichung der Fehlerfelder zwischen "error" und "message"
+   - Konsistente Timeouts in allen Event-Verarbeitungskomponenten (5 Sekunden)
+   - Entfernung des Timestamps aus Event-Keys für bessere Duplikaterkennung
+
+Diese Änderungen sollten den Benachrichtigungsfluss erheblich verbessern und sicherstellen, dass sowohl Rate-Limit- als auch Bestätigungsnachrichten zuverlässig angezeigt werden.
+
+# Zusätzliche Empfehlungen für die Zukunft
+
+1. **Verbesserte Fehlerbehandlung im WebSocket-Verbindungsmanagement**:
+   - Implementiere eine Wiederverbindungslogik für den WebSocket-Client
+   - Zeige einen globalen Verbindungsstatus im Dashboard an
+
+2. **Zentrale Protokollierung für alle Benachrichtigungsereignisse**:
+   - Erstelle eine zentrale Logging-Komponente, die alle Events und ihre Verarbeitung erfasst
+   - Verbessere das Debug-Logging, um Ereignisfluss besser zu verfolgen
+
+3. **Verbesserte Typsicherheit**:
+   - Stelle sicher, dass alle Events konsistente Feldstrukturen haben
+   - Verwende stärkere Typen für Event-Daten in TypeScript

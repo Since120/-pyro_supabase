@@ -1,0 +1,14 @@
+subscription WatchZoneEvents {
+  zoneEvent {
+    id
+    categoryId
+    name
+    discordVoiceId
+    discordCategoryId
+    timestamp
+    eventType
+    message
+    error
+    details
+  }
+}

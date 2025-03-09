@@ -1,0 +1,216 @@
+2025-03-02T23:00:30.383Z [info]: Discord.js debug:
+2025-03-02T23:00:43.223Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s6s6jl000iwcrou8dbs92j","guildId":"1226186397195702363","name":"╭─── 💬 General 💬 3───╮",...
+2025-03-02T23:00:43.224Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T22:50:56.286Z [debug]: 📄 Parsed content:
+2025-03-02T23:00:43.224Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T22:50:56.286Z [debug]: 📄 Parsed content:
+2025-03-02T22:50:56.286Z [info]: Received categoryEvent (updated):
+2025-03-02T23:00:43.225Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T22:50:56.286Z [debug]: 📄 Parsed content:
+2025-03-02T23:00:43.396Z [error]: DiscordAPIError[10003]: Unknown Channel
+    at handleErrors (C:\Users\info\Documents\Discord Bot\Pyro\node_modules\.pnpm\@discordjs+rest@2.4.3\node_modules\@discordjs\rest\src\lib\handlers\Shared.ts:148:10)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async SequentialHandler.runRequest (C:\Users\info\Documents\Discord Bot\Pyro\node_modules\.pnpm\@discordjs+rest@2.4.3\node_modules\@discordjs\rest\src\lib\handlers\SequentialHandler.ts:417:20)
+    at async SequentialHandler.queueRequest (C:\Users\info\Documents\Discord Bot\Pyro\node_modules\.pnpm\@discordjs+rest@2.4.3\node_modules\@discordjs\rest\src\lib\handlers\SequentialHandler.ts:169:11)
+    at async _REST.request (C:\Users\info\Documents\Discord Bot\Pyro\node_modules\.pnpm\@discordjs+rest@2.4.3\node_modules\@discordjs\rest\src\lib\REST.ts:210:20)
+    at async GuildChannelManager.fetch (C:\Users\info\Documents\Discord Bot\Pyro\node_modules\.pnpm\discord.js@14.18.0\node_modules\discord.js\src\managers\GuildChannelManager.js:399:20)
+    at async C:\Users\info\Documents\Discord Bot\Pyro\apps\bot\src\events\handle-category-updated.ts:33:24
+2025-03-02T23:00:43.397Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s6s6jl000iwcrou8dbs92j","guildId":"1226186397195702363","name":"╭─── 💬 General 💬 3───╮",...
+2025-03-02T23:00:43.398Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:00:43.396Z [debug]: 📄 Parsed content:
+2025-03-02T23:00:43.398Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:00:43.396Z [debug]: 📄 Parsed content:
+2025-03-02T23:00:43.398Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:00:43.396Z [debug]: 📄 Parsed content:
+2025-03-02T23:00:43.396Z [info]: Event an Redis auf Kanal categoryEvent gesendet:
+2025-03-02T23:01:11.644Z [info]: Discord.js debug:
+2025-03-02T23:01:52.900Z [info]: Discord.js debug:
+2025-03-02T23:02:34.154Z [info]: Discord.js debug:
+2025-03-02T23:03:15.404Z [info]: Discord.js debug:
+2025-03-02T23:03:56.653Z [info]: Discord.js debug:
+2025-03-02T23:04:37.917Z [info]: Discord.js debug:
+2025-03-02T23:05:19.173Z [info]: Discord.js debug:
+2025-03-02T23:06:00.438Z [info]: Discord.js debug:
+2025-03-02T23:06:41.692Z [info]: Discord.js debug:
+2025-03-02T23:07:22.951Z [info]: Discord.js debug:
+2025-03-02T23:08:04.206Z [info]: Discord.js debug:
+2025-03-02T23:08:45.458Z [info]: Discord.js debug:
+2025-03-02T23:09:26.713Z [info]: Discord.js debug:
+2025-03-02T23:10:07.965Z [info]: Discord.js debug:
+2025-03-02T23:10:49.222Z [info]: Discord.js debug:
+2025-03-02T23:11:30.481Z [info]: Discord.js debug:
+2025-03-02T23:12:11.737Z [info]: Discord.js debug:
+2025-03-02T23:12:52.990Z [info]: Discord.js debug:
+2025-03-02T23:13:34.257Z [info]: Discord.js debug:
+2025-03-02T23:14:15.510Z [info]: Discord.js debug:
+2025-03-02T23:14:56.774Z [info]: Discord.js debug:
+2025-03-02T23:15:38.025Z [info]: Discord.js debug:
+2025-03-02T23:16:19.286Z [info]: Discord.js debug:
+2025-03-02T23:17:00.537Z [info]: Discord.js debug:
+2025-03-02T23:17:41.797Z [info]: Discord.js debug:
+2025-03-02T23:18:14.972Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s954fk000hwc4ss6mfo7d3","eventType":"created","name":"1","categoryId":"cm7s8dadq0009wc4sos...
+2025-03-02T23:18:14.973Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:14.971Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:14.971Z [info]: Received zoneEvent (created):
+2025-03-02T23:18:14.974Z [info]: Erstelle Discord-Channel für Zone "1" in Kategorie 1345892581980241953 (Guild: 1226186397195702363)
+2025-03-02T23:18:14.974Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:14.971Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:14.974Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:14.971Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:15.270Z [info]: Discord Voice-Channel erstellt: 1 (1345898029311590481)
+2025-03-02T23:18:15.270Z [info]: Zone in API erfolgreich mit Discord Voice-ID aktualisiert
+2025-03-02T23:18:15.271Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s954fk000hwc4ss6mfo7d3","eventType":"confirmation","name":"1","categoryId":"cm7s8dadq0009w...
+2025-03-02T23:18:15.271Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:15.270Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:15.272Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:15.270Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:15.272Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:15.270Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:15.270Z [info]: Event an Redis auf Kanal zoneEvent gesendet:
+2025-03-02T23:18:15.274Z [info]: Event an Redis auf Kanal categoryUpdateEvent gesendet:
+2025-03-02T23:18:15.274Z [debug]: Channel mapping set: 1345898029311590481 -> 1345892581980241953
+2025-03-02T23:18:15.274Z [info]: Channel-Zuordnung gesetzt: 1345898029311590481 -> 1345892581980241953
+2025-03-02T23:18:21.023Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s9593t000jwc4s58md2j2a","eventType":"created","name":"1","categoryId":"cm7s8dadq0009wc4sos...
+2025-03-02T23:18:21.024Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.022Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.022Z [info]: Received zoneEvent (created):
+2025-03-02T23:18:21.024Z [info]: Erstelle Discord-Channel für Zone "1" in Kategorie 1345892581980241953 (Guild: 1226186397195702363)
+2025-03-02T23:18:21.025Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.022Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.025Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.022Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.317Z [info]: Discord Voice-Channel erstellt: 1 (1345898054347264063)
+2025-03-02T23:18:21.317Z [info]: Zone in API erfolgreich mit Discord Voice-ID aktualisiert
+2025-03-02T23:18:21.318Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s9593t000jwc4s58md2j2a","eventType":"confirmation","name":"1","categoryId":"cm7s8dadq0009w...
+2025-03-02T23:18:21.318Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.317Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.319Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.317Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.319Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:21.317Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:21.317Z [info]: Event an Redis auf Kanal zoneEvent gesendet:
+2025-03-02T23:18:21.321Z [info]: Event an Redis auf Kanal categoryUpdateEvent gesendet:
+2025-03-02T23:18:21.322Z [debug]: Channel mapping set: 1345898054347264063 -> 1345892581980241953
+2025-03-02T23:18:21.322Z [info]: Channel-Zuordnung gesetzt: 1345898054347264063 -> 1345892581980241953
+2025-03-02T23:18:23.051Z [info]: Discord.js debug:
+2025-03-02T23:18:24.223Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s9593t000jwc4s58md2j2a","eventType":"deleted","name":"1","categoryId":"cm7s8dadq0009wc4sos...
+2025-03-02T23:18:24.223Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:24.221Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:24.223Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:24.221Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:24.224Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:24.221Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:24.221Z [info]: Received zoneEvent (deleted):
+2025-03-02T23:18:24.225Z [info]: Voice-Channel gefunden: 1
+2025-03-02T23:18:24.508Z [info]: Discord-Voice-Channel gelöscht: 1
+2025-03-02T23:18:24.509Z [info]: Event an Redis auf Kanal zoneDeleteConfirmed gesendet:
+2025-03-02T23:18:28.120Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s954fk000hwc4ss6mfo7d3","eventType":"deleted","name":"1","categoryId":"cm7s8dadq0009wc4sos...
+2025-03-02T23:18:28.120Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:28.119Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:28.121Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:28.119Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:28.121Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:18:28.119Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:28.119Z [info]: Received zoneEvent (deleted):
+2025-03-02T23:18:28.122Z [info]: Voice-Channel gefunden: 1
+2025-03-02T23:18:28.321Z [info]: Discord-Voice-Channel gelöscht: 1
+2025-03-02T23:18:28.321Z [info]: Event an Redis auf Kanal zoneDeleteConfirmed gesendet:
+2025-03-02T23:18:30.889Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"requestId":"q23cgajwe","guildId":"1226186397195702363","timestamp":"2025-03-02T23:18:30.888Z","eve...
+2025-03-02T23:18:30.889Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:30.888Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:30.890Z [info]: Event an Redis auf Kanal roleEvent gesendet:
+2025-03-02T23:18:30.891Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"eventType":"response","guildId":"1226186397195702363","requestId":"q23cgajwe","timestamp":"2025-03...
+2025-03-02T23:18:30.891Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:30.890Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.061Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s95lha000kwc4s0vg8uhau","guildId":"1226186397195702363","name":"❖❖❖ 🔄 Updates 🔄 ❖❖❖","ti...
+2025-03-02T23:18:37.061Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.059Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.059Z [info]: Received categoryEvent (created):
+2025-03-02T23:18:37.062Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.059Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.062Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.059Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.063Z [info]: Creating Discord category "❖❖❖ 🔄 Updates 🔄 ❖❖❖" in guild 1226186397195702363
+2025-03-02T23:18:37.300Z [info]: Discord category created successfully:
+2025-03-02T23:18:37.301Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s95lha000kwc4s0vg8uhau","guildId":"1226186397195702363","name":"❖❖❖ 🔄 Updates 🔄 ❖❖❖","di...
+2025-03-02T23:18:37.302Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.300Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.302Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.300Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.303Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.300Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.300Z [info]: Event an Redis auf Kanal categoryEvent gesendet:
+2025-03-02T23:18:37.332Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s95lha000kwc4s0vg8uhau","guildId":"1226186397195702363","name":"❖❖❖ 🔄 Updates 🔄 ❖❖❖","di...
+2025-03-02T23:18:37.332Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.330Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.333Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.330Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:37.333Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:37.330Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:39.779Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"requestId":"0vregci4h","guildId":"1226186397195702363","timestamp":"2025-03-02T23:18:39.778Z","eve...
+2025-03-02T23:18:39.779Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:39.778Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:39.780Z [info]: Event an Redis auf Kanal roleEvent gesendet:
+2025-03-02T23:18:39.782Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"eventType":"response","guildId":"1226186397195702363","requestId":"0vregci4h","timestamp":"2025-03...
+2025-03-02T23:18:39.782Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:39.780Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:40.927Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s95lha000kwc4s0vg8uhau","guildId":"1226186397195702363","name":"❖❖❖ 🔄 Updates 🔄 ❖❖❖","di...
+2025-03-02T23:18:40.927Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:40.926Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:40.928Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:40.926Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:40.928Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:40.926Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:40.926Z [info]: Received categoryEvent (deleted):
+2025-03-02T23:18:41.212Z [info]: Event an Redis auf Kanal categoryDeleteConfirmed gesendet:
+2025-03-02T23:18:53.077Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"requestId":"1d5p65sz4","guildId":"1226186397195702363","timestamp":"2025-03-02T23:18:53.076Z","eve...
+2025-03-02T23:18:53.078Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:53.076Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:53.078Z [info]: Event an Redis auf Kanal roleEvent gesendet:
+2025-03-02T23:18:53.080Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen: {"eventType":"response","guildId":"1226186397195702363","requestId":"1d5p65sz4","timestamp":"2025-03...
+2025-03-02T23:18:53.081Z [debug]: 📨 [REDIS] Nachricht auf roleEvent empfangen
+2025-03-02T23:18:53.078Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:54.107Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen: {"id":"cm7s8a6y70002wc4so6cxivoi","guildId":"1226186397195702363","name":"❖❖❖ 🔄 Updates 🔄 ❖❖❖","di...
+2025-03-02T23:18:54.108Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:54.106Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:54.108Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:54.106Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:54.109Z [debug]: 📨 [REDIS] Nachricht auf categoryEvent empfangen
+2025-03-02T23:18:54.106Z [debug]: 📄 Parsed content:
+2025-03-02T23:18:54.106Z [info]: Received categoryEvent (deleted):
+2025-03-02T23:18:54.413Z [info]: Event an Redis auf Kanal categoryDeleteConfirmed gesendet:
+2025-03-02T23:19:04.305Z [info]: Discord.js debug:
+2025-03-02T23:19:30.456Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s96qod000mwc4sjvtdxi43","eventType":"created","name":"11","categoryId":"cm7s8dadq0009wc4so...
+2025-03-02T23:19:30.456Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.454Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.454Z [info]: Received zoneEvent (created):
+2025-03-02T23:19:30.457Z [info]: Erstelle Discord-Channel für Zone "11" in Kategorie 1345892581980241953 (Guild: 1226186397195702363)
+2025-03-02T23:19:30.457Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.454Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.458Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.454Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.725Z [info]: Discord Voice-Channel erstellt: 11 (1345898345767506032)
+2025-03-02T23:19:30.725Z [info]: Zone in API erfolgreich mit Discord Voice-ID aktualisiert
+2025-03-02T23:19:30.726Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s96qod000mwc4sjvtdxi43","eventType":"confirmation","name":"11","categoryId":"cm7s8dadq0009...
+2025-03-02T23:19:30.727Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.725Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.727Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.725Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.728Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:30.725Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:30.725Z [info]: Event an Redis auf Kanal zoneEvent gesendet:
+2025-03-02T23:19:30.729Z [info]: Event an Redis auf Kanal categoryUpdateEvent gesendet:
+2025-03-02T23:19:30.730Z [debug]: Channel mapping set: 1345898345767506032 -> 1345892581980241953
+2025-03-02T23:19:30.730Z [info]: Channel-Zuordnung gesetzt: 1345898345767506032 -> 1345892581980241953
+2025-03-02T23:19:36.951Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen: {"id":"cm7s96qod000mwc4sjvtdxi43","eventType":"deleted","name":"11","categoryId":"cm7s8dadq0009wc4so...
+2025-03-02T23:19:36.951Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:36.949Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:36.952Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:36.949Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:36.952Z [debug]: 📨 [REDIS] Nachricht auf zoneEvent empfangen
+2025-03-02T23:19:36.949Z [debug]: 📄 Parsed content:
+2025-03-02T23:19:36.949Z [info]: Received zoneEvent (deleted):
+2025-03-02T23:19:36.953Z [info]: Voice-Channel gefunden: 11
+2025-03-02T23:19:37.204Z [info]: Discord-Voice-Channel gelöscht: 11
+2025-03-02T23:19:37.205Z [info]: Event an Redis auf Kanal zoneDeleteConfirmed gesendet:
+2025-03-02T23:19:45.570Z [info]: Discord.js debug:

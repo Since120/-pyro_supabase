@@ -1,0 +1,52 @@
+mutation CreateCategory($input: CreateCategoryInput!) {
+  createCategory(input: $input) {
+    id
+    guildId
+    name
+    categoryType
+    isVisible
+    isTrackingActive
+    isSendSetup
+    allowedRoles
+    discordCategoryId
+    isDeletedInDiscord
+    lastUsageAt
+    totalSecondsInCategory
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateCategory($id: ID!, $input: UpdateCategoryInput!) {
+  updateCategory(id: $id, input: $input) {
+    id
+    guildId
+    name
+    categoryType
+    isVisible
+    isTrackingActive
+    isSendSetup
+    allowedRoles
+    discordCategoryId
+    isDeletedInDiscord
+    lastUsageAt
+    totalSecondsInCategory
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteCategory($id: ID!) {
+  deleteCategory(id: $id) {
+    id
+    name
+    discordCategoryId
+  }
+}
+
+mutation CategoryReceivedFromBot($id: ID!, $discordCategoryId: String!) {
+  categoryReceivedFromBot(id: $id, discordCategoryId: $discordCategoryId) {
+    success
+    message
+  }
+}

@@ -1,0 +1,12 @@
+subscription CategoryEvent {
+  categoryEvent {
+    id
+    guildId
+    name
+    discordCategoryId
+    timestamp
+    eventType
+    error
+    details
+  }
+}

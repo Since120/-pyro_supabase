@@ -1,0 +1,66 @@
+// prisma/schema.prisma
+// =======================================
+// Prisma Schema
+// =======================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// ---------------------------------------
+// Category Model
+// ---------------------------------------
+
+model Category {
+  id                     String   @id @default(cuid())
+  guildId                String   @default("default_guild")
+  name                   String
+  categoryType           String
+  isVisible              Boolean  @default(true)
+  isTrackingActive       Boolean  @default(false)   @map("trackingActive")
+  isSendSetup            Boolean  @default(false)   @map("sendSetup")
+  allowedRoles           String[] @default([])
+  lastUsageAt            DateTime? @map("lastUsage")
+  totalSecondsInCategory Int      @default(0) @map("totalSecondsInCateg")
+  discordCategoryId      String?
+  isDeletedInDiscord     Boolean  @default(false) @map("deletedInDiscord")
+  zones                  Zone[]
+
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @default(now()) @updatedAt
+
+  @@map("Category")
+}
+
+
+// ---------------------------------------
+// Zone Model
+// ---------------------------------------
+
+model Zone {
+  id                  String   @id @default(cuid())
+  zoneKey             String   // Ein kurzes Kürzel, z.B. "CZ" für Contestete Zone
+  name                String   // Der Name der Zone
+  minutesRequired     Int      // Anzahl Minuten, die benötigt werden, um Punkte zu erhalten
+  pointsGranted       Int      // Anzahl Punkte, die vergeben werden, wenn die Minuten erreicht sind
+  lastUsageAt         DateTime? @map("lastUsage")  // Wann die Zone zuletzt genutzt wurde (optional)
+  totalSecondsInZone  Int      @default(0) // Gesamte verstrichene Zeit (in Sekunden) in dieser Zone
+  isDeletedInDiscord  Boolean  @default(false) @map("deletedInDiscord")
+  discordVoiceId      String?
+  
+  // Relationale Felder:
+  categoryId          String
+  category            Category @relation(fields: [categoryId], references: [id])
+  
+  // Metadaten:
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
+
+  @@map("Zone")
+}

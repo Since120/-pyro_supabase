@@ -1,0 +1,482 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Repräsentiert eine Kategorie im System"""
+type Category {
+  """Eindeutige ID der Kategorie"""
+  id: ID!
+
+  """ID der Discord-Guild, zu der diese Kategorie gehört"""
+  guildId: String!
+
+  """Name der Kategorie"""
+  name: String!
+
+  """Typ der Kategorie"""
+  categoryType: String!
+
+  """Gibt an, ob die Kategorie sichtbar ist"""
+  isVisible: Boolean!
+
+  """Gibt an, ob Tracking für diese Kategorie aktiviert ist"""
+  isTrackingActive: Boolean!
+
+  """Gibt an, ob Setup-Nachrichten gesendet werden sollen"""
+  isSendSetup: Boolean!
+
+  """Rollen, die auf diese Kategorie zugreifen dürfen"""
+  allowedRoles: [String!]!
+
+  """Discord-ID der Kategorie"""
+  discordCategoryId: String
+
+  """Gibt an, ob die Kategorie in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean!
+
+  """Letzte Nutzung der Kategorie"""
+  lastUsageAt: Timestamp
+
+  """Gesamtzeit in Sekunden, die in dieser Kategorie verbracht wurde"""
+  totalSecondsInCategory: Float!
+
+  """Erstellungszeitpunkt der Kategorie"""
+  createdAt: Timestamp!
+
+  """Letzter Aktualisierungszeitpunkt der Kategorie"""
+  updatedAt: Timestamp!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+"""Generisches Event-Payload für Kategorie-Events"""
+type CategoryEvent {
+  """ID der Kategorie"""
+  id: ID!
+
+  """ID der Discord-Guild"""
+  guildId: String!
+
+  """Name der Kategorie"""
+  name: String!
+
+  """Discord-ID der Kategorie"""
+  discordCategoryId: String
+
+  """Zeitstempel des Events"""
+  timestamp: String!
+
+  """Typ des Events (created, updated, deleted, etc.)"""
+  eventType: String!
+
+  """Optionale Fehlermeldung"""
+  error: String
+
+  """Optionale Zusatzinformationen als JSON-String"""
+  details: String
+}
+
+"""Basisklasse für Mutations-Ergebnisse"""
+type MutationResult {
+  """Gibt an, ob die Operation erfolgreich war"""
+  success: Boolean!
+
+  """Optionale Nachricht zum Ergebnis"""
+  message: String
+}
+
+"""Tags für Discord-Rollen"""
+type DiscordRoleTags {
+  """ID des Bots, der die Rolle erstellt hat"""
+  botId: ID
+
+  """Gibt an, ob es sich um eine Premium-Abonnenten-Rolle handelt"""
+  isPremiumSubscriberRole: Boolean
+
+  """ID der Integration, die die Rolle erstellt hat"""
+  integrationId: ID
+}
+
+"""Repräsentiert eine Discord-Rolle"""
+type DiscordRole {
+  """Eindeutige ID der Discord-Rolle"""
+  id: ID!
+
+  """Name der Rolle"""
+  name: String!
+
+  """Farbcode der Rolle als Ganzzahl"""
+  color: Int!
+
+  """Gibt an, ob die Rolle in der Mitgliederliste getrennt angezeigt wird"""
+  isHoist: Boolean!
+
+  """Position der Rolle in der Rollenliste"""
+  position: Int!
+
+  """Berechtigungen der Rolle als Bitmaske"""
+  permissions: String!
+
+  """Gibt an, ob die Rolle von Discord verwaltet wird"""
+  isManaged: Boolean!
+
+  """Gibt an, ob die Rolle erwähnbar ist"""
+  isMentionable: Boolean!
+
+  """Icon der Rolle"""
+  icon: String
+
+  """Unicode-Emoji der Rolle"""
+  unicodeEmoji: String
+
+  """Erstellungszeitstempel der Rolle in Unix-Zeit"""
+  createdTimestamp: Float!
+
+  """Erstellungsdatum der Rolle als ISO-String"""
+  createdAt: String!
+
+  """Zusätzliche Tags der Rolle"""
+  tags: DiscordRoleTags
+}
+
+"""Standard Discord Role Event Payload"""
+type RoleEvent {
+  """ID der Anfrage für die Nachverfolgung"""
+  requestId: String!
+
+  """ID der Discord-Guild, für die Rollen angefordert werden"""
+  guildId: String!
+
+  """Liste der Discord-Rollen"""
+  roles: [DiscordRole!]
+
+  """Fehlermeldung, falls die Anfrage fehlgeschlagen ist"""
+  error: String
+
+  """Event Zeitstempel"""
+  timestamp: String!
+
+  """Event Typ: request, response, error, usw."""
+  eventType: String!
+}
+
+"""Discord-Zone Repräsentation"""
+type Zone {
+  """Eindeutige Zone ID"""
+  id: ID!
+
+  """Kurzes Kürzel für die Zone, z.B. "CZ" für Contested Zone"""
+  zoneKey: String!
+
+  """Name der Zone"""
+  name: String!
+
+  """
+  Anzahl der Minuten, die in der Zone verbracht werden müssen, um Punkte zu erhalten
+  """
+  minutesRequired: Float!
+
+  """
+  Anzahl der Punkte, die für das Erreichen der erforderlichen Zeit vergeben werden
+  """
+  pointsGranted: Float!
+
+  """Zeitpunkt der letzten Nutzung der Zone"""
+  lastUsageAt: Timestamp
+
+  """Gesamtzeit in Sekunden, die in dieser Zone verbracht wurde"""
+  totalSecondsInZone: Float!
+
+  """Gibt an, ob die Zone in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean!
+
+  """ID der Kategorie, zu der diese Zone gehört"""
+  categoryId: String!
+
+  """Die übergeordnete Kategorie dieser Zone"""
+  category: Category!
+
+  """Discord Voice Channel ID der Zone"""
+  discordVoiceId: String
+
+  """Erstellungszeitpunkt der Zone"""
+  createdAt: Timestamp!
+
+  """Letzter Aktualisierungszeitpunkt der Zone"""
+  updatedAt: Timestamp!
+}
+
+"""Generisches Event-Payload für Zone-Events"""
+type ZoneEvent {
+  id: ID!
+  eventType: String!
+  name: String
+  categoryId: String
+  discordVoiceId: String
+  discordCategoryId: String
+  message: String
+  error: String
+  details: String
+  timestamp: String
+}
+
+"""Repräsentiert einen Discord-Channel"""
+type DiscordChannel {
+  """Eindeutige ID des Discord-Channels"""
+  id: ID!
+
+  """Name des Channels"""
+  name: String!
+
+  """Typ des Channels"""
+  type: String!
+
+  """ID der übergeordneten Kategorie"""
+  parentId: String
+
+  """Position des Channels in der Liste"""
+  position: Float!
+
+  """ID der Guild, zu der dieser Channel gehört"""
+  guildId: String!
+}
+
+"""Standard Channel Event Payload"""
+type ChannelEvent {
+  """ID der Anfrage für die Nachverfolgung"""
+  requestId: String!
+
+  """ID der Discord-Guild, für die Channels angefordert werden"""
+  guildId: String!
+
+  """Liste der Discord-Channels"""
+  channels: [DiscordChannel!]
+
+  """Discord Channel ID bei spezifischen Events"""
+  channelId: String
+
+  """Fehlermeldung, falls die Anfrage fehlgeschlagen ist"""
+  error: String
+
+  """Event Zeitstempel"""
+  timestamp: String!
+
+  """Event Typ: request, response, error, created, updated, deleted, usw."""
+  eventType: String!
+}
+
+type Query {
+  """Temporary root query"""
+  tempQuery: String!
+
+  """Gibt alle Kategorien zurück"""
+  categories: [Category!]!
+
+  """Gibt alle Discord-Rollen für die Standardguild zurück"""
+  discordRoles: [DiscordRole!]!
+
+  """Gibt Discord-Rollen für eine bestimmte Guild zurück"""
+  discordRolesByGuild(guildId: String!, filter: DiscordRoleFilter): [DiscordRole!]!
+
+  """Gibt alle Zonen zurück"""
+  zones: [Zone!]!
+
+  """Gibt eine einzelne Zone anhand ihrer ID zurück"""
+  zone(id: ID!): Zone!
+
+  """Gibt alle Discord-Channels für die Standardguild zurück"""
+  discordChannels: [DiscordChannel!]!
+
+  """Gibt Discord-Channels für eine bestimmte Guild zurück"""
+  discordChannelsByGuild(guildId: String!, filter: DiscordChannelFilter): [DiscordChannel!]!
+
+  """Gibt einen Discord-Channel anhand seiner ID zurück"""
+  discordChannelById(guildId: String!, channelId: ID!): DiscordChannel!
+}
+
+"""Filter für Discord-Rollen"""
+input DiscordRoleFilter {
+  """Nach Rollennamen filtern"""
+  name: String
+
+  """Nur erwähnbare Rollen anzeigen"""
+  isMentionable: Boolean
+
+  """Nur von Discord verwaltete Rollen anzeigen"""
+  isManaged: Boolean
+}
+
+"""Filter für Discord-Channels"""
+input DiscordChannelFilter {
+  """Nach Channelnamen filtern"""
+  name: String
+
+  """Nach Channeltyp filtern"""
+  type: String
+
+  """Nach übergeordneter Kategorie filtern"""
+  parentId: String
+}
+
+type Mutation {
+  """Erstellt eine neue Kategorie"""
+  createCategory(input: CreateCategoryInput!): Category!
+
+  """Aktualisiert die Discord-Kategorie-ID"""
+  categoryReceivedFromBot(id: ID!, discordCategoryId: String!): MutationResult!
+
+  """Aktualisiert eine existierende Kategorie"""
+  updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+
+  """Löscht eine Kategorie"""
+  deleteCategory(id: ID!): Category!
+
+  """Erstellt eine neue Zone"""
+  createZone(input: ZoneCreateInput!): Zone!
+
+  """Aktualisiert eine existierende Zone"""
+  updateZone(id: ID!, input: ZoneUpdateInput!): Zone!
+
+  """Löscht eine Zone"""
+  deleteZone(id: ID!): Zone!
+}
+
+"""Eingabedaten zum Erstellen einer Kategorie"""
+input CreateCategoryInput {
+  """ID der Discord-Guild, zu der diese Kategorie gehört"""
+  guildId: String!
+
+  """Name der Kategorie"""
+  name: String!
+
+  """Typ der Kategorie"""
+  categoryType: String! = "default"
+
+  """Gibt an, ob die Kategorie sichtbar ist"""
+  isVisible: Boolean! = true
+
+  """Gibt an, ob Tracking für diese Kategorie aktiviert ist"""
+  isTrackingActive: Boolean! = false
+
+  """Gibt an, ob Setup-Nachrichten gesendet werden sollen"""
+  isSendSetup: Boolean! = false
+
+  """Rollen, die auf diese Kategorie zugreifen dürfen"""
+  allowedRoles: [String!]
+
+  """Discord-ID der Kategorie"""
+  discordCategoryId: String
+
+  """Gibt an, ob die Kategorie in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean! = false
+}
+
+"""Eingabedaten zum Aktualisieren einer Kategorie"""
+input UpdateCategoryInput {
+  """ID der zu aktualisierenden Kategorie"""
+  id: ID!
+
+  """ID der Discord-Guild, zu der diese Kategorie gehört"""
+  guildId: String
+
+  """Name der Kategorie"""
+  name: String
+
+  """Typ der Kategorie"""
+  categoryType: String
+
+  """Gibt an, ob die Kategorie sichtbar ist"""
+  isVisible: Boolean
+
+  """Gibt an, ob Tracking für diese Kategorie aktiviert ist"""
+  isTrackingActive: Boolean
+
+  """Gibt an, ob Setup-Nachrichten gesendet werden sollen"""
+  isSendSetup: Boolean
+
+  """Rollen, die auf diese Kategorie zugreifen dürfen"""
+  allowedRoles: [String!]
+
+  """Discord-ID der Kategorie"""
+  discordCategoryId: String
+
+  """Gibt an, ob die Kategorie in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean
+}
+
+"""Eingabedaten zum Erstellen einer Zone"""
+input ZoneCreateInput {
+  """Kurzes Kürzel für die Zone"""
+  zoneKey: String!
+
+  """Name der Zone"""
+  name: String!
+
+  """Anzahl der Minuten, die in der Zone verbracht werden müssen"""
+  minutesRequired: Float!
+
+  """Anzahl der Punkte, die vergeben werden"""
+  pointsGranted: Float!
+
+  """Zeitpunkt der letzten Nutzung"""
+  lastUsageAt: Timestamp
+
+  """Gesamtzeit in Sekunden in dieser Zone"""
+  totalSecondsInZone: Float! = 0
+
+  """Gibt an, ob die Zone in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean! = false
+
+  """ID der Kategorie, zu der diese Zone gehört"""
+  categoryId: String!
+
+  """Discord Voice Channel ID der Zone"""
+  discordVoiceId: String
+}
+
+"""Eingabedaten zum Aktualisieren einer Zone"""
+input ZoneUpdateInput {
+  """Kurzes Kürzel für die Zone"""
+  zoneKey: String
+
+  """Name der Zone"""
+  name: String
+
+  """Anzahl der Minuten, die in der Zone verbracht werden müssen"""
+  minutesRequired: Float
+
+  """Anzahl der Punkte, die vergeben werden"""
+  pointsGranted: Float
+
+  """Zeitpunkt der letzten Nutzung"""
+  lastUsageAt: Timestamp
+
+  """Gesamtzeit in Sekunden in dieser Zone"""
+  totalSecondsInZone: Float
+
+  """Gibt an, ob die Zone in Discord gelöscht wurde"""
+  isDeletedInDiscord: Boolean
+
+  """ID der Kategorie, zu der diese Zone gehört"""
+  categoryId: String
+
+  """Discord Voice Channel ID der Zone"""
+  discordVoiceId: String
+}
+
+type Subscription {
+  """Abonniere alle Kategorie-Events"""
+  categoryEvent: CategoryEvent!
+
+  """Abonniere alle Discord-Rollen Events"""
+  roleEvent: RoleEvent!
+
+  """Abonniere alle Zone-Events"""
+  zoneEvent: ZoneEvent
+
+  """Abonniere alle Discord-Channel Events"""
+  channelEvent: ChannelEvent!
+}

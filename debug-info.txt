@@ -1,0 +1,56 @@
+# Behebung des Benachrichtigungsproblems
+
+Nach einer gründlichen Analyse des Codes habe ich folgende Probleme gefunden, die die Benachrichtigungen zwischen BullMQ, Bot und Dashboard beeinträchtigen:
+
+## 1. Haupt-Probleme
+
+1. **Doppelte Duplikat-Vermeidungsmechanismen**:
+   - DashboardNotificationWrapper.tsx: processedEvents mit 10-Sekunden-Timeout
+   - use.category.events.ts und use.zone.events.ts: processedNotifications mit 5-Sekunden-Timeout
+   - Die unterschiedlichen Zeitfenster führen zu inkonsistentem Verhalten
+
+2. **Timestamp in den Keys**:
+   - In den Event-Hooks werden Timestamps zum Schlüssel hinzugefügt, was verhindert, dass DashboardNotificationWrapper sie als Duplikate erkennt
+
+3. **Inkonsistente Fehlerfelder**:
+   - CategoryEvent verwendet 'error'
+   - ZoneEvent verwendet 'message'
+   - Dies führt zu Benachrichtigungen, die nicht angezeigt werden
+
+4. **Rate-Limit-Logik-Fehler**:
+   - Die checkRateLimit-Funktion in queue.service.ts hat komplexe Logik mit bekannten Bugs
+   - Es gibt exponentielles Backoff in BullMQ, was zu unvorhersehbaren Verzögerungen führen kann
+
+## 2. Lösungsvorschläge
+
+1. **Vereinheitlichung der Duplikatserkennung**:
+   - Entfernen des Timestamps aus den Event-Keys
+   - Konsistente 5-Sekunden-Timeouts für alle Ebenen
+
+2. **Verbesserte Logging**:
+   - Detaillierte Protokollierung der Event-Verfolgung hinzufügen
+   - Vor/nach jedem Schlüsselschritt des Event-Flusses protokollieren
+
+3. **Fehlerfeld-Standardisierung**:
+   - Beide Event-Typen sollten dieselben Fehlerfelder verwenden
+   - ZoneEvent anpassen, um das 'error' Feld zu verwenden
+
+4. **Rate-Limit-Optimierung**:
+   - Vereinfachung der Rate-Limit-Logik
+   - Zusätzliche Validierung und Debug-Logging hinzufügen
+
+## 3. Spezifische Codeänderungen
+
+1. In DashboardNotificationWrapper.tsx:
+   - Timeout von 10s auf 5s reduzieren
+   - Debug-Logging hinzufügen
+
+2. In use.category.events.ts und use.zone.events.ts:
+   - Timestamp aus dem Schlüssel entfernen
+   - Debug-Logging hinzufügen
+
+3. In queue.service.ts:
+   - Mehr Validierung zur checkRateLimit-Funktion hinzufügen
+   - Zeitfensterverfolgung verbessern
+
+Diese Änderungen sollten die Benachrichtigungen zuverlässiger machen und das Problem beheben.

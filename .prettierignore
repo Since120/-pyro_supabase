@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+build
+
+# Lock files
+package-lock.json
+
+# Build/Distribution folders (Nest.js, Node.js, etc.)
+dist
+
+# Public assets (falls nicht formatiert werden sollen)
+public
+
+# Test Coverage
+coverage
+
+# Logs
+logs
+log
+
+# Temporary files
+tmp
+temp
+
+# Caching
+.cache

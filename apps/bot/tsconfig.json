@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"target": "ES2020",
+		"esModuleInterop": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "../../",
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"paths": {
+			"./config/config.js": ["src/config/config.ts"],
+			"pyro-logger": ["../../packages/logger/dist"],
+			"pyro-logger/*": ["../../packages/logger/dist/*"],
+			"pyro-types": ["../packages/pyro-types/src"],
+			"pyro-prisma": ["../packages/pyro-prisma/src"]
+		}
+	}
+}

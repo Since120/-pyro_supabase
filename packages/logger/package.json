@@ -1,0 +1,21 @@
+{
+	"name": "pyro-logger",
+	"version": "1.0.0",
+	"description": "Zentrales Logging-Package für das Monorepo",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"scripts": {
+		"build": "tsc",
+		"lint": "pnpm exec eslint .",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.7",
+		"winston": "^3.17.0",
+		"winston-daily-rotate-file": "^5.0.0"
+	},
+	"devDependencies": {
+		"@types/dotenv": "^8.2.3"
+	}
+}

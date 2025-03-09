@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    command: ['postgres', '-c', 'statement_timeout=5000']
+    environment:
+      POSTGRES_USER: pyro_api
+      POSTGRES_PASSWORD: kHU0giWc8ITVR76Q0X1ly4AI0cfNNF
+      POSTGRES_DB: pyro_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+
+volumes:
+  db_data:

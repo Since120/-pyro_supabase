@@ -1,0 +1,18 @@
+query GetCategories {
+  categories {
+    id
+    guildId
+    name
+    categoryType
+    isVisible
+    isTrackingActive
+    isSendSetup
+    allowedRoles
+    discordCategoryId
+    isDeletedInDiscord
+    lastUsageAt
+    totalSecondsInCategory
+    createdAt
+    updatedAt
+  }
+}

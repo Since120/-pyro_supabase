@@ -1,0 +1,18 @@
+{
+	"name": "pyro-prisma",
+	"version": "1.0.0",
+	"private": true,
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"prisma": "prisma",
+		"dev:migrate": "prisma migrate dev",
+		"dev:generate": "prisma generate",
+		"lint": "pnpm exec eslint ."
+	},
+	"devDependencies": {
+		"@prisma/client": "^6.4.1",
+		"prisma": "^6.4.1"
+	}
+}

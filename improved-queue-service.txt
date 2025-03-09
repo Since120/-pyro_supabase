@@ -1,0 +1,59 @@
+# Verbesserter Queue-Service für Discord-Rate-Limit-Handling
+
+Ich habe den QueueService grundlegend überarbeitet, um das Problem mit dem Discord-Rate-Limit zu beheben. Hier sind die wichtigsten Änderungen:
+
+## 1. Job-Deduplizierung implementiert
+
+- Neue `pendingJobs`-Map eingeführt, die alle aktuell ausstehenden Jobs pro Entity und Event-Typ verfolgt
+- Bei mehreren Änderungen an derselben Entity während einer Rate-Limit-Wartezeit wird nur die neueste Änderung beibehalten
+- Ältere Jobs werden automatisch aus der Queue entfernt, wenn ein neuerer Job für dieselbe Entity und denselben Event-Typ hinzugefügt wird
+
+## 2. Robuste Queue-Verwaltung
+
+- Beim Service-Start werden bestehende Jobs in der Queue gruppiert und dedupliziert
+- Nur der neueste Job pro Entity bleibt in der Queue, alle älteren werden entfernt
+- Neuer `getJobKey(entityId, eventType)` für konsistente Schlüsselgenerierung
+
+## 3. Verbessertes Rate-Limit-Tracking
+
+- Jeder Job prüft vor der Verarbeitung, ob er noch der neueste ist
+- Verzögerte Jobs bekommen einen eindeutigen Zeitstempel, wann ihre Verzögerung endet
+- Bei neueren Änderungen an derselben Entity werden verzögerte Jobs automatisch entfernt
+
+## 4. Verbesserte Fehlerbehandlung
+
+- Jeder Schritt ist mit erweiterten Fehlerbehandlungen abgesichert
+- Ausführliches Logging für bessere Nachvollziehbarkeit
+- Zusätzliche Sicherheitsmaßnahmen gegen Race-Conditions
+
+## 5. Optimiertes Dashboard-Feedback
+
+- Direkte `error`-Feld-Belegung für Benachrichtigungszwecke
+- Detailliertere Rate-Limit-Informationen im `details`-Feld
+
+## Code-Beispiel für die Deduplizierung:
+
+```typescript
+// WICHTIG: Prüfe, ob bereits ein Job für diese Entity in der Queue ist
+const pendingJob = this.pendingJobs.get(jobKey);
+
+// Wenn ein früherer Job existiert und noch verzögert ist, entferne ihn
+if (pendingJob && pendingJob.delayEndTime > Date.now()) {
+  try {
+    // Versuche, den alten Job zu finden und zu entfernen
+    const delayedJobs = await queue.getDelayed();
+    
+    for (const delayedJob of delayedJobs) {
+      if (delayedJob.id === pendingJob.jobId) {
+        this.logger.log(`Entferne alten verzögerten Job ${pendingJob.jobId}`);
+        await delayedJob.remove();
+        break;
+      }
+    }
+  } catch (error) {
+    this.logger.error(`Fehler beim Entfernen des alten Jobs ${pendingJob.jobId}:`, error);
+  }
+}
+```
+
+Diese Änderungen sorgen dafür, dass immer nur die neueste Änderung einer Kategorie verarbeitet wird, wenn mehrere während eines Rate-Limits eingehen. Das verhindert den "komischen" Zustand und macht das Verhalten vorhersehbarer.

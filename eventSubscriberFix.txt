@@ -1,0 +1,29 @@
+Bei Zeile 214, nach der Zeile case CategoryEventType.CONFIRMATION und if (operation) {
+Die Änderung aussieht wie folgt:
+
+              console.log(`[EventSubscriber] Kategorie-Bestätigung empfangen für ID: ${event.id}, lade Daten neu`);
+              
+              // Aktualisiere die Apollo-Daten, um die Tabelle zu aktualisieren
+              // Wichtig: Wir laden die Daten erst neu, DANN schließen wir die Operation ab
+              apolloClient.refetchQueries({
+                include: ["GetCategories"]
+              })
+              .then(() => {
+                console.log(`[EventSubscriber] Kategorie-Daten neu geladen, schließe Operation ab für ID: ${event.id}`);
+                
+                // Mit kurzer Verzögerung die Operation abschließen, damit die UI Zeit hat
+                setTimeout(() => {
+                  completeOperation(
+                    `${EntityType.CATEGORY}-${OperationType.CREATE}-${event.id}`, 
+                    true
+                  );
+                }, 500);
+              })
+              .catch(err => {
+                console.error(`[EventSubscriber] Fehler beim Neuladen der Kategoriedaten:`, err);
+                // Bei Fehler trotzdem die Operation abschließen
+                completeOperation(
+                  `${EntityType.CATEGORY}-${OperationType.CREATE}-${event.id}`, 
+                  true
+                );
+              });

@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Verwende eine Node.js-Version, die >= 18.12 ist, z.B. 18.16.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.0' # oder eine andere Version >= 18.12
+
+      # pnpm global installieren
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Abhängigkeiten installieren
+      - name: Install dependencies
+        run: pnpm install
+
+      # Linting ausführen
+      - name: Run Lint
+        run: pnpm lint
+
+      # Prettier prüfen
+      - name: Run Prettier Check
+        run: pnpm format --check

@@ -1,0 +1,43 @@
+query GetZones {
+  zones {
+    id
+    zoneKey
+    name
+    minutesRequired
+    pointsGranted
+    lastUsageAt
+    totalSecondsInZone
+    isDeletedInDiscord
+    categoryId
+    discordVoiceId
+    createdAt
+    updatedAt
+    category {
+      id
+      name
+      discordCategoryId
+    }
+  }
+}
+
+query GetZone($id: ID!) {
+  zone(id: $id) {
+    id
+    zoneKey
+    name
+    minutesRequired
+    pointsGranted
+    lastUsageAt
+    totalSecondsInZone
+    isDeletedInDiscord
+    categoryId
+    discordVoiceId
+    createdAt
+    updatedAt
+    category {
+      id
+      name
+      discordCategoryId
+    }
+  }
+}

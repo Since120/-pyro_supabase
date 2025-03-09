@@ -1,0 +1,23 @@
+{
+	"name": "pyro-types",
+	"version": "1.0.0",
+	"description": "Shared TypeScript types for the Pyro monorepo",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"clean": "rimraf dist",
+		"dev": "tsc --watch",
+		"supabase:types": "npx -y supabase gen types typescript --project-id gselexnbubrinvzhcwrk --schema public > ./generated/supabase.ts",
+		"generate": "npm run supabase:types && tsc"
+	},
+	"dependencies": {
+		"graphql": "^16.6.0",
+		"@supabase/supabase-js": "^2.47.12"
+	},
+	"devDependencies": {
+		"typescript": "^5.0.4",
+		"rimraf": "^5.0.0",
+		"supabase": "^1.148.6"
+	}
+}

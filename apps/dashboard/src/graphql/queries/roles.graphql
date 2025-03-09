@@ -1,0 +1,43 @@
+query GetDiscordRoles {
+  discordRoles {
+    id
+    name
+    color
+    isHoist
+    position
+    permissions
+    isManaged
+    isMentionable
+    icon
+    unicodeEmoji
+    createdTimestamp
+    createdAt
+    tags {
+      botId
+      isPremiumSubscriberRole
+      integrationId
+    }
+  }
+}
+
+query GetDiscordRolesByGuild($guildId: String!, $filter: DiscordRoleFilter) {
+  discordRolesByGuild(guildId: $guildId, filter: $filter) {
+    id
+    name
+    color
+    isHoist
+    position
+    permissions
+    isManaged
+    isMentionable
+    icon
+    unicodeEmoji
+    createdTimestamp
+    createdAt
+    tags {
+      botId
+      isPremiumSubscriberRole
+      integrationId
+    }
+  }
+}

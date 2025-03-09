@@ -1,0 +1,60 @@
+{
+	"name": "pyro-monorepo",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"dev": "pnpm recursive run dev",
+		"build": "pnpm recursive run build",
+		"build:bot": "pnpm --filter pyro-bot run build",
+		"lint": "pnpm recursive run lint",
+		"format": "prettier --write .",
+		"dev:api": "pnpm --filter pyro-api run start:dev",
+		"dev:bot": "pnpm --filter pyro-bot run dev:watch",
+		"dev:dash": "pnpm --filter @devias-kit-pro/nextjs-starter run dev",
+		"studio": "pnpm --filter pyro-prisma run prisma -- studio",
+		"codegen": "graphql-codegen --config codegen.yml && pnpm run codegen:pubsub",
+		"codegen:pubsub": "node scripts/copy-pubsub-types.js",
+		"codegen:watch": "npx graphql-codegen --watch --config codegen.api.yml",
+		"supabase:types": "cd packages/types && pnpm run supabase:types"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.3.1",
+		"dotenv": "^16.4.7",
+		"graphql": "^16.6.0",
+		"prisma": "^6.3.1",
+		"pyro-logger": "workspace:^",
+		"socket.io": "^4.8.1",
+		"pyro-types": "workspace:*"
+	},
+	"devDependencies": {
+		"@eslint/eslintrc": "3.2.0",
+		"@eslint/js": "9.20.0",
+		"@graphql-codegen/cli": "^5.0.5",
+		"@graphql-codegen/introspection": "^4.0.3",
+		"@graphql-codegen/schema-ast": "^4.1.0",
+		"@graphql-codegen/typescript": "^4.1.3",
+		"@graphql-codegen/typescript-operations": "^4.4.1",
+		"@graphql-codegen/typescript-react-apollo": "^4.3.2",
+		"@graphql-codegen/typescript-resolvers": "^4.4.4",
+		"@ianvs/prettier-plugin-sort-imports": "4.4.0",
+		"@next/eslint-plugin-next": "15.1.4",
+		"@parcel/watcher": "^2.5.1",
+		"@typescript-eslint/eslint-plugin": "^8.24.0",
+		"@typescript-eslint/parser": "8.19.1",
+		"cross-env": "^7.0.3",
+		"eslint": "9.20.1",
+		"eslint-config-prettier": "10.0.1",
+		"eslint-plugin-import": "2.31.0",
+		"eslint-plugin-prettier": "^5.2.3",
+		"eslint-plugin-react": "7.37.4",
+		"eslint-plugin-unicorn": "56.0.1",
+		"globals": "15.14.0",
+		"prettier": "3.5.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.7.3",
+		"typescript-eslint": "8.24.0"
+	}
+}

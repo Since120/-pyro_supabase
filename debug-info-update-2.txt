@@ -1,0 +1,38 @@
+# Beheben des Apollo-Client-Fehlers
+
+Der Fehler "Invariant Violation" trat auf, weil wir die Provider-Hierarchie nicht richtig strukturiert hatten. In React müssen Provider in einer bestimmten Reihenfolge geschachtelt werden, damit sie korrekt funktionieren.
+
+## Das Problem
+
+Der Hauptfehler bestand darin, dass wir `DashboardNotificationWrapper` (der Apollo-Subscriptions verwendet) falsch positioniert hatten:
+
+1. `DashboardNotificationWrapper` befand sich **außerhalb** des `ApolloProvider`
+2. Apollo-Hooks (`useSubscription`) wurden in einem Komponenten-Baum verwendet, der keinen `ApolloProvider` hatte
+3. Dies führte zu dem Fehler "Invariant Violation: Could not find client"
+
+## Die Lösung
+
+Ich habe die Provider-Hierarchie korrigiert, indem ich:
+
+1. `DashboardNotificationWrapper` aus `ClientSnackbarProvider` entfernt habe
+2. `DashboardNotificationWrapper` in `ClientProviders` eingefügt habe, **innerhalb** des `ApolloProvider`
+3. Die Hierarchie ist jetzt:
+   ```
+   <ClientSnackbarProvider>
+     <ClientProviders> (enthält ApolloProvider)
+       <DashboardNotificationWrapper>
+         {children}
+       </DashboardNotificationWrapper>
+     </ClientProviders>
+   </ClientSnackbarProvider>
+   ```
+
+Dies stellt sicher, dass alle Apollo-Hooks innerhalb des korrekten Kontexts verwendet werden.
+
+## Weitere Verbesserungen
+
+1. Die Snackbar-Einstellungen wurden optimiert (mehr Benachrichtigungen gleichzeitig, bessere Positionierung)
+2. Ein klarerer Kommentar zur Provider-Hierarchie wurde hinzugefügt
+3. Die Redis-Pub/Sub-Konfiguration bleibt verbessert mit besserem Logging und korrekten Kanal-Abonnements
+
+Diese Änderungen sollten das Problem mit dem Apollo-Client-Fehler beheben und gleichzeitig die verbesserten Benachrichtigungen beibehalten.

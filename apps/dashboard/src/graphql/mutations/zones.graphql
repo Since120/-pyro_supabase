@@ -1,0 +1,41 @@
+mutation CreateZone($input: ZoneCreateInput!) {
+  createZone(input: $input) {
+    id
+    zoneKey
+    name
+    minutesRequired
+    pointsGranted
+    lastUsageAt
+    totalSecondsInZone
+    isDeletedInDiscord
+    categoryId
+    discordVoiceId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateZone($id: ID!, $input: ZoneUpdateInput!) {
+  updateZone(id: $id, input: $input) {
+    id
+    zoneKey
+    name
+    minutesRequired
+    pointsGranted
+    lastUsageAt
+    totalSecondsInZone
+    isDeletedInDiscord
+    categoryId
+    discordVoiceId
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteZone($id: ID!) {
+  deleteZone(id: $id) {
+    id
+    name
+    discordVoiceId
+  }
+}
