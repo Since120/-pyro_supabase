@@ -456,3 +456,30 @@
 2025-03-09T18:49:36.289Z [info]: 28 gespeicherte Rollen in Supabase gefunden
 2025-03-09T18:49:36.289Z [info]: Keine veralteten Rollen zu löschen
 2025-03-09T18:49:36.289Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-09T19:15:11.109Z [info]: Erstelle neue Discord-Kategorie "┌── ℹ️ Info ℹ️ ──┐" für Guild 1226186397195702363...
+2025-03-09T19:15:11.402Z [info]: Discord-Kategorie erstellt: ┌── ℹ Info ℹ ──┐ (1348373573789810811)
+2025-03-09T19:15:11.546Z [info]: Kategorie "┌── ℹ️ Info ℹ️ ──┐" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:16:57.564Z [info]: Erstelle neue Discord-Kategorie "────────────── Voice 📢" für Guild 1226186397195702363...
+2025-03-09T19:16:57.931Z [info]: Discord-Kategorie erstellt: ────────────── Voice 📢 (1348374019941990423)
+2025-03-09T19:16:58.009Z [info]: Kategorie "────────────── Voice 📢" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:18:52.528Z [info]: Erstelle neue Discord-Kategorie "☆彡 🗣️ Chatroom 🗣️ 彡☆" für Guild 1226186397195702363...
+2025-03-09T19:18:52.811Z [info]: Discord-Kategorie erstellt: ☆彡 🗣 Chatroom 🗣 彡☆ (1348374502446338190)
+2025-03-09T19:18:52.893Z [info]: Kategorie "☆彡 🗣️ Chatroom 🗣️ 彡☆" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:20:10.417Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-09T19:20:10.725Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1348374828926894152)
+2025-03-09T19:20:10.842Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:21:48.638Z [info]: Erstelle neue Discord-Kategorie "━━ 📣 Announcements 📣 ━━" für Guild 1226186397195702363...
+2025-03-09T19:21:48.886Z [info]: Discord-Kategorie erstellt: ━━ 📣 Announcements 📣 ━━ (1348375240782381137)
+2025-03-09T19:21:48.979Z [info]: Kategorie "━━ 📣 Announcements 📣 ━━" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:22:04.965Z [info]: Erstelle neue Discord-Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" für Guild 1226186397195702363...
+2025-03-09T19:22:05.215Z [info]: Discord-Kategorie erstellt: ❖❖❖ 🔄 Updates 🔄 ❖❖❖ (1348375309602521250)
+2025-03-09T19:22:05.329Z [info]: Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:25:34.654Z [info]: Erstelle neue Discord-Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" für Guild 1226186397195702363...
+2025-03-09T19:25:34.885Z [info]: Discord-Kategorie erstellt: ❖❖❖ 🔄 Updates 🔄 ❖❖❖ (1348376189013594232)
+2025-03-09T19:25:34.966Z [info]: Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:26:32.442Z [info]: Erstelle neue Discord-Kategorie "┏━━ ⚠️ Alerts ⚠️ ━━┓" für Guild 1226186397195702363...
+2025-03-09T19:26:32.697Z [info]: Discord-Kategorie erstellt: ┏━━ ⚠ Alerts ⚠ ━━┓ (1348376431427588137)
+2025-03-09T19:26:32.773Z [info]: Kategorie "┏━━ ⚠️ Alerts ⚠️ ━━┓" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-09T19:30:38.237Z [info]: Erstelle neue Discord-Kategorie "▁▁▁ 📊 Status 📊 ▁▁▁" für Guild 1226186397195702363...
+2025-03-09T19:30:38.642Z [info]: Discord-Kategorie erstellt: ▁▁▁ 📊 Status 📊 ▁▁▁ (1348377462320398369)
+2025-03-09T19:30:38.749Z [info]: Kategorie "▁▁▁ 📊 Status 📊 ▁▁▁" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.

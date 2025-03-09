@@ -13,12 +13,17 @@
  */
 
 import { create } from 'zustand';
+import { useEffect } from 'react';
+import { useGuildContext } from '../../hooks/guild/use.guild.context';
+import { useNotificationService, NotificationType, NotificationDuration } from '../NotificationManager/notificationService';
 import { 
   EntityOperation, 
   OperationStatus, 
   EntityType, 
   OperationType,
-  EventType
+  EventType,
+  CategoryEventType,
+  ZoneEventType
 } from './typeDefinitions';
 
 /**
@@ -59,6 +64,9 @@ interface EventStoreState {
   
   // Wartung
   cleanupStaleOperations: (olderThanMs: number) => void;
+  
+  // Debug-Funktion, um eine Benachrichtigung zu testen
+  testNotification: (entityType: EntityType, eventType: string, message: string, variant: NotificationType) => void;
 }
 
 // Erstellt einen eindeutigen Schlüssel für eine Operation basierend auf ihren Eigenschaften
@@ -373,6 +381,26 @@ export const useEventStore = create<EventStoreState>((set, get) => ({
       
       return hasChanges ? { operations: newOperations } : state;
     });
+  },
+  
+  /**
+   * Debug-Funktion, um eine Benachrichtigung zu testen
+   * 
+   * @param entityType Typ der Entity
+   * @param eventType Typ der Ereignis
+   * @param message Nachricht
+   * @param variant Variante der Benachrichtigung
+   */
+  testNotification: (entityType, eventType, message, variant) => {
+    console.log(`[EventStore] Teste Benachrichtigung: ${entityType}/${eventType}`);
+    const mockEntityId = `test-${Date.now()}`;
+    
+    // Wir müssen den notificationService über den useNotificationService Hook beziehen,
+    // können ihn aber hier nicht direkt verwenden.
+    // Stattdessen können wir ein Event auslösen oder ein benutzerdefiniertes Event erstellen.
+    
+    // Einfachste Lösung: Nur für Debugging-Zwecke eine Benachrichtigung in der Konsole anzeigen
+    console.log(`[EventStore] Würde Benachrichtigung anzeigen: ${message} (${variant})`);
   }
 }));
 

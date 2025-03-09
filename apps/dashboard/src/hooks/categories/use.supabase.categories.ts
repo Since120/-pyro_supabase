@@ -1,8 +1,9 @@
 // apps/dashboard/src/hooks/categories/use.supabase.categories.ts
 import { useState, useCallback } from 'react';
-import { supabase, realtimeManager } from 'pyro-types';
+import { supabase } from 'pyro-types';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
+import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 type CategoryFormData = {
   name: string;
@@ -37,6 +38,7 @@ export const useSupabaseCategories = (guildId: string) => {
   const fetchCategories = useCallback(async () => {
     if (!guildId) return;
     
+    console.log('[useSupabaseCategories] Lade Kategorien...');
     setIsLoading(true);
     setError(null);
     
@@ -48,9 +50,12 @@ export const useSupabaseCategories = (guildId: string) => {
         
       if (error) throw error;
       
+      console.log('[useSupabaseCategories] Kategorien geladen:', data?.length || 0);
       setCategories(data || []);
+      // Kein automatisches Refresh-Triggern hier
     } catch (err: any) {
       setError(err);
+      console.error('[useSupabaseCategories] Fehler beim Laden der Kategorien:', err);
       enqueueSnackbar(
         `Fehler beim Laden der Kategorien: ${err.message}`, 
         { variant: 'error' }
@@ -65,15 +70,62 @@ export const useSupabaseCategories = (guildId: string) => {
     // Lade Kategorien beim Mounten
     fetchCategories();
 
-    // Richte Realtime-Subscription ein, wenn vorhanden
-    if (realtimeManager) {
-      const subscription = realtimeManager.subscribeToCategories(guildId, fetchCategories);
+    // Direkter Supabase Realtime-Channel
+    const channelName = `categories-realtime-${guildId}`;
+    console.log(`[useSupabaseCategories] Erstelle Supabase-Kanal: ${channelName}`);
 
-      // Cleanup beim Unmounten
-      return () => {
-        realtimeManager?.unsubscribeAll();
-      };
-    }
+    const channel = supabase
+      .channel(channelName)
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Alle Event-Typen (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'categories',
+          filter: `guild_id=eq.${guildId}`  // Nur Events für diese Guild
+        },
+        (payload: RealtimePostgresChangesPayload<any>) => {
+          console.log(`[useSupabaseCategories] Categories Realtime-Event empfangen:`, payload);
+          
+          // Behandlung je nach Event-Typ
+          if (payload.eventType === 'INSERT') {
+            console.log('[useSupabaseCategories] Neue Kategorie hinzugefügt, aktualisiere Liste');
+            
+            // Direkt zum State hinzufügen, ohne serverseitige Abfrage
+            if (payload.new) {
+              setCategories(prev => [...prev, payload.new]);
+            }
+          } else if (payload.eventType === 'UPDATE') {
+            console.log('[useSupabaseCategories] Kategorie aktualisiert, aktualisiere Liste');
+            
+            // Kategorie im State aktualisieren
+            if (payload.old && payload.new) {
+              setCategories(prev => prev.map(cat => 
+                cat.id === payload.old.id ? payload.new : cat
+              ));
+            }
+          } else if (payload.eventType === 'DELETE') {
+            console.log('[useSupabaseCategories] Kategorie gelöscht, aktualisiere Liste');
+            
+            // Kategorie aus State entfernen
+            if (payload.old) {
+              setCategories(prev => prev.filter(cat => cat.id !== payload.old.id));
+            }
+          }
+          
+          // Immer ein UI-Update triggern
+          setRefreshTrigger(prev => prev + 1);
+        }
+      )
+      .subscribe((status) => {
+        console.log(`[useSupabaseCategories] Kanal '${channelName}' Status: ${status}`);
+      });
+
+    // Cleanup beim Unmounten
+    return () => {
+      console.log(`[useSupabaseCategories] Cleanup Supabase Realtime-Subscription`);
+      channel.unsubscribe();
+    };
   }, [fetchCategories, guildId, refreshTrigger]);
 
   // Kategorie erstellen
@@ -158,7 +210,8 @@ export const useSupabaseCategories = (guildId: string) => {
         const currentSettings = currentData?.settings || {};
         const updatedSettings = {
           ...currentSettings,
-          ...(settings || {}),
+          // Überprüfe, ob settings ein Objekt ist, bevor wir es spreaden
+          ...(settings && typeof settings === 'object' ? settings : {}),
           ...(is_visible !== undefined ? { is_visible } : {}),
           ...(is_tracking_active !== undefined ? { is_tracking_active } : {}),
           ...(is_send_setup !== undefined ? { is_send_setup } : {})

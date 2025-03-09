@@ -11,7 +11,7 @@
 
 import { useEffect } from 'react';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
-import { realtimeManager } from 'pyro-types';
+import { supabase } from 'pyro-types';
 import { useEventManager } from './eventStore';
 import { useNotificationService, NotificationType, NotificationDuration } from '../NotificationManager/notificationService';
 import { CategoryEventType, ZoneEventType, EntityType, OperationType, operationIDs } from './typeDefinitions';
@@ -132,7 +132,7 @@ export function useEventSubscriber() {
   const { guildId } = useGuildContext();
   
   useEffect(() => {
-    console.log('[EventSubscriber] Initialisiere Supabase Realtime-Subscriptions');
+    console.log(`[EventSubscriber] Initialisiere Supabase Realtime-Subscription für Guild: ${guildId}`);
     
     // Keine Event-Abonnements ohne Guild ID
     if (!guildId) {
@@ -140,81 +140,197 @@ export function useEventSubscriber() {
       return;
     }
     
-    // Abonniere Events (statt discord_sync)
-    // Diese Methode ist bereits im realtimeManager implementiert
-    const unsubscribeEvents = realtimeManager.subscribeToEvents((payload: RealtimePostgresChangesPayload<any>) => {
-      if (!payload.new) return;
-      
-      const eventData = payload.new;
-      console.log(`[EventSubscriber] Event empfangen:`, eventData);
-      
-      // Prüfen, ob es sich um ein Discord-Sync-Event handelt
-      if (eventData.event_type !== 'discord_sync') {
-        return;
-      }
-      
-      const { entity_id, entity_type, sync_status, data } = eventData;
-      
-      // Finde die passende Operation
-      const operation = getOperationByEntityId(entity_id, entity_type as EntityType);
-      if (!operation) {
-        console.warn(`[EventSubscriber] Keine passende Operation für Entity ${entity_id} gefunden`);
-        return;
-      }
-      
-      // Bestimme den Event-Typ basierend auf entity_type und sync_status
-      let eventType;
-      let entityName = data?.name || 'Unbekannt';
-      
-      if (entity_type === EntityType.CATEGORY) {
-        if (sync_status === 'synced') {
-          eventType = CategoryEventType.CONFIRMATION;
-        } else if (sync_status === 'error') {
-          eventType = CategoryEventType.ERROR;
+    console.log(`[EventSubscriber] Testen mehrerer Realtime-Kanäle...`);
+    
+    // Abonniere alle Änderungen an der discord_sync-Tabelle ohne Filter
+    const channelAll = supabase
+      .channel('discord-sync-all')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'discord_sync',
+        },
+        (payload: RealtimePostgresChangesPayload<any>) => {
+          console.log(`[EventSubscriber] ALLE Realtime-Events:`, payload);
         }
-      } else if (entity_type === EntityType.ZONE) {
-        if (sync_status === 'synced') {
-          eventType = ZoneEventType.CONFIRMATION;
-        } else if (sync_status === 'error') {
-          eventType = ZoneEventType.ERROR;
-        }
-      }
-      
-      // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
-      if (eventType) {
-        completeOperation({
-          id: operation.entityId,
-          success: sync_status === 'synced',
-          data: eventData,
-          eventType
-        });
-        
-        // Zeige passende Benachrichtigung
-        const config = eventNotificationConfigs[entity_type]?.[eventType];
-        if (config) {
-          const message = typeof config.message === 'function' 
-            ? config.message(entityName, data?.error_message || data?.message) 
-            : config.message;
+      )
+      .subscribe((status) => {
+        console.log(`[EventSubscriber] Kanal 'discord-sync-all' Status: ${status}`);
+      });
+
+    // Abonniere die categories-Tabelle (wo die Kategorie zuerst erstellt wird)
+    const channelCategories = supabase
+      .channel('categories-all')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'categories',
+        },
+        (payload: RealtimePostgresChangesPayload<any>) => {
+          console.log(`[EventSubscriber] Categories Realtime-Event:`, payload);
           
-          // Korrekte Parameter für showNotification
-          showNotification(
-            entity_id,
-            eventType,
-            message,
-            config.variant,
-            { 
-              duration: config.duration,
-              preventDuplicate: true
+          // Wenn eine neue Kategorie erstellt wird, zeige eine Benachrichtigung
+          if (payload.eventType === 'INSERT') {
+            const category = payload.new;
+            if (category) {
+              console.log(`[EventSubscriber] Neue Kategorie erstellt:`, category);
+              
+              // Zeige Benachrichtigung
+              showNotification(
+                category.id,
+                CategoryEventType.CONFIRMATION,
+                `Kategorie "${category.name}" wurde erstellt!`,
+                NotificationType.SUCCESS,
+                { 
+                  duration: NotificationDuration.LONG,
+                  preventDuplicate: true
+                }
+              );
             }
-          );
+          }
         }
-      }
-    });
+      )
+      .subscribe((status) => {
+        console.log(`[EventSubscriber] Kanal 'categories-all' Status: ${status}`);
+      });
+      
+    // Abonniere auch Änderungen für die Guild
+    const channel = supabase
+      .channel(`discord-sync-events-${guildId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'discord_sync',
+          filter: `guild_id=eq.${guildId}`
+        },
+        (payload: RealtimePostgresChangesPayload<any>) => {
+          console.log(`[EventSubscriber] Guild-spezifisches Realtime-Event empfangen:`, payload);
+      
+          if (!payload.new) return;
+      
+          const eventData = payload.new;
+          console.log(`[EventSubscriber] Discord-Sync Event empfangen:`, eventData);
+          
+          // Bei Realtime-Events aus der discord_sync Tabelle arbeiten wir direkt mit den Feldern
+          const { id: entity_id, entity_type, sync_status, data } = eventData;
+          console.log(`[EventSubscriber] Verarbeite Discord-Sync: id=${entity_id}, entity_type=${entity_type}, sync_status=${sync_status}`);
+          
+          // Finde die passende Operation
+          const operation = getOperationByEntityId(entity_id, entity_type as EntityType);
+          if (!operation) {
+            console.warn(`[EventSubscriber] Keine passende Operation für Entity ${entity_id} gefunden. Zeige Benachrichtigung trotzdem an.`);
+            
+            // Auch ohne zugehörige Operation eine Benachrichtigung anzeigen
+            let eventType;
+            let entityName = data?.name || 'Unbekannt';
+            
+            // Bestimme den Event-Typ basierend auf entity_type und sync_status
+            if (entity_type === EntityType.CATEGORY) {
+              if (sync_status === 'synced') {
+                eventType = CategoryEventType.CONFIRMATION;
+              } else if (sync_status === 'error') {
+                eventType = CategoryEventType.ERROR;
+              }
+            } else if (entity_type === EntityType.ZONE) {
+              if (sync_status === 'synced') {
+                eventType = ZoneEventType.CONFIRMATION;
+              } else if (sync_status === 'error') {
+                eventType = ZoneEventType.ERROR;
+              }
+            }
+            
+            // Wenn ein gültiger Event-Typ gefunden wurde, Benachrichtigung anzeigen
+            if (eventType) {
+              const config = eventNotificationConfigs[entity_type]?.[eventType];
+              if (config) {
+                const message = typeof config.message === 'function' 
+                  ? config.message(entityName, data?.error_message || data?.message) 
+                  : config.message;
+                
+                console.log(`[EventSubscriber] Zeige Benachrichtigung ohne Operation: ${message}`);
+                
+                // Korrekte Parameter für showNotification
+                showNotification(
+                  entity_id,
+                  eventType,
+                  message,
+                  config.variant,
+                  { 
+                    duration: config.duration,
+                    preventDuplicate: true
+                  }
+                );
+              }
+            }
+            
+            return;
+          }
+          
+          // Bestimme den Event-Typ basierend auf entity_type und sync_status
+          let eventType;
+          let entityName = data?.name || 'Unbekannt';
+          
+          if (entity_type === EntityType.CATEGORY) {
+            if (sync_status === 'synced') {
+              eventType = CategoryEventType.CONFIRMATION;
+            } else if (sync_status === 'error') {
+              eventType = CategoryEventType.ERROR;
+            }
+          } else if (entity_type === EntityType.ZONE) {
+            if (sync_status === 'synced') {
+              eventType = ZoneEventType.CONFIRMATION;
+            } else if (sync_status === 'error') {
+              eventType = ZoneEventType.ERROR;
+            }
+          }
+          
+          // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
+          if (eventType) {
+            completeOperation({
+              id: operation.entityId,
+              success: sync_status === 'synced',
+              data: eventData,
+              eventType
+            });
+            
+            // Zeige passende Benachrichtigung
+            const config = eventNotificationConfigs[entity_type]?.[eventType];
+            if (config) {
+              const message = typeof config.message === 'function' 
+                ? config.message(entityName, data?.error_message || data?.message) 
+                : config.message;
+              
+              // Korrekte Parameter für showNotification
+              showNotification(
+                entity_id,
+                eventType,
+                message,
+                config.variant,
+                { 
+                  duration: config.duration,
+                  preventDuplicate: true
+                }
+              );
+            }
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log(`[EventSubscriber] Kanal 'discord-sync-events-${guildId}' Status: ${status}`);
+      });
     
     // Cleanup beim Unmounten
     return () => {
       console.log('[EventSubscriber] Cleanup Supabase Realtime-Subscriptions');
-      if (unsubscribeEvents) unsubscribeEvents();
+      channelAll.unsubscribe();
+      channelCategories.unsubscribe();
+      channel.unsubscribe();
     };
   }, [guildId, completeOperation, getOperationByEntityId, showNotification]);
 }
