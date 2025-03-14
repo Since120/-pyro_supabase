@@ -89,3 +89,536 @@
 2025-03-14T07:08:14.423Z [info]: Erstelle neue Discord-Kategorie "━━ 📣 Announcements 📣 ━━" für Guild 1226186397195702363...
 2025-03-14T07:08:14.707Z [info]: Discord-Kategorie erstellt: ━━ 📣 Announcements 📣 ━━ (1350002576711614479)
 2025-03-14T07:08:14.802Z [info]: Kategorie "━━ 📣 Announcements 📣 ━━" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T07:09:51.068Z [info]: Erstelle neue Discord-Kategorie "╭─•─•─📰 News 📰•─•─•─╮" für Guild 1226186397195702363...
+2025-03-14T07:09:51.310Z [info]: Discord-Kategorie erstellt: ╭─•─•─📰 News 📰•─•─•─╮ (1350002982262931486)
+2025-03-14T07:09:51.389Z [info]: Kategorie "╭─•─•─📰 News 📰•─•─•─╮" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:05:44.725Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T08:05:44.725Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T08:05:44.726Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T08:05:44.726Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T08:05:44.726Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T08:05:44.726Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T08:05:44.963Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T08:05:44.963Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T08:05:44.964Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T08:05:44.964Z [info]: Speichere Rollen in Supabase...
+2025-03-14T08:05:45.686Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T08:05:45.686Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T08:05:45.711Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T08:05:45.711Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T08:05:45.712Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T08:53:40.011Z [info]: Erstelle neue Discord-Kategorie "test" für Guild 1226186397195702363...
+2025-03-14T08:53:40.361Z [info]: Discord-Kategorie erstellt: test (1350029108503117904)
+2025-03-14T08:53:40.430Z [info]: Kategorie "test" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:56:35.238Z [info]: Erstelle neue Discord-Kategorie "╭─•─•─📰 News 📰•─•─•─╮" für Guild 1226186397195702363...
+2025-03-14T08:56:35.551Z [info]: Discord-Kategorie erstellt: ╭─•─•─📰 News 📰•─•─•─╮ (1350029843382796340)
+2025-03-14T08:56:35.632Z [info]: Kategorie "╭─•─•─📰 News 📰•─•─•─╮" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:57:21.798Z [info]: Erstelle neue Discord-Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" für Guild 1226186397195702363...
+2025-03-14T08:57:22.029Z [info]: Discord-Kategorie erstellt: ❖❖❖ 🔄 Updates 🔄 ❖❖❖ (1350030038539440148)
+2025-03-14T08:57:22.128Z [info]: Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:58:54.857Z [info]: Erstelle neue Discord-Kategorie "┏━━ ⚠️ Alerts ⚠️ ━━┓" für Guild 1226186397195702363...
+2025-03-14T08:58:55.099Z [info]: Discord-Kategorie erstellt: ┏━━ ⚠ Alerts ⚠ ━━┓ (1350030428899377194)
+2025-03-14T08:58:55.182Z [info]: Kategorie "┏━━ ⚠️ Alerts ⚠️ ━━┓" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:59:10.014Z [info]: Erstelle neue Discord-Kategorie "━━ 📣 Announcements 📣 ━━" für Guild 1226186397195702363...
+2025-03-14T08:59:10.388Z [info]: Discord-Kategorie erstellt: ━━ 📣 Announcements 📣 ━━ (1350030492736553013)
+2025-03-14T08:59:10.460Z [info]: Kategorie "━━ 📣 Announcements 📣 ━━" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T08:59:40.212Z [info]: SIGINT erhalten, räume auf...
+2025-03-14T09:00:06.743Z [info]: Bot ist online
+2025-03-14T09:00:06.807Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T09:00:06.808Z [info]: Roles Listener initialisiert
+2025-03-14T09:00:06.811Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T09:00:06.812Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T09:00:06.812Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T09:00:06.813Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T09:00:06.813Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T09:00:06.816Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T09:00:11.809Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T09:00:11.809Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T09:00:11.810Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T09:00:11.810Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T09:00:11.810Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T09:00:11.811Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T09:00:11.811Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T09:00:12.130Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T09:00:12.130Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T09:00:12.131Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T09:00:12.132Z [info]: Speichere Rollen in Supabase...
+2025-03-14T09:00:12.858Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T09:00:12.858Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T09:00:12.896Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T09:00:12.896Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T09:00:12.896Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T09:00:54.143Z [info]: Erstelle neue Discord-Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" für Guild 1226186397195702363...
+2025-03-14T09:00:54.477Z [info]: Discord-Kategorie erstellt: ❖❖❖ 🔄 Updates 🔄 ❖❖❖ (1350030929497952266)
+2025-03-14T09:00:54.571Z [info]: Kategorie "❖❖❖ 🔄 Updates 🔄 ❖❖❖" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T09:13:49.793Z [info]: Erstelle neue Discord-Kategorie "╭─•─•─📰 News 📰•─•─•─╮" für Guild 1226186397195702363...
+2025-03-14T09:13:50.237Z [info]: Discord-Kategorie erstellt: ╭─•─•─📰 News 📰•─•─•─╮ (1350034182767644732)
+2025-03-14T09:13:50.315Z [info]: Kategorie "╭─•─•─📰 News 📰•─•─•─╮" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T09:14:08.501Z [info]: Erstelle neue Discord-Kategorie "────────────── Voice 📢" für Guild 1226186397195702363...
+2025-03-14T09:14:08.820Z [info]: Discord-Kategorie erstellt: ────────────── Voice 📢 (1350034261104656396)
+2025-03-14T09:14:08.891Z [info]: Kategorie "────────────── Voice 📢" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T09:14:21.325Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-14T09:14:21.580Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1350034314804461610)
+2025-03-14T09:14:21.675Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T14:43:05.551Z [info]: Bot ist online
+2025-03-14T14:43:06.076Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T14:43:06.076Z [info]: Roles Listener initialisiert
+2025-03-14T14:43:06.079Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T14:43:06.080Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T14:43:06.080Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T14:43:06.081Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T14:43:06.081Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T14:43:06.085Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T14:43:11.080Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T14:43:11.081Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T14:43:11.081Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T14:43:11.082Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T14:43:11.082Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T14:43:11.083Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T14:43:11.083Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T14:43:11.365Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T14:43:11.366Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T14:43:11.367Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T14:43:11.367Z [info]: Speichere Rollen in Supabase...
+2025-03-14T14:43:12.272Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T14:43:12.272Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T14:43:12.320Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T14:43:12.320Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T14:43:12.320Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T14:48:57.215Z [info]: Bot ist online
+2025-03-14T14:48:57.456Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T14:48:57.456Z [info]: Roles Listener initialisiert
+2025-03-14T14:48:57.459Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T14:48:57.460Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T14:48:57.461Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T14:48:57.461Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T14:48:57.462Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T14:48:57.465Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T14:49:02.471Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T14:49:02.471Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T14:49:02.472Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T14:49:02.472Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T14:49:02.472Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T14:49:02.473Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T14:49:02.473Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T14:49:02.727Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T14:49:02.728Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T14:49:02.729Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T14:49:02.729Z [info]: Speichere Rollen in Supabase...
+2025-03-14T14:49:03.672Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T14:49:03.673Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T14:49:03.704Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T14:49:03.704Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T14:49:03.704Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T14:51:39.554Z [info]: Erstelle neue Discord-Kategorie "☆彡 🗣️ Chatroom 🗣️ 彡☆" für Guild 1226186397195702363...
+2025-03-14T14:51:39.825Z [info]: Discord-Kategorie erstellt: ☆彡 🗣 Chatroom 🗣 彡☆ (1350119202861875291)
+2025-03-14T14:51:39.915Z [info]: Kategorie "☆彡 🗣️ Chatroom 🗣️ 彡☆" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T14:52:48.801Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-14T14:52:49.040Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1350119493317165127)
+2025-03-14T14:52:49.130Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T14:53:30.938Z [info]: Bot ist online
+2025-03-14T14:53:31.004Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T14:53:31.004Z [info]: Roles Listener initialisiert
+2025-03-14T14:53:31.007Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T14:53:31.008Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T14:53:31.009Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T14:53:31.009Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T14:53:31.010Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T14:53:31.014Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T14:53:36.015Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T14:53:36.016Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T14:53:36.016Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T14:53:36.017Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T14:53:36.017Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T14:53:36.018Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T14:53:36.018Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T14:53:36.215Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T14:53:36.215Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T14:53:36.216Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T14:53:36.217Z [info]: Speichere Rollen in Supabase...
+2025-03-14T14:53:36.904Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T14:53:36.905Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T14:53:36.926Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T14:53:36.927Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T14:53:36.927Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T14:53:47.014Z [info]: Bot ist online
+2025-03-14T14:53:47.069Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T14:53:47.069Z [info]: Roles Listener initialisiert
+2025-03-14T14:53:47.072Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T14:53:47.073Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T14:53:47.074Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T14:53:47.074Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T14:53:47.075Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T14:53:47.078Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T14:53:52.083Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T14:53:52.084Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T14:53:52.084Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T14:53:52.084Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T14:53:52.085Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T14:53:52.085Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T14:53:52.086Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T14:53:52.298Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T14:53:52.298Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T14:53:52.299Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T14:53:52.300Z [info]: Speichere Rollen in Supabase...
+2025-03-14T14:53:53.126Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T14:53:53.126Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T14:53:53.150Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T14:53:53.150Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T14:53:53.150Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T14:54:45.377Z [info]: DELETE-Event für Kategorie empfangen: ID=f0b5d8ad-9f07-4c21-b8da-59b29e883c08, Name=undefined, Discord-ID=undefined
+2025-03-14T14:54:45.378Z [warn]: Kategorie f0b5d8ad-9f07-4c21-b8da-59b29e883c08 hatte keine Discord-Kategorie-ID, nichts zu löschen
+2025-03-14T14:59:52.736Z [info]: Bot ist online
+2025-03-14T14:59:52.825Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T14:59:52.826Z [info]: Roles Listener initialisiert
+2025-03-14T14:59:52.829Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T14:59:52.830Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T14:59:52.830Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T14:59:52.831Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T14:59:52.831Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T14:59:52.834Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T14:59:57.835Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T14:59:57.836Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T14:59:57.836Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T14:59:57.836Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T14:59:57.837Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T14:59:57.837Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T14:59:57.838Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T14:59:58.142Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T14:59:58.143Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T14:59:58.144Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T14:59:58.144Z [info]: Speichere Rollen in Supabase...
+2025-03-14T14:59:59.259Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T14:59:59.260Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T14:59:59.298Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T14:59:59.299Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T14:59:59.299Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T15:00:21.966Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-14T15:00:22.226Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1350121394108628994)
+2025-03-14T15:00:22.334Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T15:00:32.602Z [info]: Bot ist online
+2025-03-14T15:00:32.657Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:00:35.102Z [info]: DELETE-Event für Kategorie empfangen: ID=1de77fea-e9df-4439-801f-ff5a939bb0db, Name=undefined, Discord-ID=undefined
+2025-03-14T15:00:35.102Z [warn]: Kategorie 1de77fea-e9df-4439-801f-ff5a939bb0db hatte keine Discord-Kategorie-ID, nichts zu löschen
+2025-03-14T15:02:12.203Z [info]: Bot ist online
+2025-03-14T15:02:12.277Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:02:12.278Z [info]: Roles Listener initialisiert
+2025-03-14T15:02:12.281Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T15:02:12.282Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T15:02:12.282Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T15:02:12.283Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T15:02:12.283Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T15:02:12.286Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T15:02:12.755Z [info]: Bot ist online
+2025-03-14T15:02:12.811Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:02:17.285Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T15:02:17.286Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T15:02:17.286Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T15:02:17.286Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T15:02:17.287Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T15:02:17.287Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T15:02:17.287Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T15:02:17.535Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T15:02:17.535Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T15:02:17.537Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T15:02:17.537Z [info]: Speichere Rollen in Supabase...
+2025-03-14T15:02:18.216Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T15:02:18.216Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T15:02:18.243Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T15:02:18.243Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T15:02:18.244Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T15:02:41.621Z [info]: Bot ist online
+2025-03-14T15:02:41.709Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:02:41.710Z [info]: Roles Listener initialisiert
+2025-03-14T15:02:41.713Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T15:02:41.714Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T15:02:41.714Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T15:02:41.715Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T15:02:41.715Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T15:02:41.718Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T15:02:41.740Z [info]: Bot ist online
+2025-03-14T15:02:41.797Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:02:46.724Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T15:02:46.724Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T15:02:46.725Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T15:02:46.725Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T15:02:46.725Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T15:02:46.726Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T15:02:46.726Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T15:02:46.953Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T15:02:46.953Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T15:02:46.954Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T15:02:46.955Z [info]: Speichere Rollen in Supabase...
+2025-03-14T15:02:48.041Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T15:02:48.042Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T15:02:48.066Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T15:02:48.066Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T15:02:48.067Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T15:03:32.653Z [info]: Bot ist online
+2025-03-14T15:03:32.760Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:03:59.951Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-14T15:04:00.245Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1350122308454449294)
+2025-03-14T15:04:00.332Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T15:04:07.198Z [info]: DELETE-Event für Kategorie empfangen: ID=416a4fde-e072-41b3-8783-c3d3dc8a2f62, Name=undefined, Discord-ID=undefined
+2025-03-14T15:04:07.199Z [warn]: Kategorie 416a4fde-e072-41b3-8783-c3d3dc8a2f62 hatte keine Discord-Kategorie-ID, nichts zu löschen
+2025-03-14T15:04:22.792Z [info]: Erstelle neue Discord-Kategorie "────────────── Voice 📢" für Guild 1226186397195702363...
+2025-03-14T15:04:23.191Z [info]: Discord-Kategorie erstellt: ────────────── Voice 📢 (1350122403967008910)
+2025-03-14T15:04:23.280Z [info]: Kategorie "────────────── Voice 📢" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T15:12:09.430Z [info]: Bot ist online
+2025-03-14T15:12:09.495Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:12:09.496Z [info]: Roles Listener initialisiert
+2025-03-14T15:12:09.501Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T15:12:09.501Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T15:12:09.502Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T15:12:09.502Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T15:12:09.503Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T15:12:09.506Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T15:12:14.498Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T15:12:14.499Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T15:12:14.499Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T15:12:14.500Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T15:12:14.500Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T15:12:14.501Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T15:12:14.501Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T15:12:14.719Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T15:12:14.720Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T15:12:14.721Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T15:12:14.721Z [info]: Speichere Rollen in Supabase...
+2025-03-14T15:12:15.421Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T15:12:15.421Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T15:12:15.445Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T15:12:15.446Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T15:12:15.446Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T15:13:25.896Z [info]: Bot ist online
+2025-03-14T15:13:25.950Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:13:25.951Z [info]: Roles Listener initialisiert
+2025-03-14T15:13:25.954Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T15:13:25.955Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T15:13:25.956Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T15:13:25.956Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T15:13:25.957Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T15:13:25.960Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T15:13:30.957Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T15:13:30.958Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T15:13:30.958Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T15:13:30.959Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T15:13:30.959Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T15:13:30.960Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T15:13:30.960Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T15:13:31.164Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T15:13:31.165Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T15:13:31.166Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T15:13:31.166Z [info]: Speichere Rollen in Supabase...
+2025-03-14T15:13:32.146Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T15:13:32.147Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T15:13:32.178Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T15:13:32.179Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T15:13:32.179Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T15:14:27.692Z [info]: Bot ist online
+2025-03-14T15:14:27.780Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T15:21:36.183Z [info]: DELETE-Event für Kategorie empfangen: ID=45f5c6db-7b91-43cb-a54b-cdde7676714c, Name=undefined, Discord-ID=undefined
+2025-03-14T15:21:36.183Z [warn]: Kategorie 45f5c6db-7b91-43cb-a54b-cdde7676714c hatte keine Discord-Kategorie-ID, nichts zu löschen
+2025-03-14T15:22:03.797Z [info]: Erstelle neue Discord-Kategorie "━━ 📣 Announcements 📣 ━━" für Guild 1226186397195702363...
+2025-03-14T15:22:04.110Z [info]: Discord-Kategorie erstellt: ━━ 📣 Announcements 📣 ━━ (1350126854320816168)
+2025-03-14T15:22:04.229Z [info]: Kategorie "━━ 📣 Announcements 📣 ━━" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T16:13:28.230Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T16:13:28.231Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T16:13:28.231Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T16:13:28.232Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T16:13:28.232Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T16:13:28.232Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T16:13:28.487Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T16:13:28.488Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T16:13:28.488Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T16:13:28.488Z [info]: Speichere Rollen in Supabase...
+2025-03-14T16:13:29.329Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T16:13:29.330Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T16:13:29.350Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T16:13:29.350Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T16:13:29.350Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T17:13:28.243Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T17:13:28.244Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T17:13:28.244Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T17:13:28.244Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T17:13:28.245Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T17:13:28.245Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T17:13:28.461Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T17:13:28.462Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T17:13:28.462Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T17:13:28.463Z [info]: Speichere Rollen in Supabase...
+2025-03-14T17:13:29.432Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T17:13:29.432Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T17:13:29.460Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T17:13:29.460Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T17:13:29.461Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:13:28.249Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:13:28.250Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:13:28.250Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:13:28.250Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:13:28.250Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:13:28.251Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:13:28.468Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:13:28.469Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:13:28.470Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:13:28.470Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:13:29.288Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:13:29.288Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:13:29.317Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:13:29.317Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:13:29.318Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:30:44.427Z [info]: Bot ist online
+2025-03-14T18:30:44.535Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:30:44.536Z [info]: Roles Listener initialisiert
+2025-03-14T18:30:44.539Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:30:44.540Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:30:44.540Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:30:44.541Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:30:44.542Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:30:44.546Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:30:49.539Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:30:49.540Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:30:49.540Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:30:49.540Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:30:49.541Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:30:49.541Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:30:49.542Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:30:49.769Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:30:49.770Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:30:49.771Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:30:49.771Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:30:50.673Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:30:50.674Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:30:50.698Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:30:50.698Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:30:50.698Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:34:39.828Z [info]: Bot ist online
+2025-03-14T18:34:40.054Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:35:40.392Z [info]: Bot ist online
+2025-03-14T18:35:40.460Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:35:40.460Z [info]: Roles Listener initialisiert
+2025-03-14T18:35:40.464Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:35:40.464Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:35:40.465Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:35:40.466Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:35:40.466Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:35:40.471Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:35:40.545Z [info]: Bot ist online
+2025-03-14T18:35:40.627Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:35:45.466Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:35:45.467Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:35:45.467Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:35:45.467Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:35:45.468Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:35:45.468Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:35:45.469Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:35:45.701Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:35:45.702Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:35:45.703Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:35:45.704Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:35:46.454Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:35:46.455Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:35:46.477Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:35:46.477Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:35:46.477Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:36:51.119Z [info]: Bot ist online
+2025-03-14T18:36:51.173Z [info]: Bot ist online
+2025-03-14T18:36:51.340Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:36:51.341Z [info]: Roles Listener initialisiert
+2025-03-14T18:36:51.345Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:36:51.345Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:36:51.346Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:36:51.346Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:36:51.346Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:36:51.350Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:36:51.440Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:36:56.346Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:36:56.347Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:36:56.347Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:36:56.347Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:36:56.348Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:36:56.349Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:36:56.349Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:36:56.554Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:36:56.555Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:36:56.556Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:36:56.556Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:36:57.249Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:36:57.250Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:36:57.270Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:36:57.271Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:36:57.271Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:37:17.552Z [info]: Bot ist online
+2025-03-14T18:37:17.607Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:37:17.608Z [info]: Roles Listener initialisiert
+2025-03-14T18:37:17.611Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:37:17.611Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:37:17.612Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:37:17.613Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:37:17.613Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:37:17.616Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:37:22.618Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:37:22.618Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:37:22.619Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:37:22.619Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:37:22.619Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:37:22.620Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:37:22.620Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:37:22.826Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:37:22.827Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:37:22.828Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:37:22.828Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:37:23.675Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:37:23.675Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:37:23.700Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:37:23.701Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:37:23.701Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:38:54.998Z [info]: Bot ist online
+2025-03-14T18:38:55.208Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:38:55.209Z [info]: Roles Listener initialisiert
+2025-03-14T18:38:55.213Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:38:55.214Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:38:55.215Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:38:55.215Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:38:55.215Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:38:55.219Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:39:00.222Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:39:00.223Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:39:00.223Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:39:00.223Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:39:00.224Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:39:00.224Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:39:00.225Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:39:00.447Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:39:00.447Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:39:00.448Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:39:00.449Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:39:01.321Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:39:01.321Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:39:01.345Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:39:01.345Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:39:01.345Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
+2025-03-14T18:39:35.048Z [info]: Bot ist online
+2025-03-14T18:39:35.120Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T18:39:35.121Z [info]: Roles Listener initialisiert
+2025-03-14T18:39:35.124Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T18:39:35.125Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T18:39:35.125Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T18:39:35.126Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T18:39:35.126Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T18:39:35.129Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T18:39:40.120Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T18:39:40.121Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T18:39:40.121Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T18:39:40.122Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T18:39:40.122Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T18:39:40.123Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T18:39:40.123Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T18:39:40.334Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T18:39:40.334Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T18:39:40.335Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T18:39:40.336Z [info]: Speichere Rollen in Supabase...
+2025-03-14T18:39:41.020Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T18:39:41.020Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T18:39:41.041Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T18:39:41.042Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T18:39:41.042Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert

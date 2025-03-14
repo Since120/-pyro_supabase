@@ -182,11 +182,49 @@ export function useEventSubscriber() {
               // Zeige Benachrichtigung
               showNotification(
                 category.id,
-                CategoryEventType.CONFIRMATION,
+                CategoryEventType.CREATED,
                 `Kategorie "${category.name}" wurde erstellt!`,
                 NotificationType.SUCCESS,
                 { 
                   duration: NotificationDuration.LONG,
+                  preventDuplicate: true
+                }
+              );
+            }
+          }
+          // Wenn eine Kategorie aktualisiert wird, zeige eine Benachrichtigung
+          else if (payload.eventType === 'UPDATE') {
+            const category = payload.new;
+            if (category) {
+              console.log(`[EventSubscriber] Kategorie aktualisiert:`, category);
+              
+              // Zeige Benachrichtigung
+              showNotification(
+                category.id,
+                CategoryEventType.UPDATED,
+                `Kategorie "${category.name}" wurde aktualisiert!`,
+                NotificationType.INFO,
+                { 
+                  duration: NotificationDuration.NORMAL,
+                  preventDuplicate: true
+                }
+              );
+            }
+          }
+          // Wenn eine Kategorie gelöscht wird, zeige eine Benachrichtigung
+          else if (payload.eventType === 'DELETE') {
+            const category = payload.old;
+            if (category) {
+              console.log(`[EventSubscriber] Kategorie gelöscht:`, category);
+              
+              // Zeige Benachrichtigung
+              showNotification(
+                category.id,
+                CategoryEventType.DELETED,
+                `Kategorie "${category.name}" wurde gelöscht!`,
+                NotificationType.INFO,
+                { 
+                  duration: NotificationDuration.NORMAL,
                   preventDuplicate: true
                 }
               );
@@ -234,8 +272,49 @@ export function useEventSubscriber() {
             if (entity_type === EntityType.CATEGORY) {
               if (sync_status === 'synced') {
                 eventType = CategoryEventType.CONFIRMATION;
+                // Nur bei erfolgreicher Discord-Synchronisation eine Benachrichtigung anzeigen
+                const config = eventNotificationConfigs[entity_type]?.[eventType];
+                if (config) {
+                  const message = typeof config.message === 'function' 
+                    ? config.message(entityName, data?.error_message || data?.message) 
+                    : config.message;
+                  
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-Bestätigung an: ${message}`);
+                  
+                  // Benachrichtigung mit confirmation-Suffix im Key anzeigen
+                  showNotification(
+                    `${entity_id}-confirmation`,
+                    eventType,
+                    message,
+                    config.variant,
+                    { 
+                      duration: config.duration,
+                      preventDuplicate: true
+                    }
+                  );
+                }
               } else if (sync_status === 'error') {
                 eventType = CategoryEventType.ERROR;
+                // Bei Fehlern immer eine Benachrichtigung anzeigen
+                const config = eventNotificationConfigs[entity_type]?.[eventType];
+                if (config) {
+                  const message = typeof config.message === 'function' 
+                    ? config.message(entityName, data?.error_message || data?.message) 
+                    : config.message;
+                  
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an: ${message}`);
+                  
+                  showNotification(
+                    `${entity_id}-error`,
+                    eventType,
+                    message,
+                    config.variant,
+                    { 
+                      duration: config.duration,
+                      preventDuplicate: true
+                    }
+                  );
+                }
               }
             } else if (entity_type === EntityType.ZONE) {
               if (sync_status === 'synced') {
@@ -245,15 +324,24 @@ export function useEventSubscriber() {
               }
             }
             
-            // Wenn ein gültiger Event-Typ gefunden wurde, Benachrichtigung anzeigen
+            // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
             if (eventType) {
+              // Falls eine Operation existiert, diese abschließen
+              if (operation) {
+                completeOperation({
+                  id: entity_id, // Direkt entity_id verwenden statt auf operation zuzugreifen
+                  success: sync_status === 'synced',
+                  data: eventData,
+                  eventType
+                });
+              }
+              
+              // Zeige passende Benachrichtigung
               const config = eventNotificationConfigs[entity_type]?.[eventType];
               if (config) {
                 const message = typeof config.message === 'function' 
                   ? config.message(entityName, data?.error_message || data?.message) 
                   : config.message;
-                
-                console.log(`[EventSubscriber] Zeige Benachrichtigung ohne Operation: ${message}`);
                 
                 // Korrekte Parameter für showNotification
                 showNotification(
@@ -279,8 +367,49 @@ export function useEventSubscriber() {
           if (entity_type === EntityType.CATEGORY) {
             if (sync_status === 'synced') {
               eventType = CategoryEventType.CONFIRMATION;
+              // Nur bei erfolgreicher Discord-Synchronisation eine Benachrichtigung anzeigen
+              const config = eventNotificationConfigs[entity_type]?.[eventType];
+              if (config) {
+                const message = typeof config.message === 'function' 
+                  ? config.message(entityName, data?.error_message || data?.message) 
+                  : config.message;
+                
+                console.log(`[EventSubscriber] Zeige Discord-Sync-Bestätigung an: ${message}`);
+                
+                // Benachrichtigung mit confirmation-Suffix im Key anzeigen
+                showNotification(
+                  `${entity_id}-confirmation`,
+                  eventType,
+                  message,
+                  config.variant,
+                  { 
+                    duration: config.duration,
+                    preventDuplicate: true
+                  }
+                );
+              }
             } else if (sync_status === 'error') {
               eventType = CategoryEventType.ERROR;
+              // Bei Fehlern immer eine Benachrichtigung anzeigen
+              const config = eventNotificationConfigs[entity_type]?.[eventType];
+              if (config) {
+                const message = typeof config.message === 'function' 
+                  ? config.message(entityName, data?.error_message || data?.message) 
+                  : config.message;
+                
+                console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an: ${message}`);
+                
+                showNotification(
+                  `${entity_id}-error`,
+                  eventType,
+                  message,
+                  config.variant,
+                  { 
+                    duration: config.duration,
+                    preventDuplicate: true
+                  }
+                );
+              }
             }
           } else if (entity_type === EntityType.ZONE) {
             if (sync_status === 'synced') {
@@ -292,12 +421,15 @@ export function useEventSubscriber() {
           
           // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
           if (eventType) {
-            completeOperation({
-              id: operation.entityId,
-              success: sync_status === 'synced',
-              data: eventData,
-              eventType
-            });
+            // Falls eine Operation existiert, diese abschließen
+            if (operation) {
+              completeOperation({
+                id: entity_id, // Direkt entity_id verwenden statt auf operation zuzugreifen
+                success: sync_status === 'synced',
+                data: eventData,
+                eventType
+              });
+            }
             
             // Zeige passende Benachrichtigung
             const config = eventNotificationConfigs[entity_type]?.[eventType];

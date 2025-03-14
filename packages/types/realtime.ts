@@ -50,6 +50,11 @@ export class RealtimeManager {
       return () => this.unsubscribeFromChannel(channelKey);
     }
     
+    // Konfiguration für alle Events (INSERT, UPDATE, DELETE)
+    const filter = guildId !== '*' ? `guild_id=eq.${guildId}` : undefined;
+    
+    console.log(`[RealtimeManager] Abonniere Kategorie-Events für Guild ${guildId}, Filter: ${filter || 'Alle Guilds'}`);
+    
     const channel = supabase
       .channel(channelKey)
       .on(
@@ -58,11 +63,16 @@ export class RealtimeManager {
           event: '*',
           schema: 'public',
           table: 'categories',
-          filter: `guild_id=eq.${guildId}`
+          filter: filter
         },
-        callback
+        (payload) => {
+          console.log(`[RealtimeManager] Kategorie-Event empfangen: ${payload.eventType}`, payload);
+          callback(payload);
+        }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log(`[RealtimeManager] Kanal '${channelKey}' Status: ${status}`);
+      });
       
     this.channels.set(channelKey, channel);
     

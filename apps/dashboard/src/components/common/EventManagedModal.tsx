@@ -185,18 +185,38 @@ export function EventManagedModal({
       isEventTriggered: false
     };
     
-    // Zuerst im Event-Store markieren
-    closeModal(modalId, true); // true = force reset für sicheres Schließen
-    
-    // Dann erst UI-Zustand aktualisieren
+    // KRITISCH: Direkte visuelle Änderung
     setLocalOpen(false);
     
-    // Mit leichter Verzögerung den Close-Handler aufrufen
-    setTimeout(() => {
-      console.log(`[EventManagedModal] Führe onClose für manuelles Schließen aus: ${modalId}`);
-      onClose();
-    }, 50);
+    // Dann den Event-Handler aufrufen - WICHTIG: KEIN Timeout hier
+    onClose();
+    
+    // Erst nach dem Event-Handler wird der Event-Store aktualisiert
+    closeModal(modalId);
   };
+  
+  // Wenn das Modal durch ein Event geschlossen werden soll
+  useEffect(() => {
+    if (localOpen && shouldCloseModal(modalId) && !disableAutoClose) {
+      console.log(`[EventManagedModal] Modal sollte basierend auf Event geschlossen werden: ${modalId}`);
+      
+      if (closingRef.current.isClosing) {
+        return; // Schon dabei, zu schließen
+      }
+      
+      closingRef.current = {
+        isClosing: true,
+        isEventTriggered: true
+      };
+      
+      // KRITISCH: Direkte visuelle Änderung
+      setLocalOpen(false);
+      
+      // Event-Handler ohne Verzögerung aufrufen
+      console.log(`[EventManagedModal] Rufe onClose-Handler auf für: ${modalId}`);
+      onClose();
+    }
+  }, [localOpen, shouldCloseModal, modalId, onClose, disableAutoClose, closeModal]);
   
   return (
     <Modal

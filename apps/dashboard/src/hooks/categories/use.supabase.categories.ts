@@ -1,6 +1,6 @@
 // apps/dashboard/src/hooks/categories/use.supabase.categories.ts
 import { useState, useCallback } from 'react';
-import { supabase } from 'pyro-types';
+import { supabase, Json } from 'pyro-types';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
@@ -207,15 +207,37 @@ export const useSupabaseCategories = (guildId: string) => {
           .single();
           
         // Aktualisiere die Einstellungen
-        const currentSettings = currentData?.settings || {};
-        const updatedSettings = {
-          ...currentSettings,
-          // Überprüfe, ob settings ein Objekt ist, bevor wir es spreaden
-          ...(settings && typeof settings === 'object' ? settings : {}),
-          ...(is_visible !== undefined ? { is_visible } : {}),
-          ...(is_tracking_active !== undefined ? { is_tracking_active } : {}),
-          ...(is_send_setup !== undefined ? { is_send_setup } : {})
-        };
+        let currentSettings: Record<string, any> = {};
+        
+        // Sicherer Umgang mit den Settings
+        if (currentData?.settings && 
+            typeof currentData.settings === 'object' && 
+            currentData.settings !== null &&
+            !Array.isArray(currentData.settings)) {
+          currentSettings = currentData.settings as Record<string, any>;
+        }
+        
+        // Sicherer Umgang mit den neuen Settings
+        let settingsToApply: Record<string, any> = {};
+        if (settings && 
+            typeof settings === 'object' && 
+            settings !== null &&
+            !Array.isArray(settings)) {
+          settingsToApply = settings as Record<string, any>;
+        }
+        
+        // Konstruiere die aktualisierten Settings manuell
+        const updatedSettings: Record<string, any> = { ...currentSettings };
+        
+        // Füge die neuen Settings hinzu
+        Object.keys(settingsToApply).forEach(key => {
+          updatedSettings[key] = settingsToApply[key];
+        });
+        
+        // Füge die zusätzlichen Einstellungen hinzu
+        if (is_visible !== undefined) updatedSettings.is_visible = is_visible;
+        if (is_tracking_active !== undefined) updatedSettings.is_tracking_active = is_tracking_active;
+        if (is_send_setup !== undefined) updatedSettings.is_send_setup = is_send_setup;
         
         // Füge das aktualisierte settings-Objekt zum Update hinzu
         finalUpdateData.settings = updatedSettings;
@@ -253,45 +275,83 @@ export const useSupabaseCategories = (guildId: string) => {
     }
   }, [guildId, enqueueSnackbar]);
 
-  // Kategorie löschen
+  /**
+   * Kategorie löschen - überarbeitete Version
+   */
   const deleteCategory = useCallback(async (categoryId: string) => {
-    if (!guildId || !categoryId) return false;
+    if (!guildId || !categoryId) return null;
     
     setIsLoading(true);
     setError(null);
     
     try {
-      // Hole zuerst die Kategorie-Informationen für die Bestätigungsnachricht
-      const { data: categoryData } = await supabase
+      // Hole zuerst die vollständigen Kategorie-Informationen
+      const { data: categoryData, error: fetchError } = await supabase
         .from('categories')
-        .select('name')
+        .select('*')
         .eq('id', categoryId)
         .single();
         
-      const { error } = await supabase
+      if (fetchError) throw fetchError;
+      
+      if (!categoryData) {
+        throw new Error(`Kategorie mit ID ${categoryId} nicht gefunden`);
+      }
+      
+      console.log(`Kategorie-Informationen für Löschung:`, {
+        id: categoryId,
+        name: categoryData.name,
+        discord_category_id: categoryData.discord_category_id
+      });
+      
+      // Speichere die Kategorie-Informationen in der discord_sync Tabelle
+      // Dies wird dem Bot helfen, die Kategorie korrekt zu löschen
+      const { error: syncError } = await supabase
+        .from('discord_sync')
+        .insert({
+          id: categoryId,
+          entity_type: 'category',
+          guild_id: guildId,
+          data: {
+            name: categoryData.name,
+            discord_id: categoryData.discord_category_id, // Muss im data-Feld sein
+            category_type: categoryData.category_type,
+            discord_category_id: categoryData.discord_category_id, // Alternative Stelle
+            category_data: categoryData // Vollständige Kategorie-Daten als Fallback
+          },
+          sync_status: 'pending_delete'
+        });
+      
+      if (syncError) {
+        console.error('Fehler beim Speichern der Kategorie-Informationen für die Löschung:', syncError);
+        // Trotzdem weitermachen mit dem Löschen
+      }
+      
+      // Jetzt die Kategorie löschen
+      const { error: deleteError } = await supabase
         .from('categories')
         .delete()
-        .eq('id', categoryId)
-        .eq('guild_id', guildId); // Sicherheitsmaßnahme
+        .eq('id', categoryId);
         
-      if (error) throw error;
-      
-      enqueueSnackbar(
-        `Kategorie "${categoryData?.name || 'Unbekannt'}" wurde gelöscht.`, 
-        { variant: 'success' }
-      );
+      if (deleteError) throw deleteError;
       
       // Aktualisiere die Liste der Kategorien
       setRefreshTrigger(prev => prev + 1);
       
-      return true;
+      // Erfolgsmeldung
+      enqueueSnackbar(
+        `Kategorie "${categoryData.name}" erfolgreich gelöscht`, 
+        { variant: 'success' }
+      );
+      
+      return { success: true, categoryData };
     } catch (err: any) {
       setError(err);
       enqueueSnackbar(
         `Fehler beim Löschen der Kategorie: ${err.message}`, 
         { variant: 'error' }
       );
-      return false;
+      return null;
     } finally {
       setIsLoading(false);
     }

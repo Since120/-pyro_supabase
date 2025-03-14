@@ -130,8 +130,11 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
     try {
       console.log('[EditCategory] Lösche Kategorie mit ID:', initialData.id);
       
+      // Debug-Ausgabe
+      console.log('[EditCategory] Kategorie-Details:', initialData);
+      
       // Führe die Lösch-Operation aus und tracke sie im Event-Manager
-      await deleteCategory(initialData.id, {
+      const result = await deleteCategory(initialData.id, {
         modalId: MODAL_ID,
         onSuccess: () => {
           console.log('[EditCategory] Kategorie erfolgreich gelöscht');
@@ -144,6 +147,8 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
           // Das Modal ist bereits geschlossen, Benachrichtigung kommt später vom EventSubscriber
         }
       });
+      
+      console.log('[EditCategory] Löschergebnis:', result);
       
       // WICHTIG: Modal SOFORT schließen, ohne auf Backend-Antwort zu warten
       console.log('[EditCategory] Schließe Modal sofort nach Absenden der Löschanfrage');

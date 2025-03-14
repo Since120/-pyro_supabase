@@ -14,10 +14,10 @@ import { OperationStatusIndicator } from '../../../common/OperationStatusIndicat
 import PickerTextField from '../../../core/picker.text.field';
 import DiscordRoleSelect from '../../../core/discord.role.select';
 import { useSupabaseCategories } from '../../../../hooks/categories/use.supabase.categories';
-import { useEventManager } from '../../../../services/EventManager';
-import { EntityType, OperationType, CategoryEventType } from '../../../../services/EventManager/typeDefinitions';
 import { useGuildContext } from '../../../../hooks/guild/use.guild.context';
 import { useSnackbar } from 'notistack';
+import { EntityType, OperationType, CategoryEventType } from '../../../../services/EventManager/typeDefinitions';
+import { useEventManager } from '../../../../services/EventManager';
 
 // Eindeutige Modal-ID für den Event-Manager
 const MODAL_ID = 'setup-category-modal';
@@ -92,14 +92,11 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
         }
       };
       
-      // Kategorie in Supabase erstellen und gleichzeitig die Kategorieliste aktualisieren
-      const [newCategory] = await Promise.all([
-        createCategory(categoryData),
-        // Wir laden die Kategorien im Hintergrund, ohne auf das Ergebnis zu warten
-        fetchCategories().catch(err => console.error('Fehler beim Aktualisieren der Kategorien:', err))
-      ]);
+      // Kategorie in Supabase erstellen
+      const newCategory = await createCategory(categoryData);
+      console.log('[SetupCategory] Kategorie erfolgreich erstellt:', newCategory);
       
-      // Erfolgreiche Operation
+      // Operation als erfolgreich markieren (für EventSubscriber)
       completeOperation({
         id: MODAL_ID,
         success: true,
@@ -107,8 +104,11 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
         eventType: CategoryEventType.CREATED
       });
       
-      // Kein manueller onClose()-Aufruf mehr nötig, da die EventManagedModal-Komponente
-      // mit disableAutoClose={false} das Modal automatisch schließt
+      // Kategorien aktualisieren
+      fetchCategories().catch(err => console.error('Fehler beim Aktualisieren der Kategorien:', err));
+      
+      // Modal schließen
+      onClose();
     } catch (error) {
       console.error('Fehler beim Erstellen der Kategorie:', error);
       
