@@ -17,6 +17,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useSupabaseCategories } from './use.supabase.categories';
 import { useEventManager } from '../../services/EventManager';
 import { EntityType, OperationType, CategoryEventType, operationIDs } from '../../services/EventManager/typeDefinitions';
+import { useGuildContext } from '../guild/use.guild.context';
 
 // Types aus Supabase für Kategorien
 import type { Category, CreateCategoryInput, UpdateCategoryInput } from '../../types';
@@ -37,7 +38,15 @@ interface CategoryOperationResult {
  * Zentraler Hook für alle Kategorie-Operationen und -Events
  * Dies ist der neue, einheitliche Weg, um mit Kategorien zu arbeiten
  */
-export function useCategoryOperations(guildId: string = '') {
+export function useCategoryOperations(customGuildId?: string) {
+  // Hole die aktuelle Guild-ID aus dem Kontext
+  const { guildId: contextGuildId } = useGuildContext();
+  
+  // Verwende die übergebene ID, wenn vorhanden, sonst die aus dem Kontext
+  const effectiveGuildId = customGuildId || contextGuildId || '';
+  
+  console.log(`[useCategoryOperations] Verwende Guild ID: ${effectiveGuildId || 'keine ID'}`);
+  
   const { startOperation, completeOperation, getOperationStatusForModal } = useEventManager();
   
   // Supabase Kategorien-Hook anstelle von GraphQL
@@ -46,7 +55,7 @@ export function useCategoryOperations(guildId: string = '') {
     updateCategory: supabaseUpdateCategory, 
     deleteCategory: supabaseDeleteCategory,
     isLoading
-  } = useSupabaseCategories(guildId);
+  } = useSupabaseCategories(effectiveGuildId);
 
   /**
    * Zentrale Kategorie-Erstellungsmethode
@@ -59,45 +68,23 @@ export function useCategoryOperations(guildId: string = '') {
     const operationId = operationIDs.category.create;
     
     try {
-      // Operation starten
-      startOperation({
-        id: operationId,
-        entityType: EntityType.CATEGORY,
-        operationType: OperationType.CREATE,
-        modalId,
-        data: input
-      });
+      // HINWEIS: Keine Operation mehr im Event-Manager starten
+      // ENTFERNT: Operationen-Tracking, um Spinner zu vermeiden
       
       // Kategorie in Supabase erstellen
       const result = await supabaseCreateCategory(input);
-      
-      // Operation abschließen
-      completeOperation({
-        id: operationId,
-        success: true,
-        data: result,
-        eventType: CategoryEventType.CREATED
-      });
       
       // Success Callback aufrufen
       if (onSuccess) onSuccess(result);
       
       return { success: true, data: result };
     } catch (error) {
-      // Operation fehlgeschlagen
-      completeOperation({
-        id: operationId,
-        success: false,
-        error: error as Error,
-        eventType: CategoryEventType.ERROR
-      });
-      
       // Error Callback aufrufen
       if (onError) onError(error);
       
       return { success: false, error };
     }
-  }, [startOperation, completeOperation, supabaseCreateCategory]);
+  }, [supabaseCreateCategory]);
 
   /**
    * Zentrale Kategorie-Aktualisierungsmethode
@@ -108,48 +95,25 @@ export function useCategoryOperations(guildId: string = '') {
     options: CategoryOperationOptions = {}
   ) => {
     const { modalId, onSuccess, onError } = options;
-    const operationId = operationIDs.category.update;
     
     try {
-      // Operation starten
-      startOperation({
-        id: operationId,
-        entityType: EntityType.CATEGORY,
-        operationType: OperationType.UPDATE,
-        modalId,
-        data: { id, ...input }
-      });
+      // HINWEIS: Keine Operation mehr im Event-Manager starten
+      // ENTFERNT: Operationen-Tracking, um Spinner zu vermeiden
       
       // Kategorie in Supabase aktualisieren
       const result = await supabaseUpdateCategory(id, input);
-      
-      // Operation abschließen
-      completeOperation({
-        id: operationId,
-        success: true,
-        data: result,
-        eventType: CategoryEventType.UPDATED
-      });
       
       // Success Callback aufrufen
       if (onSuccess) onSuccess(result);
       
       return { success: true, data: result };
     } catch (error) {
-      // Operation fehlgeschlagen
-      completeOperation({
-        id: operationId,
-        success: false,
-        error: error as Error,
-        eventType: CategoryEventType.ERROR
-      });
-      
       // Error Callback aufrufen
       if (onError) onError(error);
       
       return { success: false, error };
     }
-  }, [startOperation, completeOperation, supabaseUpdateCategory]);
+  }, [supabaseUpdateCategory]);
 
   /**
    * Zentrale Kategorie-Löschmethode
@@ -159,48 +123,25 @@ export function useCategoryOperations(guildId: string = '') {
     options: CategoryOperationOptions = {}
   ) => {
     const { modalId, onSuccess, onError } = options;
-    const operationId = operationIDs.category.delete;
     
     try {
-      // Operation starten
-      startOperation({
-        id: operationId,
-        entityType: EntityType.CATEGORY,
-        operationType: OperationType.DELETE,
-        modalId,
-        data: { id }
-      });
+      // HINWEIS: Keine Operation mehr im Event-Manager starten
+      // ENTFERNT: Operationen-Tracking, um Spinner zu vermeiden
       
       // Kategorie in Supabase löschen
       const result = await supabaseDeleteCategory(id);
-      
-      // Operation abschließen
-      completeOperation({
-        id: operationId,
-        success: true,
-        data: result,
-        eventType: CategoryEventType.DELETED
-      });
       
       // Success Callback aufrufen
       if (onSuccess) onSuccess(result);
       
       return { success: true, data: result };
     } catch (error) {
-      // Operation fehlgeschlagen
-      completeOperation({
-        id: operationId,
-        success: false,
-        error: error as Error,
-        eventType: CategoryEventType.ERROR
-      });
-      
       // Error Callback aufrufen
       if (onError) onError(error);
       
       return { success: false, error };
     }
-  }, [startOperation, completeOperation, supabaseDeleteCategory]);
+  }, [supabaseDeleteCategory]);
 
   return {
     // Operationen

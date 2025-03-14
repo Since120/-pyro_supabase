@@ -14,28 +14,16 @@ export function OperationStatusIndicator({
   error, 
   modalId 
 }: OperationStatusIndicatorProps) {
-  if (!isPending && !error) {
+  // Zeige nur Fehler an, ignoriere den Ladestatus
+  if (!error) {
     return null;
   }
   
   return (
     <Box sx={{ mb: 2, width: '100%' }}>
-      {error ? (
-        <Alert severity="error">
-          {error}
-        </Alert>
-      ) : isPending ? (
-        <Alert 
-          severity="info"
-          icon={<CircularProgress size={20} />}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body2">
-              Wird verarbeitet...
-            </Typography>
-          </Box>
-        </Alert>
-      ) : null}
+      <Alert severity="error">
+        {error}
+      </Alert>
     </Box>
   );
 }

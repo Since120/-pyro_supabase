@@ -18,6 +18,7 @@ import { useResettableState } from '@/hooks/use.resettable.state';
 import { EventManagedModal } from '../../../common/EventManagedModal';
 import { OperationStatusIndicator } from '../../../common/OperationStatusIndicator';
 import { useCategoryOperations } from '@/hooks/categories/use.category.operations';
+import { useGuildContext } from '@/hooks/guild/use.guild.context';
 
 // Eindeutige Modal-ID für den Event-Manager
 const MODAL_ID = 'edit-category-modal';
@@ -37,6 +38,11 @@ interface EditCategoryModalProps {
 const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, onSave, onDelete, initialData }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
+  // Guild-ID aus dem Kontext holen
+  const { guildId } = useGuildContext();
+  
+  console.log(`[EditCategory] Guild-ID aus Kontext: ${guildId || 'keine ID'}`);
 
   // Zustandsverwaltung via useResettableState
   const [selectedLevel, setSelectedLevel] = useResettableState(initialData?.selectedLevel || '', [initialData, open]);
@@ -46,12 +52,12 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
   const [visible, setVisible] = useResettableState(initialData?.visible || false, [initialData, open]);
   const [sendSetup, setSendSetup] = useResettableState(initialData?.sendSetup || false, [initialData, open]);
 
-  // Verwende den zentralen Category-Operations-Hook
+  // Verwende den zentralen Category-Operations-Hook mit der Guild-ID
   const { 
     updateCategory, 
     deleteCategory, 
     getModalOperationStatus 
-  } = useCategoryOperations();
+  } = useCategoryOperations(guildId);
 
   // Hole den aktuellen Operationsstatus für dieses Modal
   const modalStatus = getModalOperationStatus(MODAL_ID);
@@ -66,33 +72,38 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
     onClose();
   };
 
-  // Update-Kategorie-Funktion mit sofortigem Schließen
+  // Update-Kategorie-Funktion mit vereinfachtem Ablauf
   const handleSave = async () => {
     if (!initialData?.id) {
+      console.error('[EditCategory] Keine initialData.id verfügbar, kann Update nicht ausführen');
       return;
     }
 
     try {
       console.log('[EditCategory] Speichere Kategorie-Änderungen für ID:', initialData.id);
       
-      // Update-Daten zusammenstellen
+      // Update-Daten zusammenstellen - für Supabase angepasst
       const updateData = {
         id: initialData.id,
         name: categoryName,
-        categoryType: selectedLevel,
-        isVisible: visible,
-        isTrackingActive: tracking,
-        isSendSetup: sendSetup,
-        allowedRoles: role,
+        category_type: selectedLevel,
+        is_visible: visible,
+        is_tracking_active: tracking,
+        is_send_setup: sendSetup,
+        allowed_roles: role,
       };
 
-      // Führe die Update-Operation aus und tracke sie im Event-Manager
-      await updateCategory(initialData.id, updateData, {
+      // WICHTIG: Schließe Modal SOFORT, bevor die Operation gestartet wird
+      console.log('[EditCategory] Schließe Modal sofort');
+      onClose();
+
+      // Führe die Update-Operation aus (im Hintergrund)
+      updateCategory(initialData.id, updateData, {
         modalId: MODAL_ID,
         onSuccess: (data) => {
           console.log('[EditCategory] Kategorie erfolgreich aktualisiert:', data);
           
-          // Ursprüngliches onSave bleibt erhalten
+          // Rufe onSave Callback auf, falls vorhanden
           if (onSave) {
             onSave({
               selectedLevel,
@@ -103,63 +114,51 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
               sendSetup,
             });
           }
-          
-          // Das Modal ist bereits geschlossen, Benachrichtigung kommt später vom EventSubscriber
         }
+      }).catch((error) => {
+        console.error('[EditCategory] Fehler beim Aktualisieren der Kategorie:', error);
       });
-      
-      // WICHTIG: Modal SOFORT schließen, ohne auf Backend-Antwort zu warten
-      console.log('[EditCategory] Schließe Modal sofort nach Absenden der Änderungen');
-      onClose();
       
     } catch (error) {
       console.error('[EditCategory] Fehler beim Aktualisieren der Kategorie:', error);
-      // Fehlerbehandlung erfolgt automatisch durch den Event-Manager
-      
-      // Bei Fehler ebenfalls sofort schließen
       onClose();
     }
   };
 
-  // Lösch-Funktion mit sofortigem Schließen
-  const handleDelete = async () => {
+  // Vereinfachte Lösch-Funktion
+  const handleDelete = () => {
     if (!initialData?.id) {
+      console.error('[EditCategory] Keine initialData.id verfügbar, kann Löschung nicht ausführen');
       return;
     }
 
-    try {
-      console.log('[EditCategory] Lösche Kategorie mit ID:', initialData.id);
-      
-      // Debug-Ausgabe
-      console.log('[EditCategory] Kategorie-Details:', initialData);
-      
-      // Führe die Lösch-Operation aus und tracke sie im Event-Manager
-      const result = await deleteCategory(initialData.id, {
-        modalId: MODAL_ID,
-        onSuccess: () => {
-          console.log('[EditCategory] Kategorie erfolgreich gelöscht');
-          
-          // Ursprüngliches onDelete bleibt erhalten
-          if (onDelete) {
-            onDelete();
-          }
-          
-          // Das Modal ist bereits geschlossen, Benachrichtigung kommt später vom EventSubscriber
+    // WICHTIG: Schließe Modal SOFORT, bevor die Operation gestartet wird
+    console.log('[EditCategory] Schließe Modal sofort vor Löschung');
+    onClose();
+
+    // Führe die Lösch-Operation im Hintergrund aus
+    deleteCategory(initialData.id, {
+      modalId: MODAL_ID,
+      onSuccess: (data) => {
+        console.log('[EditCategory] Kategorie erfolgreich gelöscht:', data);
+        
+        // Rufe onDelete Callback auf, falls vorhanden
+        if (onDelete) {
+          onDelete();
         }
-      });
-      
-      console.log('[EditCategory] Löschergebnis:', result);
-      
-      // WICHTIG: Modal SOFORT schließen, ohne auf Backend-Antwort zu warten
-      console.log('[EditCategory] Schließe Modal sofort nach Absenden der Löschanfrage');
-      onClose();
-      
-    } catch (error) {
+      },
+      onError: (error) => {
+        console.error('[EditCategory] Fehler beim Löschen der Kategorie:', error);
+      }
+    }).catch((error) => {
       console.error('[EditCategory] Fehler beim Löschen der Kategorie:', error);
-      // Fehlerbehandlung erfolgt automatisch durch den Event-Manager
-      
-      // Bei Fehler ebenfalls sofort schließen
-      onClose();
+    });
+    
+    // WICHTIG: Rufe onDelete Callback auf, unabhängig vom Ergebnis der Löschoperation
+    // Dies sorgt dafür, dass die Tabelle sofort aktualisiert wird
+    if (onDelete) {
+      console.log('[EditCategory] Rufe onDelete Callback direkt auf');
+      onDelete();
     }
   };
 
@@ -258,18 +257,13 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
           Löschen
         </Button>
         
-        {modalStatus.isPending ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <CircularProgress size={24} />
-            <Typography variant="body1">
-              Wird verarbeitet...
-            </Typography>
-          </Box>
-        ) : (
-          <Button variant="contained" onClick={handleSave} disabled={!isValid()}>
-            Speichern
-          </Button>
-        )}
+        <Button 
+          variant="contained" 
+          onClick={handleSave} 
+          disabled={!isValid() || modalStatus.isPending}
+        >
+          Speichern
+        </Button>
       </Box>
     </EventManagedModal>
   );

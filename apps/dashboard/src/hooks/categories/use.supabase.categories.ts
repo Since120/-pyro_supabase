@@ -74,6 +74,8 @@ export const useSupabaseCategories = (guildId: string) => {
     const channelName = `categories-realtime-${guildId}`;
     console.log(`[useSupabaseCategories] Erstelle Supabase-Kanal: ${channelName}`);
 
+    // Die Supabase realtime Konfiguration hat bestimmte Anforderungen an die Typen
+    // Wir verwenden einfach die Standard-Optionen ohne spezielle Konfiguration
     const channel = supabase
       .channel(channelName)
       .on(
@@ -87,34 +89,41 @@ export const useSupabaseCategories = (guildId: string) => {
         (payload: RealtimePostgresChangesPayload<any>) => {
           console.log(`[useSupabaseCategories] Categories Realtime-Event empfangen:`, payload);
           
+          // Debug-Ausgabe für bessere Nachvollziehbarkeit
+          console.log('[useSupabaseCategories] Aktuelle Kategorien vor Update:', categories.length);
+          
           // Behandlung je nach Event-Typ
           if (payload.eventType === 'INSERT') {
             console.log('[useSupabaseCategories] Neue Kategorie hinzugefügt, aktualisiere Liste');
             
-            // Direkt zum State hinzufügen, ohne serverseitige Abfrage
-            if (payload.new) {
-              setCategories(prev => [...prev, payload.new]);
-            }
+            // WICHTIG: Bei INSERT immer die vollständige Liste neu laden
+            // Dadurch vermeiden wir Probleme mit fehlenden Feldern oder Inkonsistenzen
+            console.log('[useSupabaseCategories] Lade vollständige Kategorieliste neu nach INSERT');
+            fetchCategories();
           } else if (payload.eventType === 'UPDATE') {
             console.log('[useSupabaseCategories] Kategorie aktualisiert, aktualisiere Liste');
             
             // Kategorie im State aktualisieren
-            if (payload.old && payload.new) {
+            if (payload.new) {
+              console.log('[useSupabaseCategories] Aktualisiere Kategorie:', payload.new.id, payload.new.name);
               setCategories(prev => prev.map(cat => 
-                cat.id === payload.old.id ? payload.new : cat
+                cat.id === payload.new.id ? payload.new : cat
               ));
             }
           } else if (payload.eventType === 'DELETE') {
             console.log('[useSupabaseCategories] Kategorie gelöscht, aktualisiere Liste');
             
-            // Kategorie aus State entfernen
-            if (payload.old) {
-              setCategories(prev => prev.filter(cat => cat.id !== payload.old.id));
-            }
+            // WICHTIG: Bei DELETE immer die vollständige Liste neu laden
+            // So stellen wir sicher, dass auch andere abhängige Daten aktualisiert werden
+            console.log('[useSupabaseCategories] Lade vollständige Kategorieliste neu nach DELETE');
+            fetchCategories();
           }
           
           // Immer ein UI-Update triggern
           setRefreshTrigger(prev => prev + 1);
+          
+          // Debug-Log nach Update
+          console.log('[useSupabaseCategories] Refresh-Trigger aktualisiert:', refreshTrigger);
         }
       )
       .subscribe((status) => {
@@ -126,7 +135,7 @@ export const useSupabaseCategories = (guildId: string) => {
       console.log(`[useSupabaseCategories] Cleanup Supabase Realtime-Subscription`);
       channel.unsubscribe();
     };
-  }, [fetchCategories, guildId, refreshTrigger]);
+  }, [fetchCategories, guildId, categories.length]);
 
   // Kategorie erstellen
   const createCategory = useCallback(async (formData: CategoryFormData) => {
@@ -152,6 +161,8 @@ export const useSupabaseCategories = (guildId: string) => {
         // created_at: new Date().toISOString(),
       };
       
+      console.log('[useSupabaseCategories] Erstelle neue Kategorie mit Daten:', categoryData);
+      
       const { data, error } = await supabase
         .from('categories')
         .insert(categoryData)
@@ -160,14 +171,18 @@ export const useSupabaseCategories = (guildId: string) => {
         
       if (error) throw error;
       
-      // Keine sofortige Benachrichtigung mehr
-      // Die Benachrichtigung kommt erst, wenn Discord die Kategorie erstellt hat
+      console.log('[useSupabaseCategories] Kategorie erfolgreich erstellt:', data?.id, data?.name);
       
-      // Aktualisiere die Liste der Kategorien
-      setRefreshTrigger(prev => prev + 1);
+      // Die Realtime-Events sollten automatisch dafür sorgen, dass die Kategorie im UI erscheint
+      // Wir aktualisieren den Trigger dennoch, um einen Fallback zu haben
+      setRefreshTrigger(prev => {
+        console.log('[useSupabaseCategories] Erhöhe Refresh-Trigger nach Erstellung:', prev + 1);
+        return prev + 1;
+      });
       
       return data;
     } catch (err: any) {
+      console.error('[useSupabaseCategories] Fehler beim Erstellen der Kategorie:', err);
       setError(err);
       enqueueSnackbar(
         `Fehler beim Erstellen der Kategorie: ${err.message}`, 
@@ -181,7 +196,16 @@ export const useSupabaseCategories = (guildId: string) => {
 
   // Kategorie aktualisieren
   const updateCategory = useCallback(async (categoryId: string, updateData: UpdateCategoryData) => {
-    if (!guildId || !categoryId) return null;
+    if (!guildId || !categoryId) {
+      console.error('[useSupabaseCategories] updateCategory: Keine gültige guildId oder categoryId:', { guildId, categoryId });
+      return null;
+    }
+    
+    console.log('[useSupabaseCategories] updateCategory: Starte Update für Kategorie:', { 
+      categoryId, 
+      guildId,
+      updateData 
+    });
     
     setIsLoading(true);
     setError(null);
@@ -193,18 +217,35 @@ export const useSupabaseCategories = (guildId: string) => {
       // Entferne direkte Referenzen zu Feldern, die jetzt in settings sind
       const { is_visible, is_tracking_active, is_send_setup, settings, ...otherFields } = dbUpdateData;
       
+      console.log('[useSupabaseCategories] Extrahierte Felder:', { 
+        is_visible, 
+        is_tracking_active, 
+        is_send_setup, 
+        settings, 
+        otherFields 
+      });
+      
       // Erstelle das finale Update-Objekt
       const finalUpdateData: Record<string, any> = { ...otherFields };
       
       // Wenn eines der settings-Felder aktualisiert werden soll, 
       // müssen wir zuerst die aktuellen Einstellungen holen und dann aktualisieren
       if (is_visible !== undefined || is_tracking_active !== undefined || is_send_setup !== undefined || settings !== undefined) {
+        console.log('[useSupabaseCategories] Settings müssen aktualisiert werden, hole aktuelle Daten...');
+        
         // Hole die aktuellen Einstellungen
-        const { data: currentData } = await supabase
+        const { data: currentData, error: fetchError } = await supabase
           .from('categories')
           .select('settings')
           .eq('id', categoryId)
           .single();
+        
+        if (fetchError) {
+          console.error('[useSupabaseCategories] Fehler beim Abrufen der aktuellen Einstellungen:', fetchError);
+          throw fetchError;
+        }
+        
+        console.log('[useSupabaseCategories] Aktuelle Kategorie-Daten:', currentData);
           
         // Aktualisiere die Einstellungen
         let currentSettings: Record<string, any> = {};
@@ -215,6 +256,9 @@ export const useSupabaseCategories = (guildId: string) => {
             currentData.settings !== null &&
             !Array.isArray(currentData.settings)) {
           currentSettings = currentData.settings as Record<string, any>;
+          console.log('[useSupabaseCategories] Aktuelle Settings gefunden:', currentSettings);
+        } else {
+          console.warn('[useSupabaseCategories] Keine gültigen settings in der Datenbank gefunden:', currentData?.settings);
         }
         
         // Sicherer Umgang mit den neuen Settings
@@ -224,6 +268,7 @@ export const useSupabaseCategories = (guildId: string) => {
             settings !== null &&
             !Array.isArray(settings)) {
           settingsToApply = settings as Record<string, any>;
+          console.log('[useSupabaseCategories] Neue settings zur Anwendung:', settingsToApply);
         }
         
         // Konstruiere die aktualisierten Settings manuell
@@ -239,11 +284,36 @@ export const useSupabaseCategories = (guildId: string) => {
         if (is_tracking_active !== undefined) updatedSettings.is_tracking_active = is_tracking_active;
         if (is_send_setup !== undefined) updatedSettings.is_send_setup = is_send_setup;
         
+        console.log('[useSupabaseCategories] Finale aktualisierte Settings:', updatedSettings);
+        
         // Füge das aktualisierte settings-Objekt zum Update hinzu
         finalUpdateData.settings = updatedSettings;
       }
       
+      console.log('[useSupabaseCategories] Finales Update-Objekt:', finalUpdateData);
+      
+      // Füge eine Spalte hinzu, die dafür sorgt, dass ein Update-Event ausgelöst wird
+      finalUpdateData.updated_at = new Date().toISOString();
+      
+      // Stelle sicher, dass die direkten Spalten (nicht nur settings) aktualisiert werden
+      if (is_visible !== undefined) {
+        finalUpdateData.is_visible = is_visible;
+        console.log('[useSupabaseCategories] Direktes Feld is_visible wird gesetzt auf:', is_visible);
+      }
+      
+      if (is_tracking_active !== undefined) {
+        finalUpdateData.is_tracking_active = is_tracking_active;
+        console.log('[useSupabaseCategories] Direktes Feld is_tracking_active wird gesetzt auf:', is_tracking_active);
+      }
+      
+      if (is_send_setup !== undefined) {
+        finalUpdateData.is_send_setup = is_send_setup;
+        console.log('[useSupabaseCategories] Direktes Feld is_send_setup wird gesetzt auf:', is_send_setup);
+      }
+      
       // Führe das Update durch
+      console.log('[useSupabaseCategories] Sende endgültiges Update an Supabase:', JSON.stringify(finalUpdateData, null, 2));
+      
       const { data, error } = await supabase
         .from('categories')
         .update(finalUpdateData)
@@ -252,18 +322,25 @@ export const useSupabaseCategories = (guildId: string) => {
         .select()
         .single();
         
-      if (error) throw error;
+      if (error) {
+        console.error('[useSupabaseCategories] Fehler beim Update in Supabase:', error);
+        throw error;
+      }
       
-      enqueueSnackbar(
-        `Kategorie "${data.name}" wurde aktualisiert.`, 
-        { variant: 'success' }
-      );
+      console.log('[useSupabaseCategories] Kategorie erfolgreich aktualisiert:', data);
       
-      // Aktualisiere die Liste der Kategorien
-      setRefreshTrigger(prev => prev + 1);
+      // ENTFERNT: Keine direkte Benachrichtigung mehr zeigen
+      // Die Benachrichtigung kommt später vom Discord-Bot
+      
+      // Aktualisiere den Trigger, um sicherzustellen, dass die UI auch ohne Realtime-Events aktualisiert wird
+      setRefreshTrigger(prev => {
+        console.log('[useSupabaseCategories] Erhöhe Refresh-Trigger nach Aktualisierung:', prev + 1);
+        return prev + 1;
+      });
       
       return data;
     } catch (err: any) {
+      console.error('[useSupabaseCategories] Fehler beim Aktualisieren der Kategorie:', err);
       setError(err);
       enqueueSnackbar(
         `Fehler beim Aktualisieren der Kategorie: ${err.message}`, 
@@ -276,76 +353,105 @@ export const useSupabaseCategories = (guildId: string) => {
   }, [guildId, enqueueSnackbar]);
 
   /**
-   * Kategorie löschen - überarbeitete Version
+   * Kategorie löschen - direkte Löschung ohne Umweg über discord_sync
    */
-  const deleteCategory = useCallback(async (categoryId: string) => {
-    if (!guildId || !categoryId) return null;
+  const deleteCategory = useCallback(async (categoryId: string, eventOptions?: any) => {
+    if (!guildId || !categoryId) {
+      console.error('[useSupabaseCategories] deleteCategory: Keine gültige guildId oder categoryId:', { guildId, categoryId });
+      return null;
+    }
+    
+    console.log('[useSupabaseCategories] deleteCategory: Starte vereinfachte Löschung für Kategorie:', { 
+      categoryId, 
+      guildId,
+      eventOptions 
+    });
     
     setIsLoading(true);
     setError(null);
     
     try {
       // Hole zuerst die vollständigen Kategorie-Informationen
+      console.log(`[useSupabaseCategories] Hole Kategorie-Informationen für ID ${categoryId}...`);
       const { data: categoryData, error: fetchError } = await supabase
         .from('categories')
         .select('*')
         .eq('id', categoryId)
         .single();
         
-      if (fetchError) throw fetchError;
+      if (fetchError) {
+        console.error('[useSupabaseCategories] Fehler beim Abrufen der Kategorie:', fetchError);
+        throw fetchError;
+      }
       
       if (!categoryData) {
+        console.error(`[useSupabaseCategories] Kategorie mit ID ${categoryId} nicht gefunden`);
         throw new Error(`Kategorie mit ID ${categoryId} nicht gefunden`);
       }
       
-      console.log(`Kategorie-Informationen für Löschung:`, {
-        id: categoryId,
-        name: categoryData.name,
-        discord_category_id: categoryData.discord_category_id
-      });
+      console.log(`[useSupabaseCategories] Kategorie-Informationen für Löschung:`, categoryData);
       
-      // Speichere die Kategorie-Informationen in der discord_sync Tabelle
-      // Dies wird dem Bot helfen, die Kategorie korrekt zu löschen
-      const { error: syncError } = await supabase
-        .from('discord_sync')
-        .insert({
-          id: categoryId,
-          entity_type: 'category',
-          guild_id: guildId,
-          data: {
-            name: categoryData.name,
-            discord_id: categoryData.discord_category_id, // Muss im data-Feld sein
-            category_type: categoryData.category_type,
-            discord_category_id: categoryData.discord_category_id, // Alternative Stelle
-            category_data: categoryData // Vollständige Kategorie-Daten als Fallback
-          },
-          sync_status: 'pending_delete'
-        });
+      // 1. Zuerst aktualisieren wir die Kategorie und markieren sie als gelöscht
+      console.log(`[useSupabaseCategories] Markiere Kategorie als gelöscht in Discord...`);
       
-      if (syncError) {
-        console.error('Fehler beim Speichern der Kategorie-Informationen für die Löschung:', syncError);
-        // Trotzdem weitermachen mit dem Löschen
+      // Bereite die Update-Daten vor
+      const updateData = {
+        is_deleted_in_discord: true,
+        updated_at: new Date().toISOString()
+      };
+      
+      // Führe das Update durch
+      const { data: updateResult, error: updateError } = await supabase
+        .from('categories')
+        .update(updateData)
+        .eq('id', categoryId)
+        .eq('guild_id', guildId)
+        .select();
+      
+      if (updateError) {
+        console.error('[useSupabaseCategories] Fehler beim Markieren der Kategorie als gelöscht:', updateError);
+        throw updateError;
       }
       
-      // Jetzt die Kategorie löschen
-      const { error: deleteError } = await supabase
+      console.log('[useSupabaseCategories] Kategorie erfolgreich als gelöscht markiert:', updateResult);
+      
+      // Warte eine Sekunde, damit der Bot die Änderung erfassen kann
+      console.log('[useSupabaseCategories] Warte 1 Sekunde, damit der Bot die Änderung erfassen kann...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // 2. Jetzt löschen wir die Kategorie aus der Datenbank
+      console.log(`[useSupabaseCategories] Lösche Kategorie mit ID ${categoryId} aus der Datenbank...`);
+      const { data: deleteResult, error: deleteError } = await supabase
         .from('categories')
         .delete()
-        .eq('id', categoryId);
-        
-      if (deleteError) throw deleteError;
+        .eq('id', categoryId)
+        .select();
       
-      // Aktualisiere die Liste der Kategorien
-      setRefreshTrigger(prev => prev + 1);
+      if (deleteError) {
+        console.error('[useSupabaseCategories] Fehler beim Löschen der Kategorie aus der Datenbank:', deleteError);
+        throw deleteError;
+      }
       
-      // Erfolgsmeldung
-      enqueueSnackbar(
-        `Kategorie "${categoryData.name}" erfolgreich gelöscht`, 
-        { variant: 'success' }
-      );
+      console.log('[useSupabaseCategories] Kategorie erfolgreich aus der Datenbank gelöscht:', deleteResult);
+      
+      // Aktualisiere den Trigger, um sicherzustellen, dass die UI auch ohne Realtime-Events aktualisiert wird
+      setRefreshTrigger(prev => {
+        console.log('[useSupabaseCategories] Erhöhe Refresh-Trigger nach Löschung:', prev + 1);
+        return prev + 1;
+      });
+      
+      // Die Kategorie direkt aus dem lokalen State entfernen
+      setCategories(prev => {
+        console.log('[useSupabaseCategories] Entferne Kategorie aus lokalem State:', categoryId);
+        return prev.filter(cat => cat.id !== categoryId);
+      });
+      
+      // ENTFERNT: Keine direkte Benachrichtigung mehr anzeigen
+      // Die Benachrichtigung kommt später vom Discord-Bot nach erfolgreicher Löschung
       
       return { success: true, categoryData };
     } catch (err: any) {
+      console.error('[useSupabaseCategories] Fehler beim Löschen der Kategorie:', err);
       setError(err);
       enqueueSnackbar(
         `Fehler beim Löschen der Kategorie: ${err.message}`, 

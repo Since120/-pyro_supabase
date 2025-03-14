@@ -3,6 +3,7 @@ import { Client, ChannelType } from 'discord.js';
 import { supabase, realtimeManager } from 'pyro-types';
 import logger from 'pyro-logger';
 import { MAX_RETRY_ATTEMPTS, BASE_RETRY_DELAY, updateSyncStatus, handleDiscordError } from './helpers';
+import { categoryCacheMap } from './delete.category';
 
 /**
  * Abonniert INSERT-Events für Kategorien und erstellt Discord-Kategorien
@@ -39,6 +40,14 @@ export function setupCategoryCreateHandler(discordClient: Client) {
     // Wenn Kategorie bereits in Discord existiert, nichts weiter tun
     if (discordCategoryId) {
       logger.info('Kategorie existiert bereits in Discord:', discordCategoryId);
+
+      // Kategorie in den Cache aufnehmen
+      categoryCacheMap.set(categoryId, {
+        discordCategoryId,
+        name,
+        guildId
+      });
+      logger.info(`Existierende Kategorie ${categoryId} in Cache aufgenommen: ${discordCategoryId} (${name})`);
 
       // Bestätigen, dass es bereits synchronisiert ist
       await updateSyncStatus(
@@ -97,6 +106,14 @@ export function setupCategoryCreateHandler(discordClient: Client) {
       }
 
       logger.info(`Discord-Kategorie erstellt: ${discordCategory.name} (${discordCategory.id})`);
+
+      // Kategorie in den Cache aufnehmen
+      categoryCacheMap.set(categoryId, {
+        discordCategoryId: discordCategory.id,
+        name,
+        guildId
+      });
+      logger.info(`Neue Kategorie ${categoryId} in Cache aufgenommen: ${discordCategory.id} (${name})`);
 
       // Aktualisiere die Kategorie in der Datenbank mit der Discord Category ID
       const { error: updateError } = await supabase

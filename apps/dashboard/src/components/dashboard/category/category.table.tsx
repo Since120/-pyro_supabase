@@ -31,6 +31,7 @@ import { useSupabaseCategories } from '@/hooks/categories/use.supabase.categorie
 import { EntityType, OperationType, CategoryEventType } from '@/services/EventManager/typeDefinitions';
 import { useSnackbar } from 'notistack';
 import { useEventManager } from '@/services/EventManager';
+import { useGuildContext } from '@/hooks/guild/use.guild.context';
 
 const columns: Column[] = [
   { key: 'name', label: 'Kategorie', align: 'left' },
@@ -46,8 +47,11 @@ const CategoryTable: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>('name');
-  // Guild ID bestimmen (in einer realen Anwendung würde dies aus dem Kontext kommen)
-  const guildId = process.env.NEXT_PUBLIC_GUILD_ID || ''; // Standard-Guild ID aus .env
+  
+  // Guild ID aus dem Kontext holen
+  const { guildId } = useGuildContext();
+  
+  console.log(`[CategoryTable] Verwende Guild-ID: ${guildId || 'keine ID'}`);
 
   // Neue Supabase-Hooks verwenden
   const { 
@@ -60,10 +64,11 @@ const CategoryTable: React.FC = () => {
     fetchCategories
   } = useSupabaseCategories(guildId);
 
-  // Seite neu laden, wenn sie gemountet wird
+  // Seite neu laden, wenn sie gemountet wird oder wenn es neue Daten gibt
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    console.log('[CategoryTable] Kategorien aktualisiert, Anzahl:', categories.length);
+    // Keine Aktion nötig, da die Kategorien bereits aktualisiert sind
+  }, [categories]);
 
   // Zonen via API (noch nicht migriert) - TEMPORÄR DEAKTIVIERT
   const zonesData = { zones: [] }; // Leeres Array für Zonen, bis die Migration abgeschlossen ist
@@ -238,8 +243,8 @@ const CategoryTable: React.FC = () => {
             // Füge die gelöschte Kategorie zu deletedZones hinzu
             setDeletedZones(prev => new Set(prev.add(cat.id)));
             
-            // Inkrementelles Feedback
-            enqueueSnackbar(`Kategorie "${cat.name}" gelöscht`, { variant: 'success' });
+            // ENTFERNT: Kein direktes Feedback mehr
+            // Die Benachrichtigung kommt später vom Discord-Bot
           }
         } catch (error) {
           hasErrors = true;
@@ -263,8 +268,15 @@ const CategoryTable: React.FC = () => {
       // Leere die Selektion
       setSelected(new Set());
       
+      console.log('[CategoryTable] Expliziter Reload der Kategorien nach Löschung');
       // Aktualisiere die Kategorie-Liste
       fetchCategories();
+      
+      // Nach einer kurzen Verzögerung noch einmal aktualisieren, falls die erste Anfrage zu schnell war
+      setTimeout(() => {
+        console.log('[CategoryTable] Verzögerter Reload der Kategorien nach Löschung');
+        fetchCategories();
+      }, 500);
     }
   };
 
@@ -399,7 +411,17 @@ const CategoryTable: React.FC = () => {
         {/* Modals */}
         <SetupCategory
           open={openWizard}
-          onClose={handleCloseWizard}
+          onClose={() => {
+            console.log('[CategoryTable] Setup-Kategorie-Modal geschlossen, aktualisiere Kategorien');
+            handleCloseWizard();
+            // Direkt die Kategorien aktualisieren
+            fetchCategories();
+            // Und nach einer kurzen Verzögerung noch einmal
+            setTimeout(() => {
+              console.log('[CategoryTable] Verzögerter Reload nach Setup-Kategorie-Modal');
+              fetchCategories();
+            }, 500);
+          }}
         />
 
         {/* Zonen-Erstellungsmodal */}
@@ -423,20 +445,52 @@ const CategoryTable: React.FC = () => {
               visible: editingCategory.is_visible,
               sendSetup: editingCategory.is_send_setup
             }}
+            onDelete={() => {
+              // WICHTIG: Dieser Callback wird aufgerufen, wenn der Benutzer auf "Löschen" klickt
+              console.log('[CategoryTable] onDelete Callback aufgerufen, aktualisiere Kategorien');
+              // Aktualisiere die Kategorien sofort
+              fetchCategories();
+              // Nach einer kurzen Verzögerung noch einmal aktualisieren
+              setTimeout(() => {
+                console.log('[CategoryTable] Verzögerter Reload der Kategorien nach Löschung über Edit-Modal');
+                fetchCategories();
+              }, 500);
+            }}
             onSave={async (formData) => {
               try {
-                await updateCategory(editingCategory.id, {
+                console.log(`[CategoryTable] Aktualisiere Kategorie ${editingCategory.id} in Guild ${guildId}...`);
+                // Wir starten hier eine Hintergrundfunktion für das Update, die parallel läuft
+                // Wir warten NICHT mehr auf das Ergebnis, da das Modal sich sofort schließen soll
+                
+                updateCategory(editingCategory.id, {
                   name: formData.categoryName,
                   category_type: formData.selectedLevel,
                   allowed_roles: formData.role,
                   is_visible: formData.visible,
                   is_tracking_active: formData.tracking,
                   is_send_setup: formData.sendSetup
+                }).then(result => {
+                  console.log(`[CategoryTable] Kategorie-Update Ergebnis:`, result);
+                  
+                  // WICHTIG: Explizit die Kategorien neu laden, um sicherzustellen, dass die Tabelle aktualisiert wird
+                  console.log('[CategoryTable] Expliziter Reload der Kategorien nach Update');
+                  fetchCategories();
+                  
+                  // Nach einer kurzen Verzögerung noch einmal aktualisieren, falls die erste Anfrage zu schnell war
+                  setTimeout(() => {
+                    console.log('[CategoryTable] Verzögerter Reload der Kategorien nach Update');
+                    fetchCategories();
+                  }, 500);
+                }).catch(error => {
+                  console.error('Fehler beim Aktualisieren der Kategorie:', error);
                 });
+                
+                // WICHTIG: Hier sofort das Modal schließen, ohne auf das Ergebnis zu warten
                 setMasterEditOpen(false);
-                await fetchCategories(); // Daten aktualisieren
               } catch (error) {
                 console.error('Fehler beim Aktualisieren der Kategorie:', error);
+                // Auch bei Fehler das Modal schließen
+                setMasterEditOpen(false);
               }
             }}
           />

@@ -53,7 +53,7 @@ const eventNotificationConfigs: Record<string, Record<string, EventConfig>> = {
       variant: NotificationType.INFO 
     },
     [CategoryEventType.DELETE_CONFIRMED]: { 
-      message: () => `Kategorie wurde aus Discord entfernt`, 
+      message: (name: string) => `Kategorie "${name}" wurde aus Discord entfernt`, 
       variant: NotificationType.SUCCESS 
     },
     [CategoryEventType.ERROR]: { 
@@ -173,61 +173,25 @@ export function useEventSubscriber() {
         (payload: RealtimePostgresChangesPayload<any>) => {
           console.log(`[EventSubscriber] Categories Realtime-Event:`, payload);
           
-          // Wenn eine neue Kategorie erstellt wird, zeige eine Benachrichtigung
+          // KEINE Benachrichtigungen für Direkte Kategorie-Events mehr,
+          // wir zeigen nur noch die Discord-Bestätigungen an
+          // Die Ereignisse werden trotzdem protokolliert
           if (payload.eventType === 'INSERT') {
             const category = payload.new;
             if (category) {
-              console.log(`[EventSubscriber] Neue Kategorie erstellt:`, category);
-              
-              // Zeige Benachrichtigung
-              showNotification(
-                category.id,
-                CategoryEventType.CREATED,
-                `Kategorie "${category.name}" wurde erstellt!`,
-                NotificationType.SUCCESS,
-                { 
-                  duration: NotificationDuration.LONG,
-                  preventDuplicate: true
-                }
-              );
+              console.log(`[EventSubscriber] Neue Kategorie erstellt (keine Benachrichtigung):`, category);
             }
           }
-          // Wenn eine Kategorie aktualisiert wird, zeige eine Benachrichtigung
           else if (payload.eventType === 'UPDATE') {
             const category = payload.new;
             if (category) {
-              console.log(`[EventSubscriber] Kategorie aktualisiert:`, category);
-              
-              // Zeige Benachrichtigung
-              showNotification(
-                category.id,
-                CategoryEventType.UPDATED,
-                `Kategorie "${category.name}" wurde aktualisiert!`,
-                NotificationType.INFO,
-                { 
-                  duration: NotificationDuration.NORMAL,
-                  preventDuplicate: true
-                }
-              );
+              console.log(`[EventSubscriber] Kategorie aktualisiert (keine Benachrichtigung):`, category);
             }
           }
-          // Wenn eine Kategorie gelöscht wird, zeige eine Benachrichtigung
           else if (payload.eventType === 'DELETE') {
             const category = payload.old;
             if (category) {
-              console.log(`[EventSubscriber] Kategorie gelöscht:`, category);
-              
-              // Zeige Benachrichtigung
-              showNotification(
-                category.id,
-                CategoryEventType.DELETED,
-                `Kategorie "${category.name}" wurde gelöscht!`,
-                NotificationType.INFO,
-                { 
-                  duration: NotificationDuration.NORMAL,
-                  preventDuplicate: true
-                }
-              );
+              console.log(`[EventSubscriber] Kategorie gelöscht (keine Benachrichtigung):`, category);
             }
           }
         }
@@ -259,6 +223,30 @@ export function useEventSubscriber() {
           const { id: entity_id, entity_type, sync_status, data } = eventData;
           console.log(`[EventSubscriber] Verarbeite Discord-Sync: id=${entity_id}, entity_type=${entity_type}, sync_status=${sync_status}`);
           
+          // WICHTIG: Hole den Kategorienamen aus der tatsächlichen Kategorie in der Datenbank
+          async function getEntityName(id: string, type: string) {
+            try {
+              // Für Kategorien den Namen aus der categories-Tabelle holen
+              if (type === 'category') {
+                const { data: categoryData } = await supabase
+                  .from('categories')
+                  .select('name')
+                  .eq('id', id)
+                  .single();
+                
+                if (categoryData) {
+                  return categoryData.name;
+                }
+              }
+              
+              // Fallback: Name aus den sync-Daten oder 'Unbekannt'
+              return data?.name || 'Unbekannt';
+            } catch (err) {
+              console.error('[EventSubscriber] Fehler beim Abrufen des Entitätsnamens:', err);
+              return data?.name || 'Unbekannt';
+            }
+          }
+          
           // Finde die passende Operation
           const operation = getOperationByEntityId(entity_id, entity_type as EntityType);
           if (!operation) {
@@ -266,24 +254,34 @@ export function useEventSubscriber() {
             
             // Auch ohne zugehörige Operation eine Benachrichtigung anzeigen
             let eventType;
-            let entityName = data?.name || 'Unbekannt';
+            
+            // Hole den tatsächlichen Namen der Kategorie
+            getEntityName(entity_id, entity_type).then(realName => {
+              let entityName = realName;
             
             // Bestimme den Event-Typ basierend auf entity_type und sync_status
             if (entity_type === EntityType.CATEGORY) {
-              if (sync_status === 'synced') {
-                eventType = CategoryEventType.CONFIRMATION;
-                // Nur bei erfolgreicher Discord-Synchronisation eine Benachrichtigung anzeigen
+              if (sync_status === 'synced' || sync_status === 'deleted') {
+                // Event-Typ je nach Sync-Status bestimmen
+                eventType = sync_status === 'synced' 
+                  ? CategoryEventType.CONFIRMATION 
+                  : CategoryEventType.DELETE_CONFIRMED;
+                  
+                // Bei erfolgreicher Discord-Synchronisation oder Löschung eine Benachrichtigung anzeigen
                 const config = eventNotificationConfigs[entity_type]?.[eventType];
                 if (config) {
                   const message = typeof config.message === 'function' 
                     ? config.message(entityName, data?.error_message || data?.message) 
                     : config.message;
                   
-                  console.log(`[EventSubscriber] Zeige Discord-Sync-Bestätigung an: ${message}`);
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-${sync_status} Bestätigung an für ${entityName}: ${message}`);
                   
-                  // Benachrichtigung mit confirmation-Suffix im Key anzeigen
+                  // Globaler Schlüssel, um Duplikate zu vermeiden
+                  const notificationKey = `${entity_id}-${sync_status}`;
+                  
+                  // Benachrichtigung mit eindeutigem Key anzeigen
                   showNotification(
-                    `${entity_id}-confirmation`,
+                    notificationKey,
                     eventType,
                     message,
                     config.variant,
@@ -302,10 +300,13 @@ export function useEventSubscriber() {
                     ? config.message(entityName, data?.error_message || data?.message) 
                     : config.message;
                   
-                  console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an: ${message}`);
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an für ${entityName}: ${message}`);
+                  
+                  // Globaler Schlüssel, um Duplikate zu vermeiden
+                  const notificationKey = `${entity_id}-error`;
                   
                   showNotification(
-                    `${entity_id}-error`,
+                    notificationKey,
                     eventType,
                     message,
                     config.variant,
@@ -324,133 +325,99 @@ export function useEventSubscriber() {
               }
             }
             
-            // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
-            if (eventType) {
-              // Falls eine Operation existiert, diese abschließen
-              if (operation) {
-                completeOperation({
-                  id: entity_id, // Direkt entity_id verwenden statt auf operation zuzugreifen
-                  success: sync_status === 'synced',
-                  data: eventData,
-                  eventType
-                });
-              }
+            // KEINE zusätzliche Benachrichtigung mehr anzeigen
+            // Wir haben bereits eine Benachrichtigung oben angezeigt
               
-              // Zeige passende Benachrichtigung
-              const config = eventNotificationConfigs[entity_type]?.[eventType];
-              if (config) {
-                const message = typeof config.message === 'function' 
-                  ? config.message(entityName, data?.error_message || data?.message) 
-                  : config.message;
-                
-                // Korrekte Parameter für showNotification
-                showNotification(
-                  entity_id,
-                  eventType,
-                  message,
-                  config.variant,
-                  { 
-                    duration: config.duration,
-                    preventDuplicate: true
-                  }
-                );
-              }
-            }
+            });
             
             return;
           }
           
-          // Bestimme den Event-Typ basierend auf entity_type und sync_status
-          let eventType;
-          let entityName = data?.name || 'Unbekannt';
-          
-          if (entity_type === EntityType.CATEGORY) {
-            if (sync_status === 'synced') {
-              eventType = CategoryEventType.CONFIRMATION;
-              // Nur bei erfolgreicher Discord-Synchronisation eine Benachrichtigung anzeigen
-              const config = eventNotificationConfigs[entity_type]?.[eventType];
-              if (config) {
-                const message = typeof config.message === 'function' 
-                  ? config.message(entityName, data?.error_message || data?.message) 
-                  : config.message;
-                
-                console.log(`[EventSubscriber] Zeige Discord-Sync-Bestätigung an: ${message}`);
-                
-                // Benachrichtigung mit confirmation-Suffix im Key anzeigen
-                showNotification(
-                  `${entity_id}-confirmation`,
-                  eventType,
-                  message,
-                  config.variant,
-                  { 
-                    duration: config.duration,
-                    preventDuplicate: true
-                  }
-                );
+          // Hole den tatsächlichen Namen der Kategorie und zeige dann die Benachrichtigung an
+          getEntityName(entity_id, entity_type).then(realName => {
+            let eventType;
+            const entityName = realName;
+            
+            if (entity_type === EntityType.CATEGORY) {
+              if (sync_status === 'synced' || sync_status === 'deleted') {
+                // Event-Typ je nach Sync-Status bestimmen
+                eventType = sync_status === 'synced' 
+                  ? CategoryEventType.CONFIRMATION 
+                  : CategoryEventType.DELETE_CONFIRMED;
+                  
+                // Bei erfolgreicher Discord-Synchronisation oder Löschung eine Benachrichtigung anzeigen
+                const config = eventNotificationConfigs[entity_type]?.[eventType];
+                if (config) {
+                  const message = typeof config.message === 'function' 
+                    ? config.message(entityName, data?.error_message || data?.message) 
+                    : config.message;
+                  
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-${sync_status} Bestätigung an für ${entityName}: ${message}`);
+                  
+                  // Globaler Schlüssel, um Duplikate zu vermeiden
+                  const notificationKey = `${entity_id}-${sync_status}`;
+                  
+                  // Benachrichtigung mit confirmation-Suffix im Key anzeigen
+                  showNotification(
+                    notificationKey,
+                    eventType,
+                    message,
+                    config.variant,
+                    { 
+                      duration: config.duration,
+                      preventDuplicate: true
+                    }
+                  );
+                }
+              } else if (sync_status === 'error') {
+                eventType = CategoryEventType.ERROR;
+                // Bei Fehlern immer eine Benachrichtigung anzeigen
+                const config = eventNotificationConfigs[entity_type]?.[eventType];
+                if (config) {
+                  const message = typeof config.message === 'function' 
+                    ? config.message(entityName, data?.error_message || data?.message) 
+                    : config.message;
+                  
+                  console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an für ${entityName}: ${message}`);
+                  
+                  // Globaler Schlüssel, um Duplikate zu vermeiden
+                  const notificationKey = `${entity_id}-error`;
+                  
+                  showNotification(
+                    notificationKey,
+                    eventType,
+                    message,
+                    config.variant,
+                    { 
+                      duration: config.duration,
+                      preventDuplicate: true
+                    }
+                  );
+                }
               }
-            } else if (sync_status === 'error') {
-              eventType = CategoryEventType.ERROR;
-              // Bei Fehlern immer eine Benachrichtigung anzeigen
-              const config = eventNotificationConfigs[entity_type]?.[eventType];
-              if (config) {
-                const message = typeof config.message === 'function' 
-                  ? config.message(entityName, data?.error_message || data?.message) 
-                  : config.message;
-                
-                console.log(`[EventSubscriber] Zeige Discord-Sync-Fehler an: ${message}`);
-                
-                showNotification(
-                  `${entity_id}-error`,
-                  eventType,
-                  message,
-                  config.variant,
-                  { 
-                    duration: config.duration,
-                    preventDuplicate: true
-                  }
-                );
+            } else if (entity_type === EntityType.ZONE) {
+              if (sync_status === 'synced') {
+                eventType = ZoneEventType.CONFIRMATION;
+              } else if (sync_status === 'error') {
+                eventType = ZoneEventType.ERROR;
               }
             }
-          } else if (entity_type === EntityType.ZONE) {
-            if (sync_status === 'synced') {
-              eventType = ZoneEventType.CONFIRMATION;
-            } else if (sync_status === 'error') {
-              eventType = ZoneEventType.ERROR;
-            }
-          }
-          
-          // Bei gültigem Event-Typ: Operation abschließen und Notification anzeigen
-          if (eventType) {
+            
             // Falls eine Operation existiert, diese abschließen
-            if (operation) {
+            if (eventType && operation) {
               completeOperation({
-                id: entity_id, // Direkt entity_id verwenden statt auf operation zuzugreifen
+                id: entity_id,
                 success: sync_status === 'synced',
                 data: eventData,
                 eventType
               });
             }
-            
-            // Zeige passende Benachrichtigung
-            const config = eventNotificationConfigs[entity_type]?.[eventType];
-            if (config) {
-              const message = typeof config.message === 'function' 
-                ? config.message(entityName, data?.error_message || data?.message) 
-                : config.message;
-              
-              // Korrekte Parameter für showNotification
-              showNotification(
-                entity_id,
-                eventType,
-                message,
-                config.variant,
-                { 
-                  duration: config.duration,
-                  preventDuplicate: true
-                }
-              );
-            }
-          }
+          });
+          
+          // Hier keine weitere Aktion mehr ausführen
+          // Die Operation wird bereits in der getEntityName-Promise-Kette abgeschlossen
+          // und die Benachrichtigung wird dort angezeigt
+          // Dies vermeidet doppelte Benachrichtigungen
         }
       )
       .subscribe((status) => {

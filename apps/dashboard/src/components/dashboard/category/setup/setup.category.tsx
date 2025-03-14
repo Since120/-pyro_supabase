@@ -1,5 +1,5 @@
 // Optimiertes setup.category.tsx mit sofortigem Modal-Schließen und Supabase-Integration
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -39,6 +39,14 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   const { guildId } = useGuildContext();
   const { enqueueSnackbar } = useSnackbar();
   const { startOperation, completeOperation } = useEventManager();
+  
+  // Effekt zum Zurücksetzen des Schritts, wenn das Modal geöffnet wird
+  useEffect(() => {
+    if (open) {
+      console.log('[SetupCategory] Modal geöffnet - setze auf Schritt 1');
+      setActiveStep(0);
+    }
+  }, [open]);
 
   // Form state
   const [selectedLevel, setSelectedLevel] = useState<string>('');
@@ -60,72 +68,57 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   };
 
   // Erstellung einer Kategorie mit Supabase und Event-Manager-Integration
-  const handleCreateCategory = async () => {
+  const handleCreateCategory = () => {
     if (!guildId) {
       enqueueSnackbar('Keine Guild ID gefunden. Bitte wähle eine Guild aus.', { variant: 'error' });
       return;
     }
+    
+    // WICHTIG: Das Formular zurücksetzen, bevor das Modal geschlossen wird
+    // Dadurch wird sichergestellt, dass es beim nächsten Öffnen auf Schritt 1 steht
+    console.log('[SetupCategory] Setze Formular zurück vor dem Schließen');
+    handleReset();
+    
+    // WICHTIG: Sofort das Modal schließen, ohne auf das Ergebnis zu warten
+    console.log('[SetupCategory] Schließe Modal sofort');
+    onClose();
       
-    // Sofort den Ladeindikator anzeigen und keine weiteren UI-Updates auslösen
-    setIsSubmitting(true);
-  
-    try {
-      // Operation starten
-      startOperation({
-        id: MODAL_ID,
-        entityType: EntityType.CATEGORY,
-        operationType: OperationType.CREATE,
-        modalId: MODAL_ID
+    // Kategorie-Daten für Supabase vorbereiten
+    const categoryData = {
+      name: categoryName,
+      category_type: selectedLevel,
+      guild_id: guildId,
+      allowed_roles: role,
+      settings: {
+        is_visible: visible,
+        is_tracking_active: tracking,
+        is_send_setup: sendSetup,
+        is_deleted_in_discord: false
+      }
+    };
+    
+    // Starte die Operation im Hintergrund, ohne zu warten
+    createCategory(categoryData)
+      .then(newCategory => {
+        console.log('[SetupCategory] Kategorie erfolgreich erstellt:', newCategory);
+        
+        // WICHTIG: Explizit die Kategorien neu laden, um sicherzustellen, dass die Tabelle aktualisiert wird
+        // Auch wenn die Realtime-Events gehen sollten, ist dies ein Fallback
+        console.log('[SetupCategory] Expliziter Reload der Kategorien nach Erstellung');
+        fetchCategories();
+        
+        // Nach einer kurzen Verzögerung noch einmal aktualisieren, falls die erste Anfrage zu schnell war
+        setTimeout(() => {
+          console.log('[SetupCategory] Verzögerter Reload der Kategorien nach Erstellung');
+          fetchCategories();
+        }, 500);
+      })
+      .catch(error => {
+        console.error('Fehler beim Erstellen der Kategorie:', error);
+        enqueueSnackbar(`Fehler beim Erstellen der Kategorie: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`, { 
+          variant: 'error' 
+        });
       });
-  
-      // Kategorie-Daten für Supabase vorbereiten
-      const categoryData = {
-        name: categoryName,
-        category_type: selectedLevel,
-        guild_id: guildId,
-        allowed_roles: role,
-        settings: {
-          is_visible: visible,
-          is_tracking_active: tracking,
-          is_send_setup: sendSetup,
-          is_deleted_in_discord: false
-        }
-      };
-      
-      // Kategorie in Supabase erstellen
-      const newCategory = await createCategory(categoryData);
-      console.log('[SetupCategory] Kategorie erfolgreich erstellt:', newCategory);
-      
-      // Operation als erfolgreich markieren (für EventSubscriber)
-      completeOperation({
-        id: MODAL_ID,
-        success: true,
-        data: newCategory,
-        eventType: CategoryEventType.CREATED
-      });
-      
-      // Kategorien aktualisieren
-      fetchCategories().catch(err => console.error('Fehler beim Aktualisieren der Kategorien:', err));
-      
-      // Modal schließen
-      onClose();
-    } catch (error) {
-      console.error('Fehler beim Erstellen der Kategorie:', error);
-      
-      // Fehlgeschlagene Operation
-      completeOperation({
-        id: MODAL_ID,
-        success: false,
-        error: error instanceof Error ? error : new Error('Unbekannter Fehler'),
-        eventType: CategoryEventType.ERROR
-      });
-      
-      enqueueSnackbar(`Fehler beim Erstellen der Kategorie: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`, { 
-        variant: 'error' 
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   // Formular zurücksetzen
@@ -143,6 +136,7 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   const handleClose = () => {
     console.log('[SetupCategory] Modal wird geschlossen, setze Formular zurück');
     handleReset();
+    // onClose wird aufgerufen, was auch die Tabelle aktualisiert
     onClose();
   };
 

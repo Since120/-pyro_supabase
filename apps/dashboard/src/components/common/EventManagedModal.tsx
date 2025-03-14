@@ -23,204 +23,63 @@ export function EventManagedModal({
   modalId, 
   title, 
   children, 
-  // Standardmäßig 120 Sekunden (2 Minuten) Timeout
-  autoCloseTimeout = 120000,
-  // Standardmäßig ist automatisches Schließen deaktiviert (neuer Ansatz)
-  disableAutoClose = false
+  // Keine Timeouts mehr
+  autoCloseTimeout = 0,
+  // Keine automatische Schließung mehr
+  disableAutoClose = true
 }: EventManagedModalProps) {
-  const { openModal, closeModal, shouldCloseModal, getOperationStatusForModal } = useEventManager();
-  const [localOpen, setLocalOpen] = useState(open);
+  // NEU: Kein lokaler Open-State mehr, der vom Parent-State abweichen könnte
+  // Stattdessen direkt den open-Prop verwenden
   
-  // Ref zum Tracken, ob das Modal durch Event oder manuell geschlossen wird
-  const closingRef = useRef({
-    isClosing: false,
-    isEventTriggered: false
-  });
+  const { openModal, closeModal } = useEventManager();
+  
+  // Ref zum Tracken, ob das Modal geschlossen wird
+  const closingRef = useRef(false);
 
-  // Timeout-Ref für automatisches Schließen
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
-  // Bei Öffnen des Modals im zentralen Zustand registrieren
+  // Bei Öffnen/Schließen des Modals direkt auf Änderungen reagieren
   useEffect(() => {
+    console.log(`[EventManagedModal] Modal ${open ? 'geöffnet' : 'geschlossen'}: ${modalId}, open=${open}`);
+    
     if (open) {
-      console.log(`[EventManagedModal] Modal geöffnet: ${modalId}`);
-      
-      // WICHTIG: Verwende forceReset=true, um alle hängenden Operationen zurückzusetzen
-      // Dies behebt das Problem mit dem persistenten Spinner-Status
+      // Reset bei Öffnen
       openModal(modalId, true);
-      setLocalOpen(true);
-      
-      // Reset closing state
-      closingRef.current = {
-        isClosing: false,
-        isEventTriggered: false
-      };
-      
-      // Setze Timeout für automatisches Schließen
-      if (autoCloseTimeout > 0) {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-        
-        timeoutRef.current = setTimeout(() => {
-          console.log(`[EventManagedModal] Auto-Close Timeout für Modal: ${modalId}`);
-          
-          // Prüfe, ob das Modal immer noch geöffnet ist und eine laufende Operation hat
-          const status = getOperationStatusForModal(modalId);
-          
-          if (localOpen && status.isPending) {
-            console.log(`[EventManagedModal] Modal hat eine hängende Operation - schließe nach Timeout: ${modalId}`);
-            
-            // Markiere als schließend und rufe onClose auf
-            closingRef.current = {
-              isClosing: true,
-              isEventTriggered: true
-            };
-            
-            // Lokal schließen
-            setLocalOpen(false);
-            
-            // Im Event-Manager schließen
-            closeModal(modalId, true); // true = force reset
-            
-            // onClose-Handler aufrufen
-            setTimeout(() => {
-              onClose();
-            }, 50);
-          }
-        }, autoCloseTimeout);
+      closingRef.current = false;
+    } else {
+      // Cleanup beim Schließen
+      if (!closingRef.current) {
+        closeModal(modalId, true);
+        closingRef.current = true;
       }
     }
     
-    // Cleanup-Function
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
+      if (open) {
+        // Cleanup bei Unmount, wenn noch offen
+        closeModal(modalId, true);
       }
     };
-  }, [open, modalId, openModal, autoCloseTimeout, getOperationStatusForModal]);
+  }, [open, modalId, openModal, closeModal]);
   
-  // Überwachen, ob das Modal geschlossen werden sollte - NUR wenn disableAutoClose=false
-  useEffect(() => {
-    // Wenn automatisches Schließen deaktiviert ist, diesen Effect überspringen
-    if (disableAutoClose) return;
-    
-    // Prüfe, ob das Modal geschlossen werden sollte (basierend auf Event-Store)
-    if (open && shouldCloseModal(modalId) && !closingRef.current.isClosing) {
-      console.log(`[EventManagedModal] Modal sollte basierend auf Event geschlossen werden: ${modalId}`);
-      
-      // Markiere, dass das Schließen durch Event ausgelöst wurde
-      closingRef.current = {
-        isClosing: true,
-        isEventTriggered: true
-      };
-      
-      // Wir verwenden hier eine leichte Verzögerung, um sicherzustellen, dass
-      // alle anderen Aktualisierungen (z.B. Tabellen-Refresh) abgeschlossen sind
-      setTimeout(() => {
-        setLocalOpen(false);
-        // Danach rufe onClose auf, aber mit Verzögerung, damit setLocalOpen erst wirken kann
-        setTimeout(() => {
-          console.log(`[EventManagedModal] Rufe onClose-Handler auf für: ${modalId}`);
-          onClose();
-        }, 50);
-      }, 100);
-    }
-  }, [modalId, onClose, open, shouldCloseModal, disableAutoClose]);
-  
-  // Status regelmäßig prüfen - NUR wenn disableAutoClose=false
-  useEffect(() => {
-    // Wenn automatisches Schließen deaktiviert ist, diesen Effect überspringen
-    if (disableAutoClose) return;
-    
-    // Prüfe alle 5 Sekunden, ob der Modal-Status aktualisiert werden muss
-    const intervalId = setInterval(() => {
-      if (open && localOpen) {
-        const status = getOperationStatusForModal(modalId);
-        
-        // Wenn wir einen Fehler haben oder die Operation abgeschlossen ist
-        if (!status.isPending && (status.error || status.hasSucceeded)) {
-          console.log(`[EventManagedModal] Statusänderung erkannt für Modal: ${modalId}`, status);
-          
-          // Bei Erfolg und nicht explizit geschlossen: Modal schließen
-          if (status.hasSucceeded && !status.error) {
-            console.log(`[EventManagedModal] Operation erfolgreich, schließe Modal: ${modalId}`);
-            
-            // Kleine Verzögerung, damit die UI aktualisiert werden kann
-            setTimeout(() => {
-              if (!closingRef.current.isClosing) {
-                closingRef.current = {
-                  isClosing: true,
-                  isEventTriggered: true
-                };
-                
-                closeModal(modalId, true); // true = force reset
-                setLocalOpen(false);
-                
-                // Sofortiger Aufruf des onClose-Handlers ohne Verzögerung
-                onClose();
-              }
-            }, 100); // Verzögerung von 500ms auf 100ms reduziert
-          }
-        }
-      }
-    }, 5000);
-    
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [modalId, open, localOpen, getOperationStatusForModal, closeModal, onClose, disableAutoClose]);
-  
-  // Bei manueller Schließung den Event-Manager informieren
+  // Bei manueller Schließung direkt den onClose-Handler aufrufen
   const handleClose = () => {
-    if (closingRef.current.isClosing) {
+    if (closingRef.current) {
       // Verhindere doppeltes Schließen
       return;
     }
     
     console.log(`[EventManagedModal] Manuelles Schließen initiiert: ${modalId}`);
-    closingRef.current = {
-      isClosing: true,
-      isEventTriggered: false
-    };
+    closingRef.current = true;
     
-    // KRITISCH: Direkte visuelle Änderung
-    setLocalOpen(false);
-    
-    // Dann den Event-Handler aufrufen - WICHTIG: KEIN Timeout hier
+    // WICHTIG: Direkt den Parent-Handler aufrufen, keine lokalen State-Änderungen mehr
     onClose();
     
-    // Erst nach dem Event-Handler wird der Event-Store aktualisiert
-    closeModal(modalId);
+    // Event-Store aktualisieren
+    closeModal(modalId, true);
   };
-  
-  // Wenn das Modal durch ein Event geschlossen werden soll
-  useEffect(() => {
-    if (localOpen && shouldCloseModal(modalId) && !disableAutoClose) {
-      console.log(`[EventManagedModal] Modal sollte basierend auf Event geschlossen werden: ${modalId}`);
-      
-      if (closingRef.current.isClosing) {
-        return; // Schon dabei, zu schließen
-      }
-      
-      closingRef.current = {
-        isClosing: true,
-        isEventTriggered: true
-      };
-      
-      // KRITISCH: Direkte visuelle Änderung
-      setLocalOpen(false);
-      
-      // Event-Handler ohne Verzögerung aufrufen
-      console.log(`[EventManagedModal] Rufe onClose-Handler auf für: ${modalId}`);
-      onClose();
-    }
-  }, [localOpen, shouldCloseModal, modalId, onClose, disableAutoClose, closeModal]);
   
   return (
     <Modal
-      open={localOpen}
+      open={open} // WICHTIG: Direkt den open-Prop verwenden, nicht den lokalen State
       onClose={handleClose}
       aria-labelledby={`modal-${modalId}-title`}
     >

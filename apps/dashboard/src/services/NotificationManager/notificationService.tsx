@@ -46,7 +46,7 @@ export interface NotificationOptions {
 
 // Set für bereits angezeigte Benachrichtigungen (globaler Speicher)
 const processedNotifications = new Set<string>();
-const NOTIFICATION_TIMEOUT = 5000; // 5 Sekunden Sperrzeit für Duplikate
+const NOTIFICATION_TIMEOUT = 10000; // 10 Sekunden Sperrzeit für Duplikate (erhöht für bessere Deduplizierung)
 
 /**
  * Hook für die Verwendung des Notification-Services
@@ -74,32 +74,63 @@ export function useNotificationService() {
    * @returns true, wenn die Benachrichtigung angezeigt werden sollte; false, wenn sie unterdrückt werden sollte
    */
   const shouldShowNotification = useCallback((key: string): boolean => {
+    // WICHTIG: Verbesserte Deduplizierungslogik
+    console.log(`[Notification] Prüfe Benachrichtigung mit Schlüssel: ${key}`);
+    
+    // Wenn ein allgemeiner Schlüssel bereits vorhanden ist (ohne Zeitstempel/Hash), unterdrücken
+    const generalKey = key.split('-').slice(0, 2).join('-');
+    const hasGeneralKey = Array.from(processedNotifications).some(k => k.startsWith(generalKey));
+    
+    if (hasGeneralKey) {
+      console.log(`[Notification] Ähnliche Benachrichtigung mit Basis-Schlüssel ${generalKey} bereits angezeigt`);
+      
+      // Bei wichtigen Events trotzdem anzeigen
+      const isImportantEvent = key.includes('synced') || 
+                              key.includes('error') || 
+                              key.includes('deleted') || 
+                              key.includes('deleteConfirmed');
+      
+      if (isImportantEvent) {
+        console.log(`[Notification] Wichtiges Event wird trotz Ähnlichkeit angezeigt: ${key}`);
+        return true;
+      }
+      
+      return false;
+    }
+    
     // Bei DELETE_CONFIRMED oder DELETED Events IMMER eine Benachrichtigung anzeigen
     if (key.includes('-deleted') || key.includes('-deleteConfirmed') || 
-        key.includes('-deleteConfirmedExplicit')) {
+        key.includes('-deleteConfirmedExplicit') || key.includes('delete')) {
       console.log(`[Notification] Lösch-Benachrichtigung wird immer angezeigt: ${key}`);
       return true;
     }
     
-    // Rate-Limit-Events immer anzeigen (unverändert)
+    // Bei synced Events IMMER eine Benachrichtigung anzeigen
+    if (key.includes('-synced')) {
+      console.log(`[Notification] Discord-Sync-Bestätigung wird immer angezeigt: ${key}`);
+      return true;
+    }
+    
+    // Rate-Limit-Events immer anzeigen
     if (key.includes('-rateLimit-') || key.includes('-RATE_LIMIT-')) {
       console.log(`[Notification] Rate-Limit-Benachrichtigung wird immer angezeigt: ${key}`);
       return true;
     }
     
+    // Exakte Duplikate unterdrücken
     if (processedNotifications.has(key)) {
-      console.log(`[Notification] Doppelte Benachrichtigung unterdrückt: ${key}`);
+      console.log(`[Notification] Exakte doppelte Benachrichtigung unterdrückt: ${key}`);
       return false;
     }
     
     console.log(`[Notification] Neue Benachrichtigung: ${key}`);
     processedNotifications.add(key);
     
-    // Nach 5 Sekunden aus dem Set entfernen
+    // Nach 10 Sekunden aus dem Set entfernen (erhöht von 5 auf 10 Sekunden)
     setTimeout(() => {
       processedNotifications.delete(key);
       console.log(`[Notification] Benachrichtigungssperre für ${key} entfernt`);
-    }, NOTIFICATION_TIMEOUT);
+    }, NOTIFICATION_TIMEOUT * 2); // Doppelte Sperrzeit für bessere Deduplizierung
     
     return true;
   }, []);
