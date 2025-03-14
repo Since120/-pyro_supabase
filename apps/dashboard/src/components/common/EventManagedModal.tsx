@@ -26,7 +26,7 @@ export function EventManagedModal({
   // Standardmäßig 120 Sekunden (2 Minuten) Timeout
   autoCloseTimeout = 120000,
   // Standardmäßig ist automatisches Schließen deaktiviert (neuer Ansatz)
-  disableAutoClose = true
+  disableAutoClose = false
 }: EventManagedModalProps) {
   const { openModal, closeModal, shouldCloseModal, getOperationStatusForModal } = useEventManager();
   const [localOpen, setLocalOpen] = useState(open);
@@ -158,11 +158,10 @@ export function EventManagedModal({
                 closeModal(modalId, true); // true = force reset
                 setLocalOpen(false);
                 
-                setTimeout(() => {
-                  onClose();
-                }, 50);
+                // Sofortiger Aufruf des onClose-Handlers ohne Verzögerung
+                onClose();
               }
-            }, 500);
+            }, 100); // Verzögerung von 500ms auf 100ms reduziert
           }
         }
       }

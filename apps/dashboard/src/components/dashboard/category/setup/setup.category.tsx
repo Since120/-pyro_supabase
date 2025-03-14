@@ -47,6 +47,7 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   const [tracking, setTracking] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(true);
   const [sendSetup, setSendSetup] = useState<boolean>(false);
+  
 
   // Supabase Hooks für Kategorien
   const { createCategory, fetchCategories } = useSupabaseCategories(guildId);
@@ -64,9 +65,10 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
       enqueueSnackbar('Keine Guild ID gefunden. Bitte wähle eine Guild aus.', { variant: 'error' });
       return;
     }
-
+      
+    // Sofort den Ladeindikator anzeigen und keine weiteren UI-Updates auslösen
     setIsSubmitting(true);
-
+  
     try {
       // Operation starten
       startOperation({
@@ -75,7 +77,7 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
         operationType: OperationType.CREATE,
         modalId: MODAL_ID
       });
-
+  
       // Kategorie-Daten für Supabase vorbereiten
       const categoryData = {
         name: categoryName,
@@ -90,8 +92,12 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
         }
       };
       
-      // Kategorie in Supabase erstellen
-      const newCategory = await createCategory(categoryData);
+      // Kategorie in Supabase erstellen und gleichzeitig die Kategorieliste aktualisieren
+      const [newCategory] = await Promise.all([
+        createCategory(categoryData),
+        // Wir laden die Kategorien im Hintergrund, ohne auf das Ergebnis zu warten
+        fetchCategories().catch(err => console.error('Fehler beim Aktualisieren der Kategorien:', err))
+      ]);
       
       // Erfolgreiche Operation
       completeOperation({
@@ -101,15 +107,8 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
         eventType: CategoryEventType.CREATED
       });
       
-      // Keine sofortige Benachrichtigung - warte auf Rückmeldung vom Discord-Bot
-      // Die Benachrichtigung wird durch den EventSubscriber angezeigt, wenn der Discord-Bot die Kategorie erstellt hat
-      
-      // Aktualisiere die Kategorie-Liste
-      fetchCategories();
-      
-      // WICHTIG: Modal SOFORT schließen
-      onClose();
-      handleReset();
+      // Kein manueller onClose()-Aufruf mehr nötig, da die EventManagedModal-Komponente
+      // mit disableAutoClose={false} das Modal automatisch schließt
     } catch (error) {
       console.error('Fehler beim Erstellen der Kategorie:', error);
       
@@ -314,6 +313,7 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
       onClose={handleClose}
       modalId={MODAL_ID}
       title="Neue Kategorie erstellen"
+      disableAutoClose={false}
     >
       {/* Status-Anzeige */}
       <OperationStatusIndicator 
