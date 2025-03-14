@@ -17,6 +17,10 @@ export type Database = {
           discord_category_id: string | null
           guild_id: string
           id: string
+          is_deleted_in_discord: boolean | null
+          is_send_setup: boolean | null
+          is_tracking_active: boolean | null
+          is_visible: boolean | null
           last_usage_at: string | null
           name: string
           settings: Json
@@ -30,6 +34,10 @@ export type Database = {
           discord_category_id?: string | null
           guild_id: string
           id?: string
+          is_deleted_in_discord?: boolean | null
+          is_send_setup?: boolean | null
+          is_tracking_active?: boolean | null
+          is_visible?: boolean | null
           last_usage_at?: string | null
           name: string
           settings?: Json
@@ -43,6 +51,10 @@ export type Database = {
           discord_category_id?: string | null
           guild_id?: string
           id?: string
+          is_deleted_in_discord?: boolean | null
+          is_send_setup?: boolean | null
+          is_tracking_active?: boolean | null
+          is_visible?: boolean | null
           last_usage_at?: string | null
           name?: string
           settings?: Json

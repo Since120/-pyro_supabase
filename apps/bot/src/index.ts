@@ -10,7 +10,7 @@ import {
 } from './events';
 import { rebuildChannelMapping, setupChannelUpdateListener } from './utils';
 import { RolesListener } from './modules/roles.listener';
-import { setupCategoryEventHandlers } from './hooks/categories/use.supabase.category';
+import { setupCategoryEventHandlers } from './hooks/categories';
 
 // Environment variables and setup
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;

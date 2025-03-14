@@ -60,3 +60,5 @@ export type {
 
 // Export realtime types (replacing PubSub)
 export * from './realtime';
+// Export PubSub-Typen
+export * from './pubsub';
