@@ -1,4 +1,4 @@
-// Optimiertes setup.category.tsx mit sofortigem Modal-Schließen und Supabase-Integration
+// apps/dashboard/src/components/dashboard/category/setup/setup.category.tsx
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -13,10 +13,9 @@ import { EventManagedModal } from '../../../common/EventManagedModal';
 import { OperationStatusIndicator } from '../../../common/OperationStatusIndicator';
 import PickerTextField from '../../../core/picker.text.field';
 import DiscordRoleSelect from '../../../core/discord.role.select';
-import { useSupabaseCategories } from '../../../../hooks/categories/use.supabase.categories';
+import { useCreateCategory, useCategoryEvents } from '../../../../hooks/categories';
 import { useGuildContext } from '../../../../hooks/guild/use.guild.context';
 import { useSnackbar } from 'notistack';
-import { EntityType, OperationType, CategoryEventType } from '../../../../services/EventManager/typeDefinitions';
 import { useEventManager } from '../../../../services/EventManager';
 
 // Eindeutige Modal-ID für den Event-Manager
@@ -40,6 +39,10 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { startOperation, completeOperation } = useEventManager();
   
+  // Neue Category Hooks
+  const { createCategory } = useCreateCategory();
+  const { fetchCategories } = useCategoryEvents();
+  
   // Effekt zum Zurücksetzen des Schritts, wenn das Modal geöffnet wird
   useEffect(() => {
     if (open) {
@@ -55,10 +58,6 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
   const [tracking, setTracking] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(true);
   const [sendSetup, setSendSetup] = useState<boolean>(false);
-  
-
-  // Supabase Hooks für Kategorien
-  const { createCategory, fetchCategories } = useSupabaseCategories(guildId);
 
   // Formularvalidierung
   const isStepValid = () => {
@@ -89,17 +88,14 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
       category_type: selectedLevel,
       guild_id: guildId,
       allowed_roles: role,
-      settings: {
-        is_visible: visible,
-        is_tracking_active: tracking,
-        is_send_setup: sendSetup,
-        is_deleted_in_discord: false
-      }
+      is_visible: visible,
+      is_tracking_active: tracking,
+      is_send_setup: sendSetup
     };
     
     // Starte die Operation im Hintergrund, ohne zu warten
     createCategory(categoryData)
-      .then(newCategory => {
+      .then((newCategory: any) => {
         console.log('[SetupCategory] Kategorie erfolgreich erstellt:', newCategory);
         
         // WICHTIG: Explizit die Kategorien neu laden, um sicherzustellen, dass die Tabelle aktualisiert wird
@@ -113,9 +109,9 @@ const SetupCategory: React.FC<SetupCategoryProps> = ({ open, onClose }) => {
           fetchCategories();
         }, 500);
       })
-      .catch(error => {
+      .catch((error: Error) => {
         console.error('Fehler beim Erstellen der Kategorie:', error);
-        enqueueSnackbar(`Fehler beim Erstellen der Kategorie: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`, { 
+        enqueueSnackbar(`Fehler beim Erstellen der Kategorie: ${error.message}`, { 
           variant: 'error' 
         });
       });

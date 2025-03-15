@@ -44,6 +44,85 @@ function compareObjects(oldObj: any, newObj: any): Record<string, { old: any, ne
 }
 
 /**
+ * Verarbeitet die Task-Queue mit Rate-Limit-Verwaltung in Supabase
+ * Diese Funktion ruft einfach die Supabase-Funktionen auf
+ */
+async function processTaskQueue(discordClient: Client): Promise<void> {
+  try {
+    // Verwende fetch direkt mit der Funktion um TypeScript zu umgehen
+    // @ts-ignore - Wir müssen den TypeScript-Check deaktivieren
+    const result = await (supabase.rpc as any)('get_next_category_task');
+    const { data, error } = result;
+    
+    if (error) {
+      logger.error('Fehler beim Abrufen des nächsten Tasks:', error);
+      return;
+    }
+    
+    // Nichts zu tun wenn kein Task oder im Rate-Limit
+    if (!data || data.status === 'none' || data.status === 'rate_limited') {
+      if (data && data.status === 'rate_limited') {
+        logger.info(`Rate-Limit erreicht: ${data.message || 'Unbekannt'}, Retry in ${data.retry_after || '?'} Sekunden`);
+      }
+      return;
+    }
+    
+    // 2. Wenn wir einen Task haben, verarbeiten wir ihn
+    if (data.status === 'processing' && data.task_id && data.payload) {
+      const taskId = data.task_id;
+      const payload = data.payload;
+      
+      try {
+        // Bereite den Payload für die Update-Funktion vor
+        const categoryId = payload.category_id;
+        
+        // Hole die vollständigen Kategoriedaten
+        const completeCategory = await fetchCompleteCategory(categoryId);
+        
+        if (!completeCategory) {
+          logger.error(`Kategorie ${categoryId} nicht gefunden`);
+          // @ts-ignore - Wir müssen den TypeScript-Check deaktivieren
+          await (supabase.rpc as any)('complete_category_task', { 
+            p_task_id: taskId, 
+            p_success: false, 
+            p_error_message: 'Kategorie nicht gefunden'
+          });
+          return;
+        }
+        
+        // Verarbeite das Update (verwende die bestehende Funktion)
+        await processUpdateEvent(discordClient, {
+          eventType: 'UPDATE',
+          new: completeCategory,
+          old: {} // Wir haben keine alten Daten, aber die Funktion erwartet dieses Feld
+        });
+        
+        // 3. Task als erfolgreich markieren
+        // @ts-ignore - Wir müssen den TypeScript-Check deaktivieren
+        await (supabase.rpc as any)('complete_category_task', { 
+          p_task_id: taskId, 
+          p_success: true 
+        });
+        
+        logger.info(`Task ${taskId} für Kategorie ${categoryId} erfolgreich verarbeitet`);
+      } catch (error) {
+        logger.error(`Fehler bei der Verarbeitung von Task ${taskId}:`, error);
+        
+        // Task als fehlgeschlagen markieren
+        // @ts-ignore - Wir müssen den TypeScript-Check deaktivieren
+        await (supabase.rpc as any)('complete_category_task', { 
+          p_task_id: taskId, 
+          p_success: false, 
+          p_error_message: handleDiscordError(error)
+        });
+      }
+    }
+  } catch (error) {
+    logger.error('Fehler bei der Task-Queue-Verarbeitung:', error);
+  }
+}
+
+/**
  * Verarbeitet ein Kategorie-Update-Event
  * Diese Funktion kann sowohl vom Realtime-Subscription als auch direkt aufgerufen werden.
  */
@@ -444,13 +523,41 @@ export async function processUpdateEvent(discordClient: Client, payload: any) {
 
 /**
  * Abonniert UPDATE-Events für Kategorien und aktualisiert Discord-Kategorien
- * Verbessertes Logging für die Fehlersuche
+ * Verarbeitet auch die Task-Queue mit Rate-Limit-Verwaltung
  */
 export function setupCategoryUpdateHandler(discordClient: Client) {
   console.log(`[UpdateCategory] Initialisiere Kategorie-Update-Handler für Guild: ${process.env.GUILD_ID || '*'}`);
   
-  return realtimeManager.subscribeToCategories(process.env.GUILD_ID || '*', async (payload) => {
-    // Verarbeite das Event mit der gemeinsamen Logik
+  // Einmalige Bereinigung alter Tasks beim Start
+  (async () => {
+    try {
+      // @ts-ignore - Wir müssen den TypeScript-Check deaktivieren
+      await (supabase.rpc as any)('cleanup_stale_tasks');
+      logger.info('Alte Tasks bereinigt');
+    } catch (err) {
+      logger.error('Fehler beim Bereinigen alter Tasks:', err);
+    }
+  })();
+  
+  // Starte einen Timer für die Queue-Verarbeitung (alle 10 Sekunden)
+  const queueInterval = setInterval(() => {
+    (async () => {
+      try {
+        await processTaskQueue(discordClient);
+      } catch (error) {
+        logger.error('Fehler bei der Queue-Verarbeitung:', error);
+      }
+    })();
+  }, 10000);
+  
+  // Verwende den bestehenden Subscription-Mechanismus für Realtime-Events
+  const cleanupSubscription = realtimeManager.subscribeToCategories(process.env.GUILD_ID || '*', async (payload) => {
     await processUpdateEvent(discordClient, payload);
   });
+  
+  // Kombinierte Cleanup-Funktion
+  return () => {
+    clearInterval(queueInterval);
+    cleanupSubscription();
+  };
 }

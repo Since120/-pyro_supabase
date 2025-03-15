@@ -267,7 +267,32 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      cleanup_stale_tasks: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      complete_category_task: {
+        Args: {
+          p_task_id: string
+          p_success: boolean
+          p_error_message?: string
+        }
+        Returns: undefined
+      }
+      get_next_category_task: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      get_rate_limit_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          operations_in_last_10min: number
+          max_operations: number
+          is_rate_limited: boolean
+          next_available_slot: string
+          seconds_until_available: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -26,8 +26,7 @@ import SetupZone from './setup/setup.zone';
 import EditCategory from './edit/edit.category';
 import EditZone from './edit/edit.zone';
 // Alte GraphQL-Hooks durch Supabase-Hooks ersetzen
-import { useSupabaseCategories } from '@/hooks/categories/use.supabase.categories';
-// Type für Supabase anpassen
+import { useCreateCategory, useUpdateCategory, useDeleteCategory, useCategoryEvents } from '@/hooks/categories';// Type für Supabase anpassen
 import { EntityType, OperationType, CategoryEventType } from '@/services/EventManager/typeDefinitions';
 import { useSnackbar } from 'notistack';
 import { useEventManager } from '@/services/EventManager';
@@ -54,16 +53,16 @@ const CategoryTable: React.FC = () => {
   console.log(`[CategoryTable] Verwende Guild-ID: ${guildId || 'keine ID'}`);
 
   // Neue Supabase-Hooks verwenden
+  const { createCategory } = useCreateCategory();
+  const { updateCategory } = useUpdateCategory();
+  const { deleteCategory } = useDeleteCategory();
   const { 
     categories, 
     isLoading: categoriesLoading, 
     error: categoriesError,
-    createCategory,
-    updateCategory,
-    deleteCategory,
     fetchCategories
-  } = useSupabaseCategories(guildId);
-
+  } = useCategoryEvents();
+  
   // Seite neu laden, wenn sie gemountet wird oder wenn es neue Daten gibt
   useEffect(() => {
     console.log('[CategoryTable] Kategorien aktualisiert, Anzahl:', categories.length);

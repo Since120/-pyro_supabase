@@ -1,4 +1,4 @@
-// Optimiertes edit.category.tsx mit sofortigem Modal-Schließen
+// apps/dashboard/src/components/dashboard/category/edit/edit.category.tsx
 import React, { useEffect } from 'react';
 import {
   Box,
@@ -17,7 +17,7 @@ import { EditCategoryData } from '../types';
 import { useResettableState } from '@/hooks/use.resettable.state';
 import { EventManagedModal } from '../../../common/EventManagedModal';
 import { OperationStatusIndicator } from '../../../common/OperationStatusIndicator';
-import { useCategoryOperations } from '@/hooks/categories/use.category.operations';
+import { useUpdateCategory, useDeleteCategory, useCategoryEvents } from '@/hooks/categories';
 import { useGuildContext } from '@/hooks/guild/use.guild.context';
 
 // Eindeutige Modal-ID für den Event-Manager
@@ -52,15 +52,14 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
   const [visible, setVisible] = useResettableState(initialData?.visible || false, [initialData, open]);
   const [sendSetup, setSendSetup] = useResettableState(initialData?.sendSetup || false, [initialData, open]);
 
-  // Verwende den zentralen Category-Operations-Hook mit der Guild-ID
-  const { 
-    updateCategory, 
-    deleteCategory, 
-    getModalOperationStatus 
-  } = useCategoryOperations(guildId);
+  // Neue Hooks verwenden
+  const { updateCategory, isLoading: isUpdating, error: updateError } = useUpdateCategory();
+  const { deleteCategory, isLoading: isDeleting, error: deleteError } = useDeleteCategory();
+  const { fetchCategories } = useCategoryEvents();
 
-  // Hole den aktuellen Operationsstatus für dieses Modal
-  const modalStatus = getModalOperationStatus(MODAL_ID);
+  // Kombinierter Beladungsstatus
+  const isLoading = isUpdating || isDeleting;
+  const error = updateError || deleteError;
 
   // Formularvalidierung
   const isValid = () =>
@@ -82,9 +81,8 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
     try {
       console.log('[EditCategory] Speichere Kategorie-Änderungen für ID:', initialData.id);
       
-      // Update-Daten zusammenstellen - für Supabase angepasst
+      // Update-Daten zusammenstellen
       const updateData = {
-        id: initialData.id,
         name: categoryName,
         category_type: selectedLevel,
         is_visible: visible,
@@ -98,9 +96,8 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
       onClose();
 
       // Führe die Update-Operation aus (im Hintergrund)
-      updateCategory(initialData.id, updateData, {
-        modalId: MODAL_ID,
-        onSuccess: (data) => {
+      updateCategory(initialData.id, updateData)
+        .then((data: any) => {
           console.log('[EditCategory] Kategorie erfolgreich aktualisiert:', data);
           
           // Rufe onSave Callback auf, falls vorhanden
@@ -114,10 +111,13 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
               sendSetup,
             });
           }
-        }
-      }).catch((error) => {
-        console.error('[EditCategory] Fehler beim Aktualisieren der Kategorie:', error);
-      });
+          
+          // Aktualisiere die Kategorien explizit
+          fetchCategories();
+        })
+        .catch((error: Error) => {
+          console.error('[EditCategory] Fehler beim Aktualisieren der Kategorie:', error);
+        });
       
     } catch (error) {
       console.error('[EditCategory] Fehler beim Aktualisieren der Kategorie:', error);
@@ -137,32 +137,30 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
     onClose();
 
     // Führe die Lösch-Operation im Hintergrund aus
-    deleteCategory(initialData.id, {
-      modalId: MODAL_ID,
-      onSuccess: (data) => {
+    deleteCategory(initialData.id)
+      .then((data: any) => {
         console.log('[EditCategory] Kategorie erfolgreich gelöscht:', data);
         
         // Rufe onDelete Callback auf, falls vorhanden
         if (onDelete) {
           onDelete();
         }
-      },
-      onError: (error) => {
+        
+        // Aktualisiere die Kategorien explizit
+        fetchCategories();
+      })
+      .catch((error: Error) => {
         console.error('[EditCategory] Fehler beim Löschen der Kategorie:', error);
-      }
-    }).catch((error) => {
-      console.error('[EditCategory] Fehler beim Löschen der Kategorie:', error);
-    });
+      });
     
     // WICHTIG: Rufe onDelete Callback auf, unabhängig vom Ergebnis der Löschoperation
-    // Dies sorgt dafür, dass die Tabelle sofort aktualisiert wird
     if (onDelete) {
       console.log('[EditCategory] Rufe onDelete Callback direkt auf');
       onDelete();
     }
   };
 
-  // Verwende die EventManagedModal-Komponente anstelle der Standard-Modal-Komponente
+  // Verwende die EventManagedModal-Komponente
   return (
     <EventManagedModal
       open={open}
@@ -172,8 +170,8 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
     >
       {/* Operationsstatus-Anzeige */}
       <OperationStatusIndicator 
-        isPending={modalStatus.isPending}
-        error={modalStatus.error}
+        isPending={isLoading}
+        error={error ? error.message : null}
         modalId={MODAL_ID}
       />
       
@@ -186,21 +184,21 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
           <Button 
             variant={selectedLevel === 'Allianz' ? 'contained' : 'outlined'} 
             onClick={() => setSelectedLevel('Allianz')}
-            disabled={modalStatus.isPending}
+            disabled={isLoading}
           >
             Allianz
           </Button>
           <Button 
             variant={selectedLevel === 'Organisation' ? 'contained' : 'outlined'} 
             onClick={() => setSelectedLevel('Organisation')}
-            disabled={modalStatus.isPending}
+            disabled={isLoading}
           >
             Organisation
           </Button>
           <Button 
             variant={selectedLevel === 'Suborganisation' ? 'contained' : 'outlined'} 
             onClick={() => setSelectedLevel('Suborganisation')}
-            disabled={modalStatus.isPending}
+            disabled={isLoading}
           >
             Suborganisation
           </Button>
@@ -219,7 +217,7 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
             onChange={setCategoryName} 
             enableEmojiPicker 
             enableSpecialPicker 
-            disabled={modalStatus.isPending}
+            disabled={isLoading}
           />
         </Box>
         <Box sx={{ mt: 2 }}>
@@ -227,20 +225,20 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
             multiple 
             value={role} 
             onChange={(value) => setRole(value as string[])} 
-            disabled={modalStatus.isPending}
+            disabled={isLoading}
           />
         </Box>
         <Box sx={{ mt: 2, display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: 1 }}>
           <FormControlLabel 
-            control={<Switch checked={tracking} onChange={(e) => setTracking(e.target.checked)} disabled={modalStatus.isPending} />} 
+            control={<Switch checked={tracking} onChange={(e) => setTracking(e.target.checked)} disabled={isLoading} />} 
             label="Tracking?" 
           />
           <FormControlLabel 
-            control={<Switch checked={visible} onChange={(e) => setVisible(e.target.checked)} disabled={modalStatus.isPending} />} 
+            control={<Switch checked={visible} onChange={(e) => setVisible(e.target.checked)} disabled={isLoading} />} 
             label="Sichtbar?" 
           />
           <FormControlLabel 
-            control={<Switch checked={sendSetup} onChange={(e) => setSendSetup(e.target.checked)} disabled={modalStatus.isPending} />} 
+            control={<Switch checked={sendSetup} onChange={(e) => setSendSetup(e.target.checked)} disabled={isLoading} />} 
             label="Setup Senden?" 
           />
         </Box>
@@ -252,7 +250,7 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
           variant="outlined" 
           color="error" 
           onClick={handleDelete}
-          disabled={modalStatus.isPending}
+          disabled={isLoading}
         >
           Löschen
         </Button>
@@ -260,7 +258,7 @@ const EditCategoryModal: React.FC<EditCategoryModalProps> = ({ open, onClose, on
         <Button 
           variant="contained" 
           onClick={handleSave} 
-          disabled={!isValid() || modalStatus.isPending}
+          disabled={!isValid() || isLoading}
         >
           Speichern
         </Button>

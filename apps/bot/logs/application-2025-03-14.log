@@ -3908,3 +3908,75 @@
 2025-03-14T21:30:54.688Z [info]: DELETE-Event für Kategorie empfangen: ID=c2e63458-d10e-4973-a237-f5b397d8917a
 2025-03-14T21:30:54.689Z [info]: Keine Cache-Informationen für Kategorie c2e63458-d10e-4973-a237-f5b397d8917a gefunden, versuche Discord-ID zu ermitteln...
 2025-03-14T21:30:54.716Z [warn]: Keine Sync-Daten für Kategorie c2e63458-d10e-4973-a237-f5b397d8917a gefunden, nichts zu löschen
+2025-03-14T21:32:32.710Z [info]: Erstelle neue Discord-Kategorie "═══ General ⭐ ═════════" für Guild 1226186397195702363...
+2025-03-14T21:32:32.994Z [info]: Discord-Kategorie erstellt: ═══ General ⭐ ═════════ (1350220079488565319)
+2025-03-14T21:32:32.995Z [info]: Neue Kategorie 0452448c-6772-40db-914a-9f7bac952fd2 in Cache aufgenommen: 1350220079488565319 (═══ General ⭐ ═════════)
+2025-03-14T21:32:33.099Z [info]: Kategorie "═══ General ⭐ ═════════" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T21:32:33.189Z [info]: Kategorie-Event empfangen: UPDATE für ID 0452448c-6772-40db-914a-9f7bac952fd2
+2025-03-14T21:32:33.191Z [info]: Verarbeite Kategorie-Update für ID: 0452448c-6772-40db-914a-9f7bac952fd2, Name: ═══ General ⭐ ═════════, Discord-ID: 1350220079488565319
+2025-03-14T21:32:33.191Z [info]: Kategorie 0452448c-6772-40db-914a-9f7bac952fd2 in Cache aufgenommen: 1350220079488565319 (═══ General ⭐ ═════════)
+2025-03-14T21:32:33.191Z [info]: Unvollständige Kategorie-Informationen erkannt, hole vollständige Daten...
+2025-03-14T21:32:33.216Z [info]: Vollständige Kategorie-Informationen erhalten für 0452448c-6772-40db-914a-9f7bac952fd2
+2025-03-14T21:32:33.217Z [info]: Versuche Guild mit ID 1226186397195702363 zu finden...
+2025-03-14T21:32:33.217Z [info]: Versuche Kanal mit ID 1350220079488565319 zu finden...
+2025-03-14T21:32:33.217Z [info]: Discord-Name: "═══ General ⭐ ═════════", DB-Name: "═══ General ⭐ ═════════"
+2025-03-14T21:32:33.218Z [info]: Änderungserkennung mit Discord-Daten:
+2025-03-14T21:32:33.218Z [info]: Keine relevanten Änderungen für Kategorie 0452448c-6772-40db-914a-9f7bac952fd2 erkannt
+2025-03-14T21:44:16.269Z [info]: Erstelle neue Discord-Kategorie "▁▁▁ 📊 Status 📊 ▁▁▁" für Guild 1226186397195702363...
+2025-03-14T21:44:16.525Z [info]: Discord-Kategorie erstellt: ▁▁▁ 📊 Status 📊 ▁▁▁ (1350223029967388683)
+2025-03-14T21:44:16.525Z [info]: Neue Kategorie acaf8a4c-9423-43b9-a99a-43193c8df964 in Cache aufgenommen: 1350223029967388683 (▁▁▁ 📊 Status 📊 ▁▁▁)
+2025-03-14T21:44:16.596Z [info]: Kategorie-Event empfangen: UPDATE für ID acaf8a4c-9423-43b9-a99a-43193c8df964
+2025-03-14T21:44:16.598Z [info]: Verarbeite Kategorie-Update für ID: acaf8a4c-9423-43b9-a99a-43193c8df964, Name: ▁▁▁ 📊 Status 📊 ▁▁▁, Discord-ID: 1350223029967388683
+2025-03-14T21:44:16.598Z [info]: Kategorie acaf8a4c-9423-43b9-a99a-43193c8df964 in Cache aufgenommen: 1350223029967388683 (▁▁▁ 📊 Status 📊 ▁▁▁)
+2025-03-14T21:44:16.598Z [info]: Unvollständige Kategorie-Informationen erkannt, hole vollständige Daten...
+2025-03-14T21:44:16.623Z [info]: Vollständige Kategorie-Informationen erhalten für acaf8a4c-9423-43b9-a99a-43193c8df964
+2025-03-14T21:44:16.623Z [info]: Versuche Guild mit ID 1226186397195702363 zu finden...
+2025-03-14T21:44:16.624Z [info]: Versuche Kanal mit ID 1350223029967388683 zu finden...
+2025-03-14T21:44:16.624Z [info]: Discord-Name: "▁▁▁ 📊 Status 📊 ▁▁▁", DB-Name: "▁▁▁ 📊 Status 📊 ▁▁▁"
+2025-03-14T21:44:16.624Z [info]: Änderungserkennung mit Discord-Daten:
+2025-03-14T21:44:16.625Z [info]: Keine relevanten Änderungen für Kategorie acaf8a4c-9423-43b9-a99a-43193c8df964 erkannt
+2025-03-14T21:44:16.637Z [info]: Kategorie "▁▁▁ 📊 Status 📊 ▁▁▁" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T22:01:08.515Z [info]: Erstelle neue Discord-Kategorie "━━ 📣 Announcements 📣 ━━" für Guild 1226186397195702363...
+2025-03-14T22:01:08.943Z [info]: Discord-Kategorie erstellt: ━━ 📣 Announcements 📣 ━━ (1350227275735371909)
+2025-03-14T22:01:08.944Z [info]: Neue Kategorie 9ccc1d37-93a4-4f24-bbb5-5313fcd01307 in Cache aufgenommen: 1350227275735371909 (━━ 📣 Announcements 📣 ━━)
+2025-03-14T22:01:09.062Z [info]: Kategorie "━━ 📣 Announcements 📣 ━━" wurde erfolgreich in Discord erstellt und in der Datenbank aktualisiert.
+2025-03-14T22:01:09.121Z [info]: Kategorie-Event empfangen: UPDATE für ID 9ccc1d37-93a4-4f24-bbb5-5313fcd01307
+2025-03-14T22:01:09.122Z [info]: Verarbeite Kategorie-Update für ID: 9ccc1d37-93a4-4f24-bbb5-5313fcd01307, Name: ━━ 📣 Announcements 📣 ━━, Discord-ID: 1350227275735371909
+2025-03-14T22:01:09.122Z [info]: Kategorie 9ccc1d37-93a4-4f24-bbb5-5313fcd01307 in Cache aufgenommen: 1350227275735371909 (━━ 📣 Announcements 📣 ━━)
+2025-03-14T22:01:09.123Z [info]: Unvollständige Kategorie-Informationen erkannt, hole vollständige Daten...
+2025-03-14T22:01:09.149Z [info]: Vollständige Kategorie-Informationen erhalten für 9ccc1d37-93a4-4f24-bbb5-5313fcd01307
+2025-03-14T22:01:09.149Z [info]: Versuche Guild mit ID 1226186397195702363 zu finden...
+2025-03-14T22:01:09.150Z [info]: Versuche Kanal mit ID 1350227275735371909 zu finden...
+2025-03-14T22:01:09.150Z [info]: Discord-Name: "━━ 📣 Announcements 📣 ━━", DB-Name: "━━ 📣 Announcements 📣 ━━"
+2025-03-14T22:01:09.150Z [info]: Änderungserkennung mit Discord-Daten:
+2025-03-14T22:01:09.150Z [info]: Keine relevanten Änderungen für Kategorie 9ccc1d37-93a4-4f24-bbb5-5313fcd01307 erkannt
+2025-03-14T22:18:39.420Z [info]: Bot ist online
+2025-03-14T22:18:39.501Z [warn]: Keine Zonen gefunden, Channel-Mapping nicht aktualisiert.
+2025-03-14T22:18:39.501Z [info]: Roles Listener initialisiert
+2025-03-14T22:18:39.502Z [info]: Initialisiere Kategorie-Cache...
+2025-03-14T22:18:39.505Z [info]: Kategorie-Erstellungs-Handler initialisiert
+2025-03-14T22:18:39.505Z [info]: Kategorie-Aktualisierungs-Handler initialisiert
+2025-03-14T22:18:39.506Z [info]: Kategorie-Löschungs-Handler (pending_delete) initialisiert
+2025-03-14T22:18:39.506Z [info]: Supabase Kategorie-Handler initialisiert
+2025-03-14T22:18:39.507Z [info]: Supabase Realtime subscription für Zonen erstellt
+2025-03-14T22:18:39.507Z [info]: Supabase Realtime subscription für Zone-Updates erstellt
+2025-03-14T22:18:39.508Z [info]: Supabase Realtime subscription für Zone-Löschungen erstellt
+2025-03-14T22:18:39.508Z [info]: Alle Supabase Zone-Handler initialisiert
+2025-03-14T22:18:39.513Z [info]: Status-Server läuft auf Port 3001
+2025-03-14T22:18:39.574Z [info]: 3 Kategorien in den Cache geladen
+2025-03-14T22:18:44.514Z [info]: Erzwinge sofortige Rollensynchronisierung...
+2025-03-14T22:18:44.514Z [info]: Synchronisiere Rollen für 1 Guilds...
+2025-03-14T22:18:44.514Z [info]: Verfügbare Guilds: Testserver (1226186397195702363)
+2025-03-14T22:18:44.515Z [info]: Starte Synchronisierung für Guild 1226186397195702363 (Testserver)...
+2025-03-14T22:18:44.515Z [info]: Versuche Guild mit ID 1226186397195702363 abzurufen...
+2025-03-14T22:18:44.515Z [info]: Guild gefunden: Testserver (1226186397195702363)
+2025-03-14T22:18:44.515Z [info]: Rufe Rollen für Guild Testserver ab...
+2025-03-14T22:18:44.734Z [info]: 28 Rollen gefunden für Guild Testserver
+2025-03-14T22:18:44.734Z [info]: Gefundene Rollen: @everyone (1226186397195702363), AFK (1226186397195702364), 30 Tage Offline (1226186397292167170), 6 Monate Offline (1226186397292167171), 1 Jahr Offline (1226186397292167172), abonniert (1226186397292167173), XP (1226186397292167174), Eventplaner (1226186397292167175), Gefangener (1226186397292167176), Bot (1226186397292167177), Partner (1226186397325590538), Visitor (1226186397325590539), Member (1226186397325590540), Member + (1226186397325590541), New (1226186397325590542), Admin (1226186397325590543), Bot-High Level (1226186397325590544), Detox (1226534154771107874), Make (1300639252538720342), SIF (1302619867718881310), SIF Test AI (1302737106044719236), SSA (1303120054942040134), leader (1303126653186211880), LeaderShip (1303353952313540713), MainLeader (1303354170547372148), Spieler (1303416482549469184), VoiceMaster (1305125877067288653), NOVA (1328496960021200909)
+2025-03-14T22:18:44.735Z [info]: 28 Rollen für Supabase konvertiert
+2025-03-14T22:18:44.735Z [info]: Speichere Rollen in Supabase...
+2025-03-14T22:18:45.539Z [info]: Rollensynchronisierung abgeschlossen: 28 erfolgreich, 0 fehlgeschlagen
+2025-03-14T22:18:45.539Z [info]: Prüfe auf veraltete Rollen in Supabase...
+2025-03-14T22:18:45.563Z [info]: 28 gespeicherte Rollen in Supabase gefunden
+2025-03-14T22:18:45.563Z [info]: Keine veralteten Rollen zu löschen
+2025-03-14T22:18:45.563Z [info]: 28 Rollen für Guild 1226186397195702363 (Testserver) erfolgreich synchronisiert
